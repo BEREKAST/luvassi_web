@@ -1,0 +1,137 @@
+/* InformativaPage.css */
+
+.info-container {
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+  }
+  
+  /* Header fijo */
+  .info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    background-color: white;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .logo {
+    font-size: 24px;
+  }
+  
+  .logo span {
+    color: gray;
+  }
+  
+  .info-header nav a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: #444;
+    font-weight: 500;
+  }
+  
+  .info-header nav a:hover {
+    color: #8e44ad;
+  }
+  
+  .whatsapp-button {
+    font-size: 20px;
+    text-decoration: none;
+  }
+  
+  /* Contenido principal */
+  .info-main {
+    display: flex;
+    padding: 20px 40px;
+    gap: 30px;
+  }
+  
+  .principal {
+    flex: 2;
+    position: relative;
+  }
+  
+  .fecha-badge {
+    position: absolute;
+    background-color: white;
+    padding: 6px 12px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    left: 20px;
+    top: 20px;
+  }
+  
+  .fecha-badge .dia {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .fecha-badge .mes {
+    font-size: 12px;
+  }
+  
+  .principal img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .resaltado {
+    color: #d6249f;
+    font-weight: bold;
+  }
+  
+  .accion {
+    color: #8e44ad;
+    margin-top: 10px;
+  }
+  
+  .noticias {
+    flex: 1;
+  }
+  
+  .noticias ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .noticias li {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    text-decoration: none;
+  }
+  
+  .noticias li img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  
+  .noticias li .titulo {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .tags {
+    margin-top: 20px;
+  }
+  
+  .tags .tag {
+    background-color: #f2f2f2;
+    padding: 6px 12px;
+    margin: 4px;
+    border-radius: 10px;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .tags .tag:hover {
+    background-color: #e0e0e0;
+  }
