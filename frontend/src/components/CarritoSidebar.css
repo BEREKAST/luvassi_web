@@ -1,0 +1,45 @@
+/* src/components/CarritoSidebar.css */
+.carrito-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100vh;
+    background-color: white;
+    border-left: 1px solid #ddd;
+    padding: 1rem;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+  }
+  
+  
+  .sidebar-carrito.activo {
+    right: 0;
+  }
+  
+  .cerrar-carrito {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    float: right;
+    cursor: pointer;
+  }
+  
+  .carrito-items {
+    margin-top: 2rem;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .carrito-vacio {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  .carrito-vacio img {
+    width: 100px;
+    margin-bottom: 1rem;
+  }
+  

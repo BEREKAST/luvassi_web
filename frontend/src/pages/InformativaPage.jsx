@@ -1,8 +1,17 @@
 import React from 'react';
 import './InformativaPage.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const InformativaPage = () => {
+  const navigate = useNavigate();
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+  const handleLogout = () => {
+    localStorage.removeItem('usuario');
+    navigate('/');
+    window.location.reload();
+  };
+
   return (
     <div className="info-container">
       {/* Header fijo */}
@@ -14,6 +23,16 @@ const InformativaPage = () => {
           <Link to="/productos">Productos</Link>
           <Link to="/portafolio">Portafolio</Link>
           <Link to="/blog">Blog</Link>
+
+          {usuario ? (
+            <div className="user-menu">
+              <span>👋 Hola, {usuario.nombre}</span>
+              <Link to="/perfil">Perfil</Link>
+              <button onClick={handleLogout} className="logout-btn">Cerrar sesión</button>
+            </div>
+          ) : (
+            <Link to="/login" className="login-link">Iniciar sesión</Link>
+          )}
         </nav>
         <a href="https://wa.me/59160371640" className="whatsapp-button">💬</a>
       </header>

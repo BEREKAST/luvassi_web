@@ -1,0 +1,62 @@
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.usuario-dropdown {
+  position: relative;
+}
+
+.usuario-dropdown span {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.usuario-dropdown:hover .dropdown-content {
+  display: flex;
+}
+
+.dropdown-content a, .dropdown-content button {
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdown-content a:hover, .dropdown-content button:hover {
+  background-color: #f0f0f0;
+}
+.carrito-badge {
+  background-color: red;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  margin-left: 5px;
+  position: relative;
+  top: -10px;
+}

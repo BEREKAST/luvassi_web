@@ -135,3 +135,13 @@
   .tags .tag:hover {
     background-color: #e0e0e0;
   }
+  .login-link {
+    margin-left: 1rem;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .login-link:hover {
+    color: #ff33cc;
+  }
+  
