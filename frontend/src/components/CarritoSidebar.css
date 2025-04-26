@@ -1,45 +1,101 @@
 /* src/components/CarritoSidebar.css */
+
 .carrito-sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 320px;
-    height: 100vh;
-    background-color: white;
-    border-left: 1px solid #ddd;
-    padding: 1rem;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    overflow-y: auto;
-    transition: transform 0.3s ease;
-  }
-  
-  
-  .sidebar-carrito.activo {
-    right: 0;
-  }
-  
-  .cerrar-carrito {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    float: right;
-    cursor: pointer;
-  }
-  
-  .carrito-items {
-    margin-top: 2rem;
-    list-style: none;
-    padding: 0;
-  }
-  
-  .carrito-vacio {
-    text-align: center;
-    margin-top: 2rem;
-  }
-  
-  .carrito-vacio img {
-    width: 100px;
-    margin-bottom: 1rem;
-  }
-  
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 350px;
+  height: 100%;
+  background: linear-gradient(to bottom right, #d1f2eb, #d6eaf8);
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 999;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 28px;
+  color: #1abc9c;
+  align-self: flex-end;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+h3 {
+  text-align: center;
+  color: #2e86c1;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+li {
+  background: #ffffff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-eliminar {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-eliminar:hover {
+  background-color: #c0392b;
+}
+
+.total-carrito {
+  margin-top: 20px;
+  background: #a9dfbf;
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-comprar {
+  background-color: #2ecc71;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 12px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.btn-comprar:hover {
+  background-color: #27ae60;
+}
+
+p {
+  margin: 0;
+  font-size: 14px;
+  color: #34495e;
+}

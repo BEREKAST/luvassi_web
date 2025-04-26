@@ -1,30 +1,34 @@
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar'; // ✅ Barra superior
+import Navbar from '../components/Navbar';
 import LoginForm from '../components/LoginForm';
 import RegisterModal from '../components/RegisterModal';
 import { useNavigate } from 'react-router-dom';
+import './LoginPage.css';
 
 const LoginPage = () => {
   const [showRegister, setShowRegister] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = (usuario) => {
-    console.log('Login exitoso', usuario);
     localStorage.setItem('usuario', JSON.stringify(usuario.usuario));
-    navigate('/'); // ✅ Redirige al inicio
-    window.location.reload(); // ✅ Refresca para que el header cambie
+    navigate('/');
+    window.location.reload();
   };
 
   return (
     <div>
-      <Navbar /> {/* ✅ Barra superior */}
-      <h1>Página de Login</h1>
-      <LoginForm onLogin={handleLogin} />
-
-      <p>
-        ¿No tienes cuenta?{' '}
-        <button onClick={() => setShowRegister(true)}>Regístrate aquí</button>
-      </p>
+      <Navbar />
+      <div className="login-page-wrapper">
+        <div className="login-card">
+          <img src="/imagenes/logo.jpg" alt="Logo Luvassí" />
+          <h1>Iniciar Sesión</h1>
+          <LoginForm onLogin={handleLogin} />
+          <p>
+            ¿No tienes cuenta?{' '}
+            <button onClick={() => setShowRegister(true)}>Regístrate aquí</button>
+          </p>
+        </div>
+      </div>
 
       <RegisterModal
         show={showRegister}

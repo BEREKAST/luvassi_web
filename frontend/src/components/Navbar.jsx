@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
-const Navbar = ({ carrito, mostrarCarrito, setMostrarCarrito }) => {
+const Navbar = ({ carrito = [], mostrarCarrito, setMostrarCarrito }) => {
   const navigate = useNavigate();
   const usuario = JSON.parse(localStorage.getItem('usuario'));
 
@@ -24,8 +24,8 @@ const Navbar = ({ carrito, mostrarCarrito, setMostrarCarrito }) => {
         <Link to="/portafolio">Portafolio</Link>
         <Link to="/blog">Blog</Link>
 
-        {/* ✅ Botón carrito con contador */}
-        <button className="btn-carrito" onClick={() => setMostrarCarrito(true)}>
+        {/* ✅ Botón carrito con toggle (mostrar/ocultar) */}
+        <button className="btn-carrito" onClick={() => setMostrarCarrito(prev => !prev)}>
           🛒
           {carrito.length > 0 && (
             <span className="carrito-badge">{carrito.length}</span>

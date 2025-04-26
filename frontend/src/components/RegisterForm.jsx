@@ -1,3 +1,4 @@
+// src/components/RegisterForm.jsx
 import React, { useState } from 'react';
 
 const RegisterForm = ({ onRegister }) => {
@@ -26,7 +27,9 @@ const RegisterForm = ({ onRegister }) => {
       const data = await res.json();
 
       if (res.ok) {
-        onRegister(data); // cierra modal y alerta en RegisterModal
+        // ✅ Guardar usuario con id_cliente incluido en localStorage
+        localStorage.setItem('usuario', JSON.stringify(data.usuario));
+        onRegister(data); // ✅ Cierra modal o redirige
       } else {
         alert(data.message || 'Error al registrar');
       }

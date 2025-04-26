@@ -1,62 +1,111 @@
-.info-header {
+/* Fondo oscuro translúcido */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(30, 41, 59, 0.7); /* Azul oscuro translúcido */
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: white;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  justify-content: center;
   z-index: 1000;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
 
-nav {
-  display: flex;
-  gap: 1rem;
-}
-
-.usuario-dropdown {
+/* Contenedor principal del modal */
+.modal-content {
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 1.5rem;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
   position: relative;
+  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.25);
+  animation: showModal 0.4s ease forwards;
 }
 
-.usuario-dropdown span {
-  cursor: pointer;
-  font-weight: bold;
+/* Logo redondo */
+.modal-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 3px solid #4ba3fa;
 }
 
-.dropdown-content {
+/* Botón de cerrar */
+.close-btn {
   position: absolute;
-  top: 120%;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  display: none;
-  flex-direction: column;
-  z-index: 1000;
-}
-
-.usuario-dropdown:hover .dropdown-content {
-  display: flex;
-}
-
-.dropdown-content a, .dropdown-content button {
-  padding: 8px 16px;
+  top: 12px;
+  right: 18px;
   background: none;
   border: none;
-  text-align: left;
-  width: 100%;
+  font-size: 1.8rem;
+  color: #4ba3fa;
   cursor: pointer;
+  transition: transform 0.2s;
 }
 
-.dropdown-content a:hover, .dropdown-content button:hover {
-  background-color: #f0f0f0;
+.close-btn:hover {
+  transform: rotate(90deg) scale(1.2);
 }
-.carrito-badge {
-  background-color: red;
+
+/* Título */
+.modal-content h2 {
+  margin-bottom: 1rem;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+/* Texto intermedio */
+.continue-text {
+  margin: 1rem 0 1.5rem 0;
+  font-size: 1rem;
+  color: #475569;
+}
+
+/* Contenedor de botones sociales */
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Botón de Google */
+.google-btn, .facebook-btn {
+  background: #4ba3fa;
   color: white;
-  font-size: 0.75rem;
-  padding: 2px 6px;
-  border-radius: 50%;
-  margin-left: 5px;
-  position: relative;
-  top: -10px;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 300px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover en botones */
+.google-btn:hover, .facebook-btn:hover {
+  background: #3a8edb;
+  transform: translateY(-2px);
+}
+
+/* Animación de entrada */
+@keyframes showModal {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

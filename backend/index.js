@@ -63,9 +63,27 @@ app.post('/api/register', async (req, res) => {
       [nombre, direccion, correo_electronico, hashedPassword, rol]
     );
 
+    const nuevoUsuario = result.rows[0];
+
+    let id_cliente = null;
+
+    if (rol.toLowerCase() === 'usuario') {
+      const clienteInsert = await pool.query(
+        'INSERT INTO cliente (id_usuario, telefono) VALUES ($1, $2) RETURNING id_cliente',
+        [nuevoUsuario.id_usuario, '00000000']
+      );
+      id_cliente = clienteInsert.rows[0].id_cliente;
+    }
+
     res.status(201).json({
       message: 'Usuario registrado exitosamente',
-      usuario: result.rows[0],
+      usuario: {
+        id: nuevoUsuario.id_usuario,
+        id_cliente,
+        nombre: nuevoUsuario.nombre,
+        correo: nuevoUsuario.correo_electronico,
+        rol: nuevoUsuario.rol
+      }
     });
   } catch (error) {
     console.error('Error al registrar usuario:', error);
@@ -94,10 +112,22 @@ app.post('/api/login', async (req, res) => {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
 
+    let id_cliente = null;
+    if (usuario.rol === 'usuario') {
+      const clienteResult = await pool.query(
+        'SELECT id_cliente FROM cliente WHERE id_usuario = $1',
+        [usuario.id_usuario]
+      );
+      if (clienteResult.rows.length > 0) {
+        id_cliente = clienteResult.rows[0].id_cliente;
+      }
+    }
+
     res.status(200).json({
       message: 'Login exitoso',
       usuario: {
         id: usuario.id_usuario,
+        id_cliente,
         nombre: usuario.nombre,
         correo: usuario.correo_electronico,
         rol: usuario.rol
@@ -110,7 +140,6 @@ app.post('/api/login', async (req, res) => {
 });
 
 // Rutas para productos
-// Obtener todos los productos
 app.get('/api/productos', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM producto');
@@ -121,7 +150,6 @@ app.get('/api/productos', async (req, res) => {
   }
 });
 
-// Agregar producto con imagen (admin o empleado)
 app.post('/api/productos', upload.single('imagen'), async (req, res) => {
   const { nombre_producto, descripcion, precio, cantidad_en_inventario } = req.body;
   const imagen = req.file ? `/uploads/${req.file.filename}` : null;
@@ -137,7 +165,6 @@ app.post('/api/productos', upload.single('imagen'), async (req, res) => {
   }
 });
 
-// Eliminar producto por ID (solo admin o empleado)
 app.delete('/api/productos/:id', async (req, res) => {
   const id = req.params.id;
   try {
@@ -149,13 +176,30 @@ app.delete('/api/productos/:id', async (req, res) => {
   }
 });
 
-// Crear pedido del cliente
+// Crear pedido
 app.post('/api/pedidos', async (req, res) => {
-  const { id_cliente, productos } = req.body;
+  const { id_cliente: id_usuario, productos } = req.body;
+
   try {
+    // Buscar el id_cliente real a partir del id_usuario
+    const clienteResult = await pool.query(
+      'SELECT id_cliente FROM cliente WHERE id_usuario = $1',
+      [id_usuario]
+    );
+
+    if (clienteResult.rows.length === 0) {
+      return res.status(400).json({ message: 'El usuario no está registrado como cliente' });
+    }
+
+    const id_cliente = clienteResult.rows[0].id_cliente;
+
+    const now = new Date();
+    const fecha = new Date().toISOString().split('T')[0];
+    const hora = new Date().toLocaleTimeString('en-GB');
+
     const pedido = await pool.query(
-      'INSERT INTO pedido (id_cliente, estado_pedido, total) VALUES ($1, $2, 0) RETURNING *',
-      [id_cliente, 'pendiente']
+      'INSERT INTO pedido (id_cliente, estado_pedido, total, fecha_pedido) VALUES ($1, $2, 0, $3) RETURNING *',
+      [id_cliente, 'pendiente', now]
     );
 
     let total = 0;
@@ -171,13 +215,18 @@ app.post('/api/pedidos', async (req, res) => {
       );
     }
 
-    await pool.query('UPDATE pedido SET total = $1 WHERE id_pedido = $2', [total, pedido.rows[0].id_pedido]);
+    await pool.query(
+      'UPDATE pedido SET total = $1 WHERE id_pedido = $2',
+      [total, pedido.rows[0].id_pedido]
+    );
+
     res.status(201).json({ message: 'Pedido registrado', id_pedido: pedido.rows[0].id_pedido });
   } catch (error) {
     console.error('Error al crear pedido:', error);
     res.status(500).json({ message: 'Error al registrar pedido' });
   }
 });
+
 
 // Levantar servidor
 app.listen(PORT, () => {

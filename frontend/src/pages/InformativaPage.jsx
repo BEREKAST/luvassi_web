@@ -41,31 +41,34 @@ const InformativaPage = () => {
       <main className="info-main">
         <section className="principal">
           <div className="fecha-badge">
-            <p className="dia">16</p>
-            <p className="mes">Jun</p>
+            <p className="dia">24</p>
+            <p className="mes">Abr</p>
           </div>
-          <img src="https://i.imgur.com/jy1a9Dq.png" alt="Banner" />
-          <h2>
-            ¿Qué tipos de <span className="resaltado">sitios web existen</span> y cuál se ajusta más a tu negocio?
-          </h2>
-          <p className="accion">Conócelos &gt;&gt;</p>
+          <img src="/imagenes/portada.jpg" alt="Banner Feria Luvassi" />
+
+          <h2><span className="resaltado">¡Nuevo sabor Lima!</span> llegó para refrescar tu día 🍋</h2>
+          <p className="accion">Descúbrelo &gt;&gt;</p>
 
           <div className="helado-info">
-            <h3>Los sabores más populares en heladerías artesanales</h3>
-            <p>Desde la clásica vainilla hasta exóticas fusiones como maracuyá con albahaca. La innovación y la frescura marcan la diferencia en este sector.</p>
-            <img src="https://i.imgur.com/PAk9FO3.jpg" alt="Sabores artesanales" />
-          </div>
-
-          <div className="helado-info">
-            <h3>¿Cómo mejorar tu presentación en vitrinas?</h3>
-            <p>El diseño del escaparate influye directamente en las decisiones de compra. Usa colores llamativos, recipientes elegantes y etiquetas bien diseñadas.</p>
-            <img src="https://i.imgur.com/yDw2A47.jpg" alt="Vitrina de helados" />
+            <h3>Explosión de frescura con sabor Lima</h3>
+            <p>Prepárate para una experiencia refrescante. Nuestro nuevo helado artesanal de LIMA te hará disfrutar como nunca. ¡Una delicia que no te puedes perder! 🤤</p>
+            <img src="/imagenes/lima.jpg" alt="Helado de lima" />
           </div>
 
           <div className="helado-info">
-            <h3>Incorpora redes sociales a tu estrategia</h3>
-            <p>Publicar historias y encuestas de nuevos sabores, promociones del día y fotos de clientes felices puede atraer tráfico a tu tienda física o web.</p>
-            <img src="https://i.imgur.com/BB4lqtU.jpg" alt="Heladería en redes sociales" />
+            <h3>Participamos en la Feria del 3º ENEE</h3>
+            <p>No te pierdas nuestra presencia en la feria agroecológica este 12 de abril. Estaremos en Sopocachi: Final Belisario Salinas y Abdon Saavedra de 9:00 a 15:00 hrs. 🌿🍧</p>
+            <img src="/imagenes/3en.jpg" alt="Stand en feria agroecológica" />
+          </div>
+
+          <div className="helado-info">
+            <h3>Nuestras direcciones y contacto</h3>
+            <p>
+              🏪 Achumani: Av. José Manuel Chinchilla, entre calles 18 y 19<br/>
+              🏪 Mallasa: entre la Av. Florida y calle 4<br/>
+              🏪 Sopocachi: Av. Ecuador #2286, entre Guachalla y Gutiérrez<br/>
+              📲 WhatsApp: <a href="https://wa.me/59176710868" target="_blank">76710868</a>
+            </p>
           </div>
         </section>
 
@@ -73,45 +76,51 @@ const InformativaPage = () => {
           <h3>Últimas noticias</h3>
           <ul>
             <li>
-              <Link to="/noticia-sitios">
-                <img src="https://i.imgur.com/jy1a9Dq.png" alt="n1" />
+              <Link to="/noticia-lima">
+                <img src="/imagenes/lima.jpg" alt="Nuevo sabor lima" />
                 <div>
-                  <p className="titulo">¿Qué tipos de sitios w</p>
-                  <span>junio 16, 2021</span>
+                  <p className="titulo">¡Nuevo helado sabor Lima!</p>
+                  <span>abril 10, 2025</span>
                 </div>
               </Link>
             </li>
             <li>
-              <Link to="/noticia-universo">
-                <img src="https://i.imgur.com/6TJ6gCv.png" alt="n2" />
+              <Link to="/noticia-feria">
+                <img src="/imagenes/3en.jpg" alt="Feria agroecológica" />
                 <div>
-                  <p className="titulo">El universo detrás de u</p>
-                  <span>junio 1, 2021</span>
+                  <p className="titulo">Nos vemos en la Feria del 3º ENEE 🌿</p>
+                  <span>abril 12, 2025</span>
                 </div>
               </Link>
             </li>
             <li>
-              <Link to="/noticia-heladeria">
-                <img src="https://i.imgur.com/DbWj6QA.png" alt="heladeria" />
+              <Link to="/noticia-locacion">
+                <img src="/imagenes/direcion.jpg" alt="Direcciones Luvassi" />
                 <div>
-                  <p className="titulo">Cómo destacar tu heladería artesanal</p>
-                  <span>abril 24, 2025</span>
+                  <p className="titulo">¿Dónde puedes encontrarnos?</p>
+                  <span>abril 5, 2025</span>
                 </div>
               </Link>
             </li>
           </ul>
 
-          {/* Tags */}
           <div className="tags">
             <h4>Tags</h4>
-            <span className="tag">desarrollo web</span>
-            <span className="tag">educación virtual</span>
-            <span className="tag">heladería artesanal</span>
-            <span className="tag">diseño web</span>
-            <span className="tag">UX/UI</span>
+            <span className="tag">helado artesanal</span>
+            <span className="tag">sabor lima</span>
+            <span className="tag">feria ecosocial</span>
+            <span className="tag">postre saludable</span>
+            <span className="tag">emprendimiento</span>
           </div>
         </aside>
       </main>
+
+      <footer className="info-footer">
+        <p><strong>LUVASSÍ</strong> – Heladería artesanal con sabor natural.</p>
+        <p>Somos una iniciativa boliviana que apuesta por ingredientes locales, recetas saludables y conexión con nuestra comunidad.</p>
+        <p>📍 Achumani, Mallasa, Sopocachi | 📞 WhatsApp: 76710868</p>
+        <p className="copy">&copy; 2025 Luvassí. Todos los derechos reservados.</p>
+      </footer>
     </div>
   );
 };

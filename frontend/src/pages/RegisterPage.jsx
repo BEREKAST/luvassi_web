@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import RegisterForm from '../components/RegisterForm';
+import './RegisterPage.css'; // ✅ Importamos solo CSS para estilo
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -11,9 +12,12 @@ const RegisterPage = () => {
   };
 
   return (
-    <div>
-      <h1>Página de Registro</h1>
-      <RegisterForm onRegister={handleRegister} />
+    <div className="register-page-wrapper">
+      <div className="register-card">
+        <img src="/imagenes/logo-luva.png" alt="Logo Luvassí" className="register-logo" />
+        <h1>Crear Nueva Cuenta</h1>
+        <RegisterForm onRegister={handleRegister} />
+      </div>
     </div>
   );
 };

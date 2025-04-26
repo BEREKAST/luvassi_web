@@ -1,147 +1,189 @@
-/* InformativaPage.css */
-
+/* General */
 .info-container {
-    font-family: 'Segoe UI', sans-serif;
-    color: #333;
-  }
-  
-  /* Header fijo */
-  .info-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 40px;
-    background-color: white;
-    border-bottom: 1px solid #eee;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-  
-  .logo {
-    font-size: 24px;
-  }
-  
-  .logo span {
-    color: gray;
-  }
-  
-  .info-header nav a {
-    margin: 0 12px;
-    text-decoration: none;
-    color: #444;
-    font-weight: 500;
-  }
-  
-  .info-header nav a:hover {
-    color: #8e44ad;
-  }
-  
-  .whatsapp-button {
-    font-size: 20px;
-    text-decoration: none;
-  }
-  
-  /* Contenido principal */
-  .info-main {
-    display: flex;
-    padding: 20px 40px;
-    gap: 30px;
-  }
-  
-  .principal {
-    flex: 2;
-    position: relative;
-  }
-  
-  .fecha-badge {
-    position: absolute;
-    background-color: white;
-    padding: 6px 12px;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    left: 20px;
-    top: 20px;
-  }
-  
-  .fecha-badge .dia {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .fecha-badge .mes {
-    font-size: 12px;
-  }
-  
-  .principal img {
-    width: 100%;
-    border-radius: 10px;
-  }
-  
-  .resaltado {
-    color: #d6249f;
-    font-weight: bold;
-  }
-  
-  .accion {
-    color: #8e44ad;
-    margin-top: 10px;
-  }
-  
-  .noticias {
-    flex: 1;
-  }
-  
-  .noticias ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .noticias li {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
-    text-decoration: none;
-  }
-  
-  .noticias li img {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 6px;
-  }
-  
-  .noticias li .titulo {
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .tags {
-    margin-top: 20px;
-  }
-  
-  .tags .tag {
-    background-color: #f2f2f2;
-    padding: 6px 12px;
-    margin: 4px;
-    border-radius: 10px;
-    display: inline-block;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .tags .tag:hover {
-    background-color: #e0e0e0;
-  }
-  .login-link {
-    margin-left: 1rem;
-    color: #333;
-    font-weight: bold;
-    text-decoration: none;
-  }
-  .login-link:hover {
-    color: #ff33cc;
-  }
-  
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  background-color: #fefdfb;
+  color: #2c3e50;
+  line-height: 1.6;
+}
+
+/* Header */
+.info-header {
+  background-color: #e8f4e1;
+  color: #2c4b3f;
+  padding: 1.2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px solid #9bcf53;
+}
+
+.info-header .logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2f5747;
+}
+
+.info-header nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #2f5747;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.info-header nav a:hover {
+  color: #517a67;
+}
+
+/* Main Content */
+.info-main {
+  display: flex;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.principal {
+  flex: 3;
+}
+
+/* Imagen principal */
+.principal img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Fecha */
+.fecha-badge {
+  background-color: #c1e5ae;
+  color: #2f5747;
+  padding: 0.6rem;
+  width: 75px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+}
+
+/* Texto resaltado */
+.resaltado {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+/* Acción */
+.accion {
+  color: #75a36f;
+  font-size: 1.05rem;
+  margin-bottom: 1.8rem;
+}
+
+/* Información especial */
+.helado-info {
+  background-color: #f4fbea;
+  border-left: 5px solid #a8d57e;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.helado-info h3 {
+  color: #3d6d59;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.helado-info img {
+  margin-top: 1rem;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Noticias laterales */
+.noticias {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-left: 2px dashed #c9ddc0;
+  border-radius: 12px;
+}
+
+.noticias h3 {
+  margin-bottom: 1.2rem;
+  color: #4e7b65;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.noticias li {
+  margin-bottom: 1.2rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.noticias img {
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.noticias .titulo {
+  font-size: 0.95rem;
+  color: #3d6d59;
+  font-weight: 600;
+}
+
+/* Tags */
+.tags {
+  margin-top: 2rem;
+}
+
+.tags h4 {
+  margin-bottom: 0.8rem;
+  color: #3f6c57;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.tag {
+  display: inline-block;
+  background-color: #d1efc6;
+  color: #3d6d59;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  margin: 0.3rem 0.3rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Footer */
+.footer-luvassi {
+  background-color: #e8f4e1;
+  text-align: center;
+  padding: 1.2rem;
+  font-size: 1rem;
+  color: #2f5747;
+  border-top: 2px solid #a3d987;
+  margin-top: 3rem;
+}
+
+.footer-luvassi a {
+  color: #2f5747;
+  margin-left: 0.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.footer-luvassi a:hover {
+  color: #4e7b65;
+}
