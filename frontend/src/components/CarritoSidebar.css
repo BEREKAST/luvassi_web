@@ -99,3 +99,124 @@ p {
   font-size: 14px;
   color: #34495e;
 }
+
+/* --- Estilos para el Modal de Notificación --- */
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente oscuro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+.custom-modal-content {
+  background-color: #ffffff; /* Fondo blanco para el modal */
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: fadeIn 0.3s ease-out; /* Animación de aparición */
+  border: 1px solid #e0e0e0;
+}
+
+.custom-modal-content p {
+  margin-bottom: 25px;
+  font-size: 1.15em;
+  color: #333333;
+  line-height: 1.5;
+}
+
+.custom-modal-content button {
+  background-color: #28a745; /* Un verde más agradable para el botón */
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.custom-modal-content button:hover {
+  background-color: #218838; /* Verde más oscuro al pasar el ratón */
+  transform: translateY(-2px); /* Pequeño efecto de levantamiento */
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* --- Estilos para la selección de Método de Pago --- */
+.payment-method-selection {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left; /* Alinea el texto y select a la izquierda */
+  padding: 0 10px; /* Un poco de padding horizontal */
+}
+
+.payment-method-selection label {
+  display: block; /* La etiqueta ocupa su propia línea */
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #34495e;
+  font-size: 0.95em;
+}
+
+.payment-method-selection select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  font-size: 1em;
+  color: #333333;
+  appearance: none; /* Elimina estilos por defecto del sistema operativo */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2C114.7L146.2%2C255.5c-4.4%2C4.4-10.7%2C6.9-17.3%2C6.9s-12.9-2.5-17.3-6.9L5.4%2C114.7c-4.4-4.4-6.9-10.7-6.9-17.3s2.5-12.9%2C6.9-17.3l23-23c4.4-4.4%2C10.7-6.9%2C17.3-6.9s12.9%2C2.5%2C17.3%2C6.9l94.8%2C94.8L229%2C74.3c4.4-4.4%2C10.7-6.9%2C17.3-6.9s12.9%2C2.5%2C17.3%2C6.9l23%2C23c4.4%2C4.4%2C6.9%2C10.7%2C6.9%2C17.3S291.4%2C110.3%2C287%2C114.7z%22%2F%3E%3C%2Fsvg%3E'); /* Flecha personalizada */
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.payment-method-selection select:focus {
+  border-color: #2e86c1; /* Color de borde al enfocar */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 134, 193, 0.3);
+}
+
+/* --- Estilos para el QR --- */
+.qr-code-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.qr-code-image {
+  width: 150px; /* Tamaño del QR */
+  height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Ajustes para el botón del modal si hay dos botones */
+.custom-modal-content button:not(:last-child) {
+    margin-right: 10px; /* Espacio entre botones si hay más de uno */
+}

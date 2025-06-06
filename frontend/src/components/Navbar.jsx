@@ -24,8 +24,16 @@ const Navbar = ({ carrito = [], mostrarCarrito, setMostrarCarrito }) => {
         <Link to="/portafolio">Portafolio</Link>
         <Link to="/blog">Blog</Link>
 
+        {/* ✅ Enlace de Pedidos solo para admin */}
+        {usuario && usuario.rol === 'admin' && (
+          <Link to="/orders">Pedidos</Link>
+        )}
+
         {/* ✅ Botón carrito con toggle (mostrar/ocultar) */}
-        <button className="btn-carrito" onClick={() => setMostrarCarrito(prev => !prev)}>
+        <button 
+          className="btn-carrito" 
+          onClick={() => setMostrarCarrito(prev => !prev)}
+        >
           🛒
           {carrito.length > 0 && (
             <span className="carrito-badge">{carrito.length}</span>
@@ -39,6 +47,7 @@ const Navbar = ({ carrito = [], mostrarCarrito, setMostrarCarrito }) => {
             <span>👤 {usuario.nombre}</span>
             <div className="dropdown-content">
               <Link to="/perfil">Ver perfil</Link>
+              {usuario.rol === 'admin' && <Link to="/dashboard">Dashboard</Link>}
               <button onClick={handleLogout}>Cerrar sesión</button>
             </div>
           </div>

@@ -1,6 +1,8 @@
+// frontend/src/pages/InformativaPage.jsx
 import React from 'react';
 import './InformativaPage.css';
 import { Link, useNavigate } from 'react-router-dom';
+import InputForm from '../components/InputForm'; // Importa el componente InputForm
 
 const InformativaPage = () => {
   const navigate = useNavigate();
@@ -114,6 +116,10 @@ const InformativaPage = () => {
           </div>
         </aside>
       </main>
+
+      {/* Aquí es donde se inserta el componente InputForm */}
+      {/* Lo he colocado después del <main> pero antes del <footer> para que sea visible en la página */}
+      <InputForm />
 
       <footer className="info-footer">
         <p><strong>LUVASSÍ</strong> – Heladería artesanal con sabor natural.</p>

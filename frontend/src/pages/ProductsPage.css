@@ -23,9 +23,6 @@
     background-color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
   
   .producto-card:hover {
@@ -40,29 +37,22 @@
   }
   
   .producto-nombre {
-    margin: 0.5rem 0 0.2rem;
-    font-weight: bold;
-    font-size: 1.1rem;
-    text-align: center;
+    margin: 0.5rem 0;
   }
   
   .producto-desc {
     font-size: 0.9rem;
     color: #555;
-    text-align: center;
   }
   
   .producto-precio {
     font-weight: bold;
     margin-top: 0.5rem;
-    font-size: 1.1rem;
-    color: #222;
   }
   
   .producto-stock {
     font-size: 0.85rem;
     color: #888;
-    margin-bottom: 0.6rem;
   }
   
   .btn-add {
@@ -70,11 +60,10 @@
     color: white;
     padding: 0.5rem 1rem;
     border: none;
+    margin-top: 0.8rem;
     cursor: pointer;
     border-radius: 5px;
     width: 100%;
-    margin-top: auto;
-    transition: background-color 0.3s ease;
   }
   
   .btn-add:hover {
@@ -101,33 +90,5 @@
     text-align: center;
     font-size: 1rem;
     color: gray;
-  }
-  
-  .form-admin {
-    margin-bottom: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
-  
-  .form-admin input {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-  
-  .form-admin button {
-    padding: 0.5rem 1.2rem;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .form-admin button:hover {
-    background-color: #0056b3;
   }
   

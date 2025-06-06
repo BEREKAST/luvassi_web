@@ -1,0 +1,82 @@
+    /* frontend/src/pages/OrdersPage.css */
+    .orders-container {
+      padding: 20px;
+      max-width: 900px;
+      margin: 20px auto;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .orders-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .error-message {
+      color: #d9534f;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .pedidos-list {
+      display: grid;
+      gap: 20px;
+    }
+
+    .pedido-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .pedido-card h3 {
+      color: #007bff;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .pedido-card p {
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    .pedido-card h4 {
+      margin-top: 15px;
+      margin-bottom: 8px;
+      color: #444;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    .productos-detalle-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .producto-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      background-color: #f0f8ff;
+      padding: 8px;
+      border-radius: 5px;
+    }
+
+    .producto-imagen {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .producto-item span {
+      font-size: 0.95em;
+      color: #333;
+    }
+    
