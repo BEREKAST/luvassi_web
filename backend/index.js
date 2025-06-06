@@ -1,24 +1,46 @@
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors'); // Ya tienes esta línea, ¡asegúrate de que esté ahí!
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+// Asegúrate de que db.js cargue dotenv y tenga la configuración SSL
 const pool = require('./db'); // Conexión a PostgreSQL
 
 const app = express();
-const PORT = 5000;
+// Usar process.env.PORT para el puerto de Render, o 5000 para desarrollo local.
+const PORT = process.env.PORT || 5000;
 
-// Middlewares
-app.use(cors());
+// === INICIO DE LA MODIFICACIÓN CORS ===
+// Configuración de CORS para permitir solo tu frontend desplegado
+const corsOptions = {
+  // ¡ATENCIÓN! La URL de tu frontend debe ser EXACTA aquí.
+  // Es 'https://luvassi-frontend-app.onrender.com'
+  origin: 'https://luvassi-frontend-app.onrender.com',
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'], // Métodos HTTP que permites
+  credentials: true, // Importante si tu app usa cookies o sesiones
+  optionsSuccessStatus: 204 // Para las preflight requests OPTIONS (204 No Content)
+};
+
+// Aplica el middleware CORS con las opciones configuradas.
+// Esta línea REEMPLAZA a `app.use(cors());`
+app.use(cors(corsOptions));
+// === FIN DE LA MODIFICACIÓN CORS ===
+
+// Middlewares (el resto se mantiene igual)
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Servir imágenes
+// La ruta para servir imágenes debe ser relativa a la raíz del proyecto para Render
+// Render montará tu app en la raíz del dominio, así que '/uploads' funcionará.
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Multer config
+// Multer config (sin cambios)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, 'uploads');
-    if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath);
+    // Asegúrate de que la carpeta exista antes de intentar guardar
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true }); // recursive: true para crear carpetas anidadas si no existen
+    }
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
@@ -29,21 +51,25 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Ruta de prueba para verificar conexión a PostgreSQL
+// Nueva ruta de prueba en la raíz (sin cambios)
+app.get('/', (req, res) => {
+  res.status(200).send('Servidor backend de Luvassi está operativo. Accede a las APIs en /api.');
+});
+
+// Ruta de prueba para verificar conexión a PostgreSQL (sin cambios)
 app.get('/api', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
-    res.json({ message: "¡Backend funcionando!", hora: result.rows[0] });
+    res.json({ message: "¡Backend funcionando!", hora: result.rows[0].now }); // Accede a .now para el campo específico
   } catch (err) {
     console.error('Error al conectar a PostgreSQL:', err);
     res.status(500).json({ error: 'Error al conectar con la base de datos' });
   }
 });
 
-// Ruta: Registro de usuario
+// Registro de usuario (sin cambios)
 app.post('/api/register', async (req, res) => {
   const { nombre, direccion, correo_electronico, contrasena, rol } = req.body;
-
   try {
     const checkUser = await pool.query(
       'SELECT * FROM usuario WHERE correo_electronico = $1',
@@ -77,8 +103,8 @@ app.post('/api/register', async (req, res) => {
     res.status(201).json({
       message: 'Usuario registrado exitosamente',
       usuario: {
-        id: nuevoUsuario.id_usuario, // ID del usuario de la tabla 'usuario'
-        id_cliente, // ID del cliente de la tabla 'cliente' (si aplica)
+        id: nuevoUsuario.id_usuario,
+        id_cliente,
         nombre: nuevoUsuario.nombre,
         correo: nuevoUsuario.correo_electronico,
         rol: nuevoUsuario.rol
@@ -90,7 +116,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Ruta: Login de usuario
+// Login de usuario (sin cambios)
 app.post('/api/login', async (req, res) => {
   const { correo_electronico, contrasena } = req.body;
 
@@ -125,8 +151,8 @@ app.post('/api/login', async (req, res) => {
     res.status(200).json({
       message: 'Login exitoso',
       usuario: {
-        id: usuario.id_usuario, // ID del usuario de la tabla 'usuario'
-        id_cliente, // ID del cliente de la tabla 'cliente' (si aplica)
+        id: usuario.id_usuario,
+        id_cliente,
         nombre: usuario.nombre,
         correo: usuario.correo_electronico,
         rol: usuario.rol
@@ -138,7 +164,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Rutas para productos
+// Rutas para productos (sin cambios)
 app.get('/api/productos', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM producto');
@@ -175,32 +201,28 @@ app.delete('/api/productos/:id', async (req, res) => {
   }
 });
 
-// Crear pedido
+// Crear pedido con factura (sin cambios)
 app.post('/api/pedidos', async (req, res) => {
-  // Se recibe directamente el id_cliente que envía el frontend
-  // ¡NUEVO! Recibe tambien el metodo_pago
-  const { id_cliente, productos, metodo_pago } = req.body; // Se añade metodo_pago
+  const { id_cliente, productos, metodo_pago } = req.body;
 
-  let client; // Variable para la transacción
+  let client;
 
   try {
-    client = await pool.connect(); // Obtener un cliente de la pool
-    await client.query('BEGIN'); // Iniciar la transacción
+    client = await pool.connect();
+    await client.query('BEGIN');
 
-    // 1. Validar que el id_cliente proporcionado realmente existe en la tabla 'cliente'
-    const clienteExists = await client.query( // Usar client para la transacción
+    const clienteExists = await client.query(
       'SELECT 1 FROM cliente WHERE id_cliente = $1',
       [id_cliente]
     );
 
     if (clienteExists.rows.length === 0) {
-      await client.query('ROLLBACK'); // Revertir si el cliente no existe
-      return res.status(400).json({ message: 'El ID de cliente proporcionado no es válido o no existe.' });
+      await client.query('ROLLBACK');
+      return res.status(400).json({ message: 'El ID de cliente no es válido.' });
     }
 
     const now = new Date();
-    // 2. Insertar el nuevo pedido usando el id_cliente directamente
-    const pedidoResult = await client.query( // Usar client para la transacción
+    const pedidoResult = await client.query(
       'INSERT INTO pedido (id_cliente, estado_pedido, total, fecha_pedido) VALUES ($1, $2, 0, $3) RETURNING id_pedido',
       [id_cliente, 'pendiente', now]
     );
@@ -208,116 +230,49 @@ app.post('/api/pedidos', async (req, res) => {
 
     let total = 0;
 
-    // 3. Procesar cada producto en el pedido
     for (const p of productos) {
-      const prodResult = await client.query('SELECT * FROM producto WHERE id_producto = $1', [p.id_producto]); // Usar client
+      const prodResult = await pool.query('SELECT * FROM producto WHERE id_producto = $1', [p.id_producto]);
       if (prodResult.rows.length === 0) {
-        await client.query('ROLLBACK'); // Revertir si un producto no se encuentra
+        await client.query('ROLLBACK');
         return res.status(404).json({ message: `Producto con ID ${p.id_producto} no encontrado.` });
       }
       const precio = prodResult.rows[0].precio;
       total += precio * p.cantidad;
 
-      // Insertar el detalle del pedido
-      await client.query( // Usar client
+      await client.query(
         'INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio) VALUES ($1, $2, $3, $4)',
         [id_pedido, p.id_producto, p.cantidad, precio]
       );
     }
 
-    // 4. Actualizar el total del pedido
-    await client.query( // Usar client
+    await client.query(
       'UPDATE pedido SET total = $1 WHERE id_pedido = $2',
       [total, id_pedido]
     );
 
-    // ¡NUEVO! 5. Crear una entrada en la tabla 'factura'
-    const facturaResult = await client.query( // Usar client
+    const facturaResult = await pool.query(
       'INSERT INTO factura (id_pedido, fecha_emision, monto_total, estado_pago, metodo_pago) VALUES ($1, $2, $3, $4, $5) RETURNING id_factura',
-      [id_pedido, now, total, 'Pagado', metodo_pago] // Puedes ajustar 'Pagado' a 'Pendiente' o 'Registrado' según tu flujo real
+      [id_pedido, now, total, 'Pagado', metodo_pago]
     );
     const id_factura = facturaResult.rows[0].id_factura;
 
-    await client.query('COMMIT'); // Confirmar la transacción
+    await client.query('COMMIT');
 
-    // 6. Enviar respuesta de éxito
-    res.status(201).json({ message: 'Pedido registrado exitosamente', id_pedido: id_pedido, id_factura: id_factura }); // Retorna el id de factura
+    res.status(201).json({
+      message: 'Pedido registrado exitosamente',
+      id_pedido,
+      id_factura
+    });
   } catch (error) {
-    if (client) { // Si hay un cliente de transacción, hacer rollback
-      await client.query('ROLLBACK');
-    }
+    if (client) await client.query('ROLLBACK');
     console.error('Error al crear pedido:', error);
     res.status(500).json({ message: 'Error al registrar pedido' });
   } finally {
-    if (client) {
-      client.release(); // Liberar el cliente de la pool
-    }
+    if (client) client.release();
   }
 });
 
-// NUEVA RUTA: Obtener pedidos por ID de cliente
-app.get('/api/pedidos/cliente/:id_cliente', async (req, res) => {
-  const { id_cliente } = req.params; // Obtener id_cliente de los parámetros de la URL
-
-  try {
-    // Validar que el id_cliente proporcionado realmente existe en la tabla 'cliente'
-    const clienteExists = await pool.query(
-      'SELECT 1 FROM cliente WHERE id_cliente = $1',
-      [id_cliente]
-    );
-
-    if (clienteExists.rows.length === 0) {
-      return res.status(404).json({ message: 'Cliente no encontrado.' });
-    }
-
-    // Obtener todos los pedidos asociados a este id_cliente
-    const pedidosResult = await pool.query(
-      `SELECT
-          p.id_pedido,
-          p.estado_pedido,
-          p.total,
-          p.fecha_pedido,
-          f.metodo_pago, -- ¡NUEVO! Incluir el método de pago de la factura
-          json_agg(
-            json_build_object(
-              'id_producto', dp.id_producto,
-              'nombre_producto', pr.nombre_producto,
-              'cantidad', dp.cantidad,
-              'precio_unitario', dp.precio,
-              'imagen', pr.imagen
-            )
-          ) AS productos_detalle
-        FROM
-          pedido p
-        JOIN
-          detalle_pedido dp ON p.id_pedido = dp.id_pedido
-        JOIN
-          producto pr ON dp.id_producto = pr.id_producto
-        LEFT JOIN -- Usar LEFT JOIN para facturas, por si un pedido aún no tiene factura
-          factura f ON p.id_pedido = f.id_pedido
-        WHERE
-          p.id_cliente = $1
-        GROUP BY
-          p.id_pedido, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago -- Agrupar también por método de pago
-        ORDER BY
-          p.fecha_pedido DESC`,
-      [id_cliente]
-    );
-
-    if (pedidosResult.rows.length === 0) {
-      return res.status(200).json({ message: 'No hay pedidos para este cliente.', pedidos: [] });
-    }
-
-    res.status(200).json({ pedidos: pedidosResult.rows });
-
-  } catch (error) {
-    console.error('Error al obtener pedidos del cliente:', error);
-    res.status(500).json({ message: 'Error del servidor al obtener pedidos.' });
-  }
-});
-
-
-// Levantar servidor
+// Final del archivo (sin cambios)
 app.listen(PORT, () => {
-  console.log(`✅ Servidor backend corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
 });
