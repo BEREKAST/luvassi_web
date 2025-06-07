@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors'); // Ya tienes esta línea, ¡asegúrate de que esté ahí!
+const cors = require('cors');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
@@ -11,21 +11,36 @@ const app = express();
 // Usar process.env.PORT para el puerto de Render, o 5000 para desarrollo local.
 const PORT = process.env.PORT || 5000;
 
-// === INICIO DE LA MODIFICACIÓN CORS ===
-// Configuración de CORS para permitir solo tu frontend desplegado
+// === INICIO DE LAS MODIFICACIONES ===
+
+// Configuración de CORS dinámica
+const allowedOrigins = [
+  'https://luvassi-frontend-app.onrender.com', // Origen de tu frontend en Render
+  'http://localhost:3000' // Origen de tu frontend en desarrollo local
+  // Puedes añadir otros orígenes si los necesitas, ej. 'http://192.168.1.X:3000'
+];
+
 const corsOptions = {
-  // ¡ATENCIÓN! La URL de tu frontend debe ser EXACTA aquí.
-  // Es 'https://luvassi-frontend-app.onrender.com'
-  origin: 'https://luvassi-frontend-app.onrender.com',
+  origin: (origin, callback) => {
+    // Permite solicitudes sin origen (ej. Postman, Curl, solicitudes desde el mismo servidor)
+    if (!origin) return callback(null, true);
+    // Si el origen de la solicitud está en nuestra lista de permitidos
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      // Si el origen no está permitido
+      callback(new Error('Not allowed by CORS'), false);
+    }
+  },
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'], // Métodos HTTP que permites
-  credentials: true, // Importante si tu app usa cookies o sesiones
+  credentials: true, // Importante si tu app usa cookies o sesiones (si las usaras)
   optionsSuccessStatus: 204 // Para las preflight requests OPTIONS (204 No Content)
 };
 
 // Aplica el middleware CORS con las opciones configuradas.
-// Esta línea REEMPLAZA a `app.use(cors());`
 app.use(cors(corsOptions));
-// === FIN DE LA MODIFICACIÓN CORS ===
+
+// === FIN DE LAS MODIFICACIONES ===
 
 // Middlewares (el resto se mantiene igual)
 app.use(express.json());
