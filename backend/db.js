@@ -4,27 +4,27 @@ const { Pool } = require('pg');
 require('dotenv').config(); // ✅ ¡IMPORTANTE! Esto carga las variables desde tu archivo .env
 
 // Configuración del pool de conexiones
-// Hacemos la configuración de SSL condicional para desarrollo local y producción (Render)
 const poolConfig = {
   connectionString: process.env.DATABASE_URL, // Usa la URL completa de Render o de tu .env local
 };
 
-// Si NO estamos en desarrollo (es decir, en producción como Render), habilitamos SSL
-// Render inyecta NODE_ENV = 'production' por defecto.
-// Para local, NODE_ENV suele ser undefined o 'development'.
+// Hacemos la configuración de SSL condicional para desarrollo local y producción (Render)
 if (process.env.NODE_ENV === 'production') {
   poolConfig.ssl = {
     rejectUnauthorized: false // Esto es CRUCIAL para conectar a Render
   };
 } else {
-  // Para desarrollo local, si tu DB local no usa SSL o usa auto-firmado,
-  // puedes configurar ssl: false o ssl: { rejectUnauthorized: false }
-  // Si tu DB local NO usa SSL, simplemente omite la propiedad ssl para local
-  // o configúrala como ssl: false.
-  // En la mayoría de los casos, si tu DB local no está configurada para SSL, omitirlo es lo mejor.
-  // Si tu DB local SÍ usa SSL pero es autofirmado, podrías necesitar rejectUnauthorized: false también.
-  // Por simplicidad y para evitar errores si no usas SSL localmente:
-  // poolConfig.ssl = false; // Descomenta esta línea si tu DB local no usa SSL y te da problemas.
+  // === MODIFICACIÓN CLAVE AQUÍ PARA EL ENTORNO LOCAL ===
+  // Si tu base de datos PostgreSQL local requiere SSL (como indican tus logs: "SSL/TLS required"),
+  // entonces necesitas configurar `ssl: true` o `ssl: { rejectUnauthorized: false }` para LOCAL también.
+  // La mayoría de las bases de datos locales no requieren SSL por defecto, pero si la tuya sí,
+  // o si estás conectando a una DB remota desde local que lo requiere, necesitas esta línea.
+  poolConfig.ssl = {
+    rejectUnauthorized: false // Permite conexiones SSL/TLS aunque el certificado sea autofirmado (común en local o con servicios como Render)
+  };
+  // Si estuvieras seguro de que tu DB local NO usa SSL, la línea de abajo sería la correcta:
+  // poolConfig.ssl = false;
+  // Pero según tu error "SSL/TLS required", necesitas la primera opción.
 }
 
 const pool = new Pool(poolConfig);
