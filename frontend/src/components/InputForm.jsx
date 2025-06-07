@@ -161,7 +161,7 @@ const InputForm = () => {
                 className="form-checkbox-input"
                 aria-label="Intereses: Helados"
               />
-              <span className="form-checkbox-text">Deportes</span>
+              <span className="form-checkbox-text">HELADOS PREFERIDOS</span>
             </label>
             <label className="form-checkbox-label">
               <input
@@ -172,7 +172,7 @@ const InputForm = () => {
                 className="form-checkbox-input"
                 aria-label="Intereses: COMPRAS POR MAYOR"
               />
-              <span className="form-checkbox-text">Música</span>
+              <span className="form-checkbox-text">Sabores</span>
             </label>
             <label className="form-checkbox-label">
               <input
@@ -183,7 +183,7 @@ const InputForm = () => {
                 className="form-checkbox-input"
                 aria-label="Intereses: SERVICIOS"
               />
-              <span className="form-checkbox-text">Lectura</span>
+              <span className="form-checkbox-text">EMPREDIMIENTO</span>
             </label>
           </div>
         </div>

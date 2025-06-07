@@ -1,0 +1,198 @@
+/* frontend/src/pages/AdminOrdersPage.css */
+
+/* Contenedor principal */
+.admin-orders-container {
+    max-width: 1200px; /* Aumentamos el ancho máximo para más espacio */
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff; /* Fondo blanco para una apariencia limpia */
+    border-radius: 12px; /* Bordes más redondeados */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada pero suave */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente moderna */
+    color: #333;
+}
+
+.admin-orders-container h2 {
+    text-align: center;
+    color: #2c3e50; /* Un azul/gris oscuro para títulos */
+    margin-bottom: 30px;
+    font-size: 2.2em; /* Título más grande */
+    font-weight: 600; /* Un poco más de peso */
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.admin-orders-container h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #3498db; /* Línea decorativa azul */
+    border-radius: 2px;
+}
+
+/* Lista de pedidos (Grid layout para mejor distribución) */
+.pedidos-admin-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Columnas responsivas, mínimo 320px */
+    gap: 25px; /* Espacio entre tarjetas */
+}
+
+/* Tarjeta de cada pedido */
+.pedido-admin-card {
+    background-color: #fcfcfc; /* Fondo casi blanco para contraste suave */
+    border: 1px solid #e0e0e0; /* Borde más claro */
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06); /* Sombra más definida */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Transición suave al pasar el ratón */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Empuja el contenido para ocupar el espacio */
+}
+
+.pedido-admin-card:hover {
+    transform: translateY(-5px); /* Efecto flotante al pasar el ratón */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.pedido-admin-card h3 {
+    color: #3498db; /* Azul primario */
+    margin-bottom: 12px;
+    font-size: 1.6em;
+    font-weight: 500;
+    border-bottom: 2px solid #ecf0f1; /* Línea de separación más moderna */
+    padding-bottom: 10px;
+}
+
+.pedido-admin-card p {
+    margin-bottom: 6px;
+    color: #555;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+.pedido-admin-card strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.pedido-admin-card h4 {
+    margin-top: 20px;
+    margin-bottom: 12px;
+    color: #2c3e50;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+/* Lista de productos dentro del pedido */
+.productos-admin-detalle-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px dashed #e0e0e0;
+    padding-top: 15px;
+}
+
+.producto-admin-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5; /* Línea más sutil */
+    font-size: 0.9em;
+}
+
+.producto-admin-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.producto-admin-imagen {
+    width: 60px; /* Imágenes un poco más grandes */
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px; /* Bordes más suaves */
+    margin-right: 15px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Acciones de administración (cambiar estado) */
+.admin-actions {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #e0e0e0;
+}
+
+.admin-actions label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1em;
+}
+
+.admin-actions select {
+    padding: 10px 15px;
+    border-radius: 8px; /* Bordes más redondeados para el select */
+    border: 1px solid #c0c0c0;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #444;
+    appearance: none; /* Eliminar el estilo nativo para mayor control */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%20viewBox%3D%220%200%20292.4%20292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%20197.8L146.2%2057%205.4%20197.8c-2.4%202.4-5.5%203.6-8.7%203.6s-6.3-1.2-8.7-3.6c-4.8-4.8-4.8-12.5%200-17.3L137.5%2030.7c4.8-4.8%2012.5-4.8%2017.3%200l138.8%20138.8c4.8%204.8%204.8%2012.5%200%2017.3-4.8%204.9-12.5%204.9-17.3%200z%22%2F%3E%3C%2Fsvg%3E'); /* Flecha personalizada */
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px auto;
+}
+
+.admin-actions select:focus {
+    outline: none;
+    border-color: #3498db; /* Azul al enfocar */
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* Sombra de enfoque suave */
+}
+
+/* Estilo para mensajes de error o carga */
+.error-message,
+.admin-orders-container p { /* Esto también afecta al "Cargando pedidos..." */
+    text-align: center;
+    color: #e74c3c; /* Rojo para errores */
+    margin-top: 30px;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    .admin-orders-container {
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .admin-orders-container h2 {
+        font-size: 1.8em;
+    }
+
+    .pedidos-admin-list {
+        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+    }
+
+    .pedido-admin-card {
+        padding: 20px;
+    }
+
+    .admin-actions {
+        flex-direction: column; /* Apilar en pantallas pequeñas */
+        align-items: flex-start;
+    }
+
+    .admin-actions select {
+        width: 100%; /* El select ocupa todo el ancho */
+    }
+}

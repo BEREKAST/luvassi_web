@@ -1,0 +1,138 @@
+/* frontend/src/components/RegisterForm.css */
+
+/* Contenedor principal del formulario */
+.register-form-container {
+    max-width: 300px; /* Ancho máximo muy reducido para máxima compacidad */
+    margin: 15px auto; /* Centrado con margen superior/inferior más reducido */
+    padding: 15px; /* Relleno mínimo para hacer la caja muy pequeña */
+    background-color: #ffffff; /* Fondo blanco inmaculado */
+    border-radius: 8px; /* Bordes pequeños */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra muy sutil */
+    font-family: 'Inter', sans-serif; /* Consistencia de fuente */
+    color: #333333; /* Color de texto general */
+}
+
+/* Título del formulario */
+.register-form-container h2 {
+    font-size: 1.3em; /* Tamaño de título muy reducido */
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 15px; /* Espacio debajo del título reducido */
+    border-bottom: 1px solid rgba(238, 241, 244, 0.5); /* Borde inferior muy sutil */
+    padding-bottom: 6px; /* Relleno debajo del borde reducido */
+    position: relative;
+}
+
+.register-form-container h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0px;
+    transform: translateX(-50%);
+    width: 30px; /* Ancho de la línea decorativa muy reducido */
+    height: 1px; /* Grosor de la línea decorativa muy fino */
+    background-color: #3498db;
+    border-radius: 0.5px;
+}
+
+/* Estilos para los campos de entrada y select */
+.register-form-container input[type="text"],
+.register-form-container input[type="email"],
+.register-form-container input[type="password"],
+.register-form-container select {
+    width: 100%;
+    padding: 7px 8px; /* Relleno muy reducido para campos muy compactos */
+    margin-bottom: 8px; /* Espacio entre campos muy reducido */
+    border: 1px solid rgba(208, 219, 230, 0.6); /* Borde muy suave y translúcido */
+    border-radius: 5px; /* Bordes pequeños */
+    font-size: 0.8em; /* Fuente muy reducida */
+    color: #333333;
+    background-color: #fcfcfc;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.register-form-container input::placeholder {
+    color: #bbbbbb; /* Placeholder más claro */
+    font-weight: 300;
+}
+
+.register-form-container input:focus,
+.register-form-container select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.1); /* Resplandor de enfoque muy sutil */
+    background-color: #ffffff;
+}
+
+/* Estilo específico para el select (flecha personalizada) */
+.register-form-container select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2C114.7L146.2%2C255.5c-4.4%2C4.4-10.7%2C6.9-17.3%2C6.9s-12.9-2.5-17.3-6.9L5.4%2C114.7c-4.4-4.4-6.9-10.7-6.9-17.3s2.5-12.9%2C6.9-17.3l23-23c4.4-4.4%2C10.7-6.9%2C17.3-6.9s12.9%2C2.5%2C17.3%2C6.9l94.8%2C94.8L229%2C74.3c4.4-4.4%2C10.7-6.9%2C17.3-6.9s12.9%2C2.5%2C17.3%2C6.9l23%2C23c4.4-4.4%2C6.9%2C10.7%2C6.9%2C17.3S291.4%2C110.3%2C287%2C114.7z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 6px center; /* Posición de la flecha ajustada */
+    background-size: 6px; /* Tamaño de la flecha muy pequeño */
+    padding-right: 20px; /* Espacio a la derecha para la flecha ajustado */
+    cursor: pointer;
+}
+
+/* Botón de envío */
+.register-form-container button[type="submit"] {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 12px; /* Relleno muy reducido para el botón */
+    border: none;
+    border-radius: 5px; /* Bordes pequeños */
+    font-size: 0.85em; /* Tamaño de fuente muy reducido */
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 1px 4px rgba(52, 152, 219, 0.08); /* Sombra muy sutil */
+    letter-spacing: 0; /* Sin espaciado entre letras */
+    margin-top: 10px; /* Margen superior reducido */
+}
+
+.register-form-container button[type="submit"]:hover {
+    background-color: #2980b9;
+    transform: translateY(0); /* Sin levantamiento en hover para máxima compacidad */
+    box-shadow: 0 2px 6px rgba(52, 152, 219, 0.15);
+}
+
+.register-form-container button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 0 1px rgba(52, 152, 219, 0.1);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 600px) {
+    .register-form-container {
+        margin: 8px 5px; /* Margen en los lados para móvil muy pequeño */
+        padding: 12px; /* Padding reducido */
+    }
+    .register-form-container h2 {
+        font-size: 1.3em;
+        margin-bottom: 12px;
+        padding-bottom: 5px;
+    }
+    .register-form-container h2::after {
+        width: 25px;
+        height: 1px;
+    }
+    .register-form-container input,
+    .register-form-container select {
+        padding: 6px 8px;
+        font-size: 0.75em;
+        margin-bottom: 6px;
+    }
+    .register-form-container button[type="submit"] {
+        padding: 7px 10px;
+        font-size: 0.8em;
+    }
+    .register-form-container select {
+        background-position: right 5px center;
+        padding-right: 18px;
+    }
+}

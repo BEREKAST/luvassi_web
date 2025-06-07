@@ -1,14 +1,40 @@
 // src/components/Navbar.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = ({ carrito = [], mostrarCarrito, setMostrarCarrito }) => {
   const navigate = useNavigate();
-  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  const [usuario, setUsuario] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('usuario'));
+    } catch (e) {
+      console.error("Error al parsear usuario de localStorage en Navbar:", e);
+      return null;
+    }
+  });
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      try {
+        setUsuario(JSON.parse(localStorage.getItem('usuario')));
+      } catch (e) {
+        console.error("Error al actualizar usuario desde localStorage en Navbar:", e);
+        setUsuario(null);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    handleStorageChange(); // Forzar la actualización al montar
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('usuario');
+    setUsuario(null);
     navigate('/login');
   };
 
@@ -21,17 +47,18 @@ const Navbar = ({ carrito = [], mostrarCarrito, setMostrarCarrito }) => {
         <Link to="/">Inicio</Link>
         <Link to="/servicios">Servicios</Link>
         <Link to="/productos">Productos</Link>
-        <Link to="/portafolio">Portafolio</Link>
         <Link to="/blog">Blog</Link>
 
-        {/* ✅ Enlace de Pedidos solo para admin */}
-        {usuario && usuario.rol === 'admin' && (
-          <Link to="/orders">Pedidos</Link>
+        {/* ELIMINADO: Ya no hay un enlace directo a "Gestión Pedidos" aquí. */}
+        {/* Este enlace se moverá dentro del dropdown del perfil si el usuario es admin. */}
+        {/* Mantengo "Mis Pedidos" para usuarios normales aquí si lo deseas accesible directamente */}
+        {usuario && usuario.rol === 'usuario' && (
+          <Link to="/perfil">Mis Pedidos</Link>
         )}
 
         {/* ✅ Botón carrito con toggle (mostrar/ocultar) */}
-        <button 
-          className="btn-carrito" 
+        <button
+          className="btn-carrito"
           onClick={() => setMostrarCarrito(prev => !prev)}
         >
           🛒
@@ -46,8 +73,8 @@ const Navbar = ({ carrito = [], mostrarCarrito, setMostrarCarrito }) => {
           <div className="usuario-dropdown">
             <span>👤 {usuario.nombre}</span>
             <div className="dropdown-content">
-              <Link to="/perfil">Ver perfil</Link>
-              {usuario.rol === 'admin' && <Link to="/dashboard">Dashboard</Link>}
+              {usuario.rol === 'usuario' && <Link to="/perfil">Mi Perfil</Link>} {/* Para usuario normal */}
+              {usuario.rol === 'admin' && <Link to="/admin/pedidos">Gestión Pedidos Admin</Link>} {/* Solo para admin */}
               <button onClick={handleLogout}>Cerrar sesión</button>
             </div>
           </div>
@@ -58,4 +85,4 @@ const Navbar = ({ carrito = [], mostrarCarrito, setMostrarCarrito }) => {
   );
 };
 
-export default Navbar;
+export default Navbar;  

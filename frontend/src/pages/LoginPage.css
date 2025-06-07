@@ -1,53 +1,125 @@
-.login-page-wrapper {
+/* frontend/src/pages/LoginPage.css */
+
+/* Estilos para el contenedor principal de la página de login/registro */
+.login-page-wrapper { /* Nombre de clase que ya usas */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 80px); /* Resta altura aproximada de la barra */
-    background: #f5f9ff;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    min-height: calc(100vh - 80px); /* Resta altura aproximada de la barra de navegación */
+    background: #f5f9ff; /* Fondo suave y limpio para la página */
     padding: 2rem;
-  }
-  
-  .login-card {
-    background-color: #e6f0fa;
-    padding: 3rem 2rem;
-    border-radius: 2rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    position: relative; /* Necesario para que z-index funcione en elementos hijos posicionados */
+    font-family: 'Inter', sans-serif; /* Consistencia de fuente */
+    z-index: 1; /* Asegura que no cubra el navbar, pero permite otros elementos encima */
+}
+
+/* Contenedor de la tarjeta de login/registro */
+.login-card { /* Nombre de clase que ya usas */
+    background-color: #ffffff; /* Cambiado a blanco puro para un contraste limpio */
+    padding: 2.5rem 2rem; /* Relleno ajustado */
+    border-radius: 1.5rem; /* Bordes más redondeados */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Sombra más profunda y elegante */
     width: 100%;
-    max-width: 450px;
+    max-width: 450px; /* Ancho máximo para la tarjeta */
     text-align: center;
-  }
-  
-  .login-card h1 {
-    font-size: 2rem;
+    position: relative; /* Asegura un contexto de apilamiento para sus hijos */
+    z-index: 10; /* Aumenta el z-index para que la tarjeta de login/registro esté definitivamente encima */
+    overflow: hidden; /* Oculta cualquier contenido que se desborde, útil para esquinas redondeadas */
+}
+
+/* Título dentro de la tarjeta de login */
+.login-card h1 {
+    font-size: 2.2rem; /* Título un poco más grande y prominente */
     margin-bottom: 1.5rem;
-    color: #333;
-  }
-  
-  .login-card img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 1rem;
-    border: 3px solid #a6c8ff;
-  }
-  
-  .login-card p {
+    color: #2c3e50; /* Color oscuro profesional */
+    font-weight: 700; /* Más negrita */
+}
+
+/* La imagen del logo dentro de la tarjeta */
+/* Si este es el logo que se superpone, ajustaremos su tamaño y propiedades */
+.login-card img {
+    width: 100px; /* Ancho reducido drásticamente */
+    height: 100px; /* Alto reducido drásticamente */
+    object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
+    border-radius: 50%; /* Sigue siendo redonda */
+    margin-bottom: 1rem; /* Espacio debajo del logo */
+    border: 3px solid #3498db; /* Borde más distintivo */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para el logo */
+    display: block; /* Asegura que ocupe su propia línea */
+    margin-left: auto; /* Centra la imagen */
+    margin-right: auto; /* Centra la imagen */
+    /*z-index: 1;*/ /* Asegura que este dentro de la tarjeta, pero no sobre el formulario*/
+}
+
+/* Párrafos dentro de la tarjeta */
+.login-card p {
     margin-top: 1rem;
     color: #555;
-  }
-  
-  .login-card button {
-    background-color: #4a90e2;
+    font-size: 0.95rem; /* Texto de párrafo ligeramente más grande */
+}
+
+/* Botones dentro de la tarjeta (Login/Crear Cuenta) */
+.login-card button {
+    background-color: #3498db; /* Azul primario */
     border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 1rem;
+    padding: 0.8rem 1.8rem; /* Relleno más generoso para el botón */
+    border-radius: 1.8rem; /* Bordes muy redondeados para un look suave */
     color: white;
     cursor: pointer;
-    margin-top: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .login-card button:hover {
-    background-color: #3578c9;
-  }
+    margin-top: 1.5rem; /* Más margen superior */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-size: 1.05rem; /* Tamaño de fuente ligeramente más grande */
+    font-weight: 600; /* Más negrita */
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+}
+
+.login-card button:hover {
+    background-color: #2980b9; /* Azul más oscuro al pasar el ratón */
+    transform: translateY(-3px); /* Efecto de levantamiento */
+    box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+}
+
+.login-card button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(52, 152, 219, 0.2);
+}
+
+/* Estilos para el contenedor del formulario de registro, si está anidado (RegisterForm.jsx) */
+/* Este es el que debe tener el z-index más alto si hay una superposición persistente */
+/* Normalmente, este iría en RegisterForm.css, pero si se está superponiendo globalmente,
+   se podría necesitar un z-index aún más alto aquí. */
+.register-form-container {
+    z-index: 100; /* ¡MUY ALTO! Asegura que esté por encima de casi todo */
+    position: relative; /* Asegura que el z-index sea efectivo */
+    background-color: #ffffff; /* Fondo blanco para asegurar visibilidad */
+    /* Asegúrate de que los otros estilos de RegisterForm.css sigan aplicándose */
+    /* max-width: 480px;  Mantener ancho consistente con la card de login si se usa dentro */
+    /* margin: 0 auto;    Centrado si se usa de forma independiente */
+}
+
+
+/* MEDIA QUERIES para responsividad */
+@media (max-width: 600px) {
+    .login-page-wrapper {
+        padding: 1rem;
+    }
+    .login-card {
+        padding: 2rem 1.5rem;
+        border-radius: 1rem;
+    }
+    .login-card h1 {
+        font-size: 1.8rem;
+    }
+    .login-card img {
+        width: 80px;
+        height: 80px;
+    }
+    .login-card button {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+    }
+    .register-form-container {
+        /* Ajustes específicos para móvil si el formulario se comporta diferente */
+        margin: 0; /* Eliminar márgenes para ocupar más espacio */
+    }
+}

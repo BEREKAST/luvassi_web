@@ -1,111 +1,257 @@
-/* Fondo oscuro translúcido */
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(30, 41, 59, 0.7); /* Azul oscuro translúcido */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  font-family: 'Poppins', 'Segoe UI', sans-serif;
+/* frontend/src/components/Navbar.css */
+
+/* Estilos para el encabezado principal */
+.info-header {
+    background-color: #ffffff; /* Fondo blanco para limpieza */
+    padding: 0.8rem 2rem; /* Relleno generoso para un look premium */
+    border-bottom: 2px solid #d0dbe6; /* Borde inferior más visible pero elegante */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Sombra suave para profundidad */
+    display: flex;
+    justify-content: space-between; /* Espacia logo y nav */
+    align-items: center; /* Alineación vertical al centro */
+    position: sticky; /* Se mantiene en la parte superior al hacer scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    font-family: 'Inter', sans-serif; /* Una fuente limpia y moderna */
 }
 
-/* Contenedor principal del modal */
-.modal-content {
-  background: #ffffff;
-  padding: 2.5rem 2rem;
-  border-radius: 1.5rem;
-  width: 90%;
-  max-width: 420px;
-  text-align: center;
-  position: relative;
-  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.25);
-  animation: showModal 0.4s ease forwards;
+/* Estilos del logo */
+.logo {
+    display: flex;
+    align-items: baseline; /* Alinea texto 'luvassi' y '/web' */
+    font-size: 1.6rem; /* Tamaño del logo */
+    font-weight: 700; /* Negrita */
+    color: #2c3e50; /* Color oscuro para el logo principal */
 }
 
-/* Logo redondo */
-.modal-logo {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-  border: 3px solid #4ba3fa;
+.logo span {
+    font-size: 0.9rem; /* Tamaño más pequeño para '/web' */
+    font-weight: 400; /* Normal para '/web' */
+    color: #7f8c8d; /* Gris más suave */
+    margin-left: 0.2rem;
 }
 
-/* Botón de cerrar */
-.close-btn {
-  position: absolute;
-  top: 12px;
-  right: 18px;
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  color: #4ba3fa;
-  cursor: pointer;
-  transition: transform 0.2s;
+/* Estilos de la navegación principal */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Espacio entre los elementos de navegación */
 }
 
-.close-btn:hover {
-  transform: rotate(90deg) scale(1.2);
+nav .nav-link,
+nav .login-link,
+nav a { /* Estilos para todos los enlaces dentro de nav */
+    color: #555; /* Color de texto predeterminado */
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600; /* Fuente más marcada para los enlaces de navegación */
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.3s ease; /* Transición suave para hover */
 }
 
-/* Título */
-.modal-content h2 {
-  margin-bottom: 1rem;
-  font-size: 1.9rem;
-  font-weight: 700;
-  color: #1e3a8a;
+nav a:hover,
+nav .nav-link:hover,
+nav .login-link:hover {
+    color: #3498db; /* Azul al pasar el ratón */
+    background-color: #f0f8ff; /* Fondo muy claro al pasar el ratón */
+    transform: translateY(-2px); /* Pequeño efecto de elevación */
 }
 
-/* Texto intermedio */
-.continue-text {
-  margin: 1rem 0 1.5rem 0;
-  font-size: 1rem;
-  color: #475569;
+/* Estilos del botón del carrito */
+.btn-carrito {
+    background: none;
+    border: none;
+    font-size: 1.6rem; /* Icono de carrito más grande */
+    cursor: pointer;
+    position: relative; /* Para posicionar el badge */
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
 }
 
-/* Contenedor de botones sociales */
-.social-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
+.btn-carrito:hover {
+    background-color: #f0f0f0; /* Fondo sutil al pasar el ratón */
 }
 
-/* Botón de Google */
-.google-btn, .facebook-btn {
-  background: #4ba3fa;
-  color: white;
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 300px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+.carrito-badge {
+    position: absolute;
+    top: 0px; /* Posicionamiento superior */
+    right: 0px; /* Posicionamiento derecho */
+    background-color: #e74c3c; /* Rojo para el badge */
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 0.2em 0.5em;
+    min-width: 1.5em;
+    text-align: center;
+    line-height: 1; /* Asegura que el número esté centrado verticalmente */
+    transform: translate(25%, -25%); /* Ajuste fino de posición */
 }
 
-/* Hover en botones */
-.google-btn:hover, .facebook-btn:hover {
-  background: #3a8edb;
-  transform: translateY(-2px);
+/* Estilos del dropdown de usuario */
+.usuario-dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
 }
 
-/* Animación de entrada */
-@keyframes showModal {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+.usuario-dropdown > span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #34495e; /* Un gris azulado oscuro */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
+
+.usuario-dropdown:hover {
+    background-color: #f0f8ff;
+}
+
+.dropdown-content {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 190px; /* Ancho mínimo ligeramente aumentado para más espacio */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada y elegante */
+    z-index: 10; /* Z-index más alto para asegurar que esté por encima de otros elementos cercanos */
+    border-radius: 8px;
+    right: 0; /* Alineado a la derecha del botón del perfil */
+    top: 100%; /* Justo debajo del botón del perfil */
+    /* margin-top: 10px; */ /* ELIMINADO: Este margen podía causar el problema de clicabilidad */
+    overflow: hidden; /* Asegura que el contenido no se desborde */
+    animation: fadeIn 0.3s ease forwards; /* Animación de aparición */
+    border: 1px solid #e0e0e0; /* Borde sutil para definir el contenedor */
+    padding-top: 10px; /* Añadimos un padding superior para compensar el margen eliminado si se desea separación visual */
+}
+
+.usuario-dropdown:hover .dropdown-content {
+    display: block; /* Mostrar al pasar el ratón */
+}
+
+.dropdown-content a,
+.dropdown-content button {
+    color: #555;
+    padding: 12px 18px; /* Padding aumentado para un área de clic más grande */
+    text-decoration: none;
+    display: block; /* IMPORTANTE: Asegura que todo el padding sea clicable */
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 500; /* Peso de la fuente para elementos del dropdown */
+    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.dropdown-content a:hover,
+.dropdown-content button:hover {
+    background-color: #e6f7ff; /* Fondo más distintivo al pasar el ratón */
+    color: #3498db;
+}
+
+.dropdown-content a:active, /* Nuevo: Estilo para el estado activo (cuando se hace clic) */
+.dropdown-content button:active {
+    background-color: #d9edf7; /* Fondo más oscuro al hacer clic */
+    color: #2a72b4;
+    transform: translateY(1px); /* Efecto de "presión" al hacer clic */
+}
+
+.dropdown-content button {
+    padding-left: 18px; /* Ajuste para botones */
+}
+
+/* Animación de fade in para el dropdown */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Estilos del botón de WhatsApp */
+.whatsapp-button {
+    background-color: #25d366; /* Verde WhatsApp */
+    color: white;
+    font-size: 1.3rem; /* Tamaño del icono */
+    padding: 0.6rem 0.9rem;
+    border-radius: 50%; /* Redondo */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 1.5rem; /* Margen para separarlo del nav */
+}
+
+.whatsapp-button:hover {
+    background-color: #1da851; /* Verde más oscuro al pasar el ratón */
+    transform: translateY(-3px); /* Efecto de levitación */
+    box-shadow: 0 6px 15px rgba(37, 211, 102, 0.4);
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    .info-header {
+        flex-direction: column; /* Apila logo y nav en pantallas pequeñas */
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    nav {
+        flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+        justify-content: center; /* Centra los elementos envueltos */
+        gap: 0.8rem;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    nav a,
+    nav .nav-link,
+    nav .login-link {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .btn-carrito {
+        font-size: 1.4rem;
+    }
+
+    .usuario-dropdown {
+        padding: 0.4rem 0.6rem;
+    }
+
+    .usuario-dropdown > span {
+        font-size: 0.9rem;
+    }
+
+    .dropdown-content {
+        min-width: 150px;
+        right: 50%; /* Intenta centrar el dropdown un poco más en móvil */
+        transform: translateX(50%);
+        padding-top: 5px; /* Ajuste para móvil si se eliminó el margin-top */
+    }
+
+    .whatsapp-button {
+        font-size: 1.1rem;
+        padding: 0.5rem 0.7rem;
+        margin-left: 0; /* Elimina el margen lateral en móvil */
+    }
+}
+
+/* Opcional: Ocultar elementos específicos en pantallas muy pequeñas si es necesario */
+/* @media (max-width: 480px) {
+    nav .hide-on-mobile {
+        display: none;
+    }
+} */

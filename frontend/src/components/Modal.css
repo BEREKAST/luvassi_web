@@ -1,31 +1,212 @@
+/* frontend/src/components/Modal.css */
+
+/* Fondo oscuro translúcido */
 .modal-backdrop {
     position: fixed;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(30, 41, 59, 0.85); /* Un poco más oscuro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Asegura que esté encima de todo */
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    animation: fadeInBackground 0.3s ease-out forwards; /* Animación de fondo */
+}
+
+/* Contenedor principal del modal */
+.modal-content {
+    background: #ffffff;
+    padding: 1.5rem 1.8rem; /* Reducido el padding vertical para encajar más */
+    border-radius: 2rem; /* Bordes redondeados */
+    width: 90%;
+    max-width: 420px; /* Ancho máximo consistente */
+    text-align: center;
+    position: relative;
+    box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.2); /* Sombra más definida y difuminada */
+    animation: showModal 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* Animación de rebote */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem; /* Espacio entre elementos dentro del modal reducido */
+    border: 2px solid #e9e9e9; /* Marco fino y sutil */
+}
+
+/* Logo redondo */
+.modal-logo {
+    width: 80px; /* Tamaño del logo consistente */
+    height: 80px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin-bottom: 0.5rem; /* Espacio debajo del logo ajustado */
+    margin-top: 0.1rem; /* Margen superior muy pequeño para el logo */
+    border: 4px solid #d0e8ff; /* Borde suave alrededor del logo */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); /* Sombra para el logo */
+    transition: transform 0.3s ease; /* Transición para efecto hover */
+}
+
+.modal-logo:hover {
+    transform: scale(1.05); /* Ligerísimo zoom al pasar el ratón */
+}
+
+/* Botón de cerrar */
+.close-btn {
+    position: absolute;
+    top: 12px; /* Ajuste de posición más arriba */
+    right: 15px; /* Ajuste de posición más a la derecha */
+    background: none;
+    border: none;
+    font-size: 1.8rem; /* Tamaño del icono de cierre ligeramente más pequeño */
+    color: #7f8c8d; /* Gris medio */
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s, background-color 0.2s; /* Añadida transición para el fondo */
+    line-height: 1;
+    padding: 6px; /* Área de clic generosa */
+    border-radius: 50%; /* Redondo */
+}
+
+.close-btn:hover {
+    transform: rotate(90deg) scale(1.2);
+    color: #ef4444; /* Rojo vibrante */
+    background-color: rgba(239, 68, 68, 0.1); /* Fondo muy suave */
+}
+
+/* Título */
+.modal-content h2 {
+    margin-bottom: 0.5rem; /* Espacio ajustado */
+    font-size: 1.7em; /* Título ligeramente más pequeño */
+    font-weight: 700;
+    color: #1e3a8a;
+    position: relative;
+    padding-bottom: 0.5rem; /* Padding para la línea decorativa reducido */
+}
+
+.modal-content h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 50px; /* Línea decorativa más ancha */
+    height: 2px; /* Línea más gruesa */
+    background-color: #4ba3fa; /* Línea decorativa azul */
+    border-radius: 2px;
+}
+
+/* Texto intermedio */
+.continue-text {
+    margin: 0.7rem 0; /* Margen ajustado */
+    font-size: 0.9rem; /* Tamaño de fuente ligeramente reducido */
+    color: #64748b;
+}
+
+/* Separador horizontal */
+.modal-content hr {
+    width: 70%; /* Ancho de la línea separadora */
+    border: none;
+    border-top: 1px dashed #e6e6e6; /* Línea discontinua muy fina y sutil */
+    margin: 1rem 0; /* Margen arriba y abajo reducido */
+}
+
+/* Contenedor de botones sociales */
+.social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem; /* Espacio entre botones sociales reducido */
+    align-items: center;
+    width: 100%;
+}
+
+/* Botones de Google y Facebook */
+.google-btn, .facebook-btn {
+    background: #4ba3fa;
+    color: white;
+    font-size: 0.95rem; /* Fuente ligeramente más pequeña */
+    font-weight: 600;
+    padding: 0.7rem 1.2rem; /* Relleno reducido */
+    border: none;
+    border-radius: 10px; /* Bordes ligeramente más pequeños */
+    width: 100%;
+    max-width: 250px; /* Ancho máximo reducido */
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.08); /* Sombra más sutil */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    width: 350px;
-    max-width: 90%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.25);
-  }
-  
-  .google-btn, .facebook-btn {
-    margin-top: 10px;
-    width: 100%;
-    padding: 10px;
-    font-weight: bold;
-    background-color: #eee;
-    border: none;
-    cursor: pointer;
-  }
-  
+    gap: 0.5rem; /* Espacio entre icono y texto si se añaden */
+}
+
+/* Hover en botones */
+.google-btn:hover, .facebook-btn:hover {
+    background: #3a8edb;
+    transform: translateY(-2px); /* Efecto de elevación más sutil */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* Animación de entrada del fondo */
+@keyframes fadeInBackground {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Animación de entrada del modal (rebote) */
+@keyframes showModal {
+    0% {
+        opacity: 0;
+        transform: scale(0.7) translateY(-50px); /* Origen del rebote más cercano y pequeño */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Ajustes responsivos */
+@media (max-width: 600px) {
+    .modal-content {
+        padding: 1.2rem 0.8rem; /* Reducido para móvil */
+        border-radius: 0.8rem;
+        gap: 0.4rem; /* Espacio reducido para móvil */
+        max-width: 300px; /* Ancho máximo para móvil */
+    }
+
+    .modal-logo {
+        width: 50px;
+        height: 50px;
+        border-width: 2px;
+        margin-top: 0.1rem; /* Ajuste para móvil */
+    }
+
+    .close-btn {
+        font-size: 1.2rem;
+        top: 8px;
+        right: 10px;
+        padding: 4px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.4em;
+        margin-bottom: 0.3rem;
+    }
+
+    .modal-content h2::after {
+        width: 30px;
+        height: 1.5px;
+    }
+
+    .continue-text {
+        font-size: 0.8rem;
+    }
+
+    .google-btn, .facebook-btn {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .modal-content hr {
+        margin: 0.8rem 0;
+    }
+}

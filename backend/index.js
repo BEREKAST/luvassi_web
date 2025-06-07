@@ -1,60 +1,49 @@
+// backend/index.js (Versión corregida con rutas de admin y historial de pedidos)
+
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-// Asegúrate de que db.js cargue dotenv y tenga la configuración SSL
 const pool = require('./db'); // Conexión a PostgreSQL
 
 const app = express();
-// Usar process.env.PORT para el puerto de Render, o 5000 para desarrollo local.
 const PORT = process.env.PORT || 5000;
 
-// === INICIO DE LAS MODIFICACIONES ===
-
-// Configuración de CORS dinámica
+// === MODIFICACIÓN CLAVE AQUÍ PARA CORS DINÁMICO ===
 const allowedOrigins = [
-  'https://luvassi-frontend-app.onrender.com', // Origen de tu frontend en Render
-  'http://localhost:3000' // Origen de tu frontend en desarrollo local
-  // Puedes añadir otros orígenes si los necesitas, ej. 'http://192.168.1.X:3000'
+  'https://luvassi-frontend-app.onrender.com', // Frontend desplegado en Render
+  'http://localhost:3000' // Frontend en desarrollo local
 ];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Permite solicitudes sin origen (ej. Postman, Curl, solicitudes desde el mismo servidor)
-    if (!origin) return callback(null, true);
-    // Si el origen de la solicitud está en nuestra lista de permitidos
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    // Permitir peticiones sin origen (ej. Postman, cURL) o desde los orígenes permitidos
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      // Si el origen no está permitido
-      callback(new Error('Not allowed by CORS'), false);
+      callback(new Error('Not allowed by CORS policy: ' + origin), false);
     }
   },
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'], // Métodos HTTP que permites
-  credentials: true, // Importante si tu app usa cookies o sesiones (si las usaras)
-  optionsSuccessStatus: 204 // Para las preflight requests OPTIONS (204 No Content)
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  credentials: true, // Importante si usas cookies/sesiones (aunque no veo uso aquí, es buena práctica)
+  optionsSuccessStatus: 204 // Código de estado para las solicitudes OPTIONS (preflight)
 };
 
-// Aplica el middleware CORS con las opciones configuradas.
 app.use(cors(corsOptions));
+// === FIN DE LA MODIFICACIÓN CORS ===
 
-// === FIN DE LAS MODIFICACIONES ===
-
-// Middlewares (el resto se mantiene igual)
+// Middlewares
 app.use(express.json());
-// La ruta para servir imágenes debe ser relativa a la raíz del proyecto para Render
-// Render montará tu app en la raíz del dominio, así que '/uploads' funcionará.
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Multer config (sin cambios)
+// Multer config
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, 'uploads');
-    // Asegúrate de que la carpeta exista antes de intentar guardar
     if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true }); // recursive: true para crear carpetas anidadas si no existen
+      fs.mkdirSync(uploadPath, { recursive: true });
     }
     cb(null, uploadPath);
   },
@@ -66,23 +55,21 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Nueva ruta de prueba en la raíz (sin cambios)
+// Rutas
 app.get('/', (req, res) => {
   res.status(200).send('Servidor backend de Luvassi está operativo. Accede a las APIs en /api.');
 });
 
-// Ruta de prueba para verificar conexión a PostgreSQL (sin cambios)
 app.get('/api', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
-    res.json({ message: "¡Backend funcionando!", hora: result.rows[0].now }); // Accede a .now para el campo específico
+    res.json({ message: "¡Backend funcionando!", hora: result.rows[0].now });
   } catch (err) {
-    console.error('Error al conectar a PostgreSQL:', err);
+    console.error('Error al conectar a PostgreSQL en /api:', err);
     res.status(500).json({ error: 'Error al conectar con la base de datos' });
   }
 });
 
-// Registro de usuario (sin cambios)
 app.post('/api/register', async (req, res) => {
   const { nombre, direccion, correo_electronico, contrasena, rol } = req.body;
   try {
@@ -131,7 +118,6 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Login de usuario (sin cambios)
 app.post('/api/login', async (req, res) => {
   const { correo_electronico, contrasena } = req.body;
 
@@ -179,14 +165,29 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Rutas para productos (sin cambios)
+// Ruta para obtener todos los productos (con filtrado opcional)
+// MODIFICADO: Ahora acepta un parámetro de búsqueda 'search'
 app.get('/api/productos', async (req, res) => {
+  const { search } = req.query; // Obtiene el término de búsqueda de la URL
+  let query = 'SELECT * FROM producto'; // Asegúrate de que 'producto' es el nombre correcto de tu tabla
+  const queryParams = [];
+
+  if (search) {
+    // Añade una cláusula WHERE para filtrar por nombre_producto o descripcion
+    // ILIKE es para búsqueda insensible a mayúsculas/minúsculas
+    // $1 es el placeholder para el primer parámetro
+    query += ' WHERE nombre_producto ILIKE $1 OR descripcion ILIKE $1';
+    queryParams.push(`%${search}%`); // El comodín % se añade al valor del parámetro
+  }
+  query += ' ORDER BY id_producto ASC;'; // O el orden que prefieras
+
   try {
-    const result = await pool.query('SELECT * FROM producto');
+    console.log("Executing product query:", query, queryParams); // Log para depuración
+    const result = await pool.query(query, queryParams);
     res.json(result.rows);
-  } catch (error) {
-    console.error('Error al obtener productos:', error);
-    res.status(500).json({ message: 'Error del servidor' });
+  } catch (err) {
+    console.error('Error al obtener productos con filtro en backend:', err); // Log más descriptivo
+    res.status(500).json({ message: 'Error interno del servidor al obtener productos.' });
   }
 });
 
@@ -216,26 +217,86 @@ app.delete('/api/productos/:id', async (req, res) => {
   }
 });
 
-// Crear pedido con factura (sin cambios)
+// NUEVA RUTA: Obtener historial de pedidos de un cliente específico
+app.get('/api/pedidos/cliente/:id_cliente', async (req, res) => {
+  const { id_cliente } = req.params; // Captura el id_cliente de la URL
+
+  try {
+    // Opcional pero recomendado: Verificar si el cliente existe
+    const clienteExists = await pool.query(
+      'SELECT 1 FROM cliente WHERE id_cliente = $1',
+      [id_cliente]
+    );
+
+    if (clienteExists.rows.length === 0) {
+      return res.status(404).json({ message: 'Cliente no encontrado.' });
+    }
+
+    // Consulta para obtener pedidos con sus detalles y la información de la factura
+    const pedidosResult = await pool.query(
+      `SELECT
+         p.id_pedido,
+         p.estado_pedido,
+         p.total,
+         p.fecha_pedido,
+         json_agg(
+           json_build_object(
+             'id_producto', dp.id_producto,
+             'nombre_producto', prod.nombre_producto,
+             'cantidad', dp.cantidad,
+             'precio_unitario', dp.precio,
+             'imagen', prod.imagen
+           )
+         ) AS productos,
+         f.metodo_pago,
+         f.estado_pago,
+         f.fecha_emision AS fecha_factura
+       FROM pedido p
+       JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+       JOIN producto prod ON dp.id_producto = prod.id_producto
+       JOIN factura f ON p.id_pedido = f.id_pedido
+       WHERE p.id_cliente = $1
+       GROUP BY p.id_pedido, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago, f.estado_pago, f.fecha_emision
+       ORDER BY p.fecha_pedido DESC`,
+      [id_cliente]
+    );
+
+    // Si no hay pedidos para el cliente, devuelve un array vacío (status 200)
+    if (pedidosResult.rows.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    // Devuelve los pedidos encontrados
+    res.status(200).json(pedidosResult.rows);
+
+  } catch (error) {
+    console.error(`Error al obtener historial de pedidos para el cliente ${id_cliente}:`, error);
+    res.status(500).json({ message: 'Error al obtener historial de pedidos.' });
+  }
+});
+
+// Crear pedido con factura (CORRECCIÓN CLAVE: Usar 'client.query' en todas las operaciones de la transacción)
 app.post('/api/pedidos', async (req, res) => {
   const { id_cliente, productos, metodo_pago } = req.body;
 
-  let client;
+  let client; // Declarar 'client' aquí para asegurar su disponibilidad en 'finally'
 
   try {
-    client = await pool.connect();
-    await client.query('BEGIN');
+    client = await pool.connect(); // Obtener una conexión del pool
+    await client.query('BEGIN'); // Iniciar la transacción
 
+    // 1. Verificar si el cliente existe (usando 'client.query')
     const clienteExists = await client.query(
       'SELECT 1 FROM cliente WHERE id_cliente = $1',
       [id_cliente]
     );
 
     if (clienteExists.rows.length === 0) {
-      await client.query('ROLLBACK');
+      await client.query('ROLLBACK'); // Deshacer si el cliente no es válido
       return res.status(400).json({ message: 'El ID de cliente no es válido.' });
     }
 
+    // 2. Insertar el pedido (usando 'client.query')
     const now = new Date();
     const pedidoResult = await client.query(
       'INSERT INTO pedido (id_cliente, estado_pedido, total, fecha_pedido) VALUES ($1, $2, 0, $3) RETURNING id_pedido',
@@ -245,33 +306,38 @@ app.post('/api/pedidos', async (req, res) => {
 
     let total = 0;
 
+    // 3. Insertar los detalles del pedido y calcular el total (usando 'client.query')
     for (const p of productos) {
-      const prodResult = await pool.query('SELECT * FROM producto WHERE id_producto = $1', [p.id_producto]);
+      // Obtener el precio del producto (usando 'client.query' para consistencia transaccional)
+      const prodResult = await client.query('SELECT * FROM producto WHERE id_producto = $1', [p.id_producto]);
       if (prodResult.rows.length === 0) {
-        await client.query('ROLLBACK');
+        await client.query('ROLLBACK'); // Deshacer si un producto no se encuentra
         return res.status(404).json({ message: `Producto con ID ${p.id_producto} no encontrado.` });
       }
       const precio = prodResult.rows[0].precio;
       total += precio * p.cantidad;
 
+      // Insertar detalle de pedido (usando 'client.query')
       await client.query(
         'INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio) VALUES ($1, $2, $3, $4)',
         [id_pedido, p.id_producto, p.cantidad, precio]
       );
     }
 
+    // 4. Actualizar el total en el pedido (usando 'client.query')
     await client.query(
       'UPDATE pedido SET total = $1 WHERE id_pedido = $2',
       [total, id_pedido]
     );
 
-    const facturaResult = await pool.query(
+    // 5. Insertar la factura (CORRECCIÓN CLAVE: Usando 'client.query' aquí)
+    const facturaResult = await client.query(
       'INSERT INTO factura (id_pedido, fecha_emision, monto_total, estado_pago, metodo_pago) VALUES ($1, $2, $3, $4, $5) RETURNING id_factura',
       [id_pedido, now, total, 'Pagado', metodo_pago]
     );
     const id_factura = facturaResult.rows[0].id_factura;
 
-    await client.query('COMMIT');
+    await client.query('COMMIT'); // Confirmar la transacción
 
     res.status(201).json({
       message: 'Pedido registrado exitosamente',
@@ -279,15 +345,133 @@ app.post('/api/pedidos', async (req, res) => {
       id_factura
     });
   } catch (error) {
-    if (client) await client.query('ROLLBACK');
+    if (client) { // Asegurarse de que 'client' existe antes de intentar 'ROLLBACK'
+      await client.query('ROLLBACK'); // Deshacer la transacción en caso de cualquier error
+    }
     console.error('Error al crear pedido:', error);
     res.status(500).json({ message: 'Error al registrar pedido' });
   } finally {
-    if (client) client.release();
+    if (client) {
+      client.release(); // Siempre liberar el cliente de vuelta al pool
+    }
   }
 });
 
-// Final del archivo (sin cambios)
+// NUEVAS RUTAS PARA LA GESTIÓN DE PEDIDOS DEL ADMINISTRADOR
+// --------------------------------------------------------
+
+// Ruta para obtener todos los pedidos (solo para administradores)
+app.get('/api/admin/pedidos', async (req, res) => {
+  try {
+    // NOTA: En un sistema real, implementar aquí un middleware de autenticación
+    // y autorización para verificar que el usuario es un 'admin'.
+    // Por ahora, esta ruta es accesible para cualquier solicitud,
+    // la verificación de rol se hará en el frontend por simplicidad.
+
+    const allPedidos = await pool.query(
+      `SELECT
+         p.id_pedido,
+         p.id_cliente,
+         u.nombre AS nombre_cliente,
+         u.correo_electronico AS correo_cliente,
+         p.estado_pedido,
+         p.total,
+         p.fecha_pedido,
+         json_agg(
+           json_build_object(
+             'id_producto', dp.id_producto,
+             'nombre_producto', prod.nombre_producto,
+             'cantidad', dp.cantidad,
+             'precio_unitario', dp.precio,
+             'imagen', prod.imagen
+           )
+         ) AS productos,
+         f.metodo_pago,
+         f.estado_pago,
+         f.fecha_emision AS fecha_factura,
+         f.id_factura
+       FROM pedido p
+       JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+       JOIN producto prod ON dp.id_producto = prod.id_producto
+       JOIN factura f ON p.id_pedido = f.id_pedido
+       JOIN cliente c ON p.id_cliente = c.id_cliente
+       JOIN usuario u ON c.id_usuario = u.id_usuario
+       GROUP BY p.id_pedido, p.id_cliente, u.nombre, u.correo_electronico, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago, f.estado_pago, f.fecha_emision, f.id_factura
+       ORDER BY p.fecha_pedido DESC`
+    );
+
+    res.status(200).json(allPedidos.rows);
+  } catch (error) {
+    console.error('Error al obtener todos los pedidos para admin:', error);
+    res.status(500).json({ message: 'Error al obtener los pedidos.' });
+  }
+});
+
+// Ruta para actualizar el estado de un pedido (solo para administradores)
+app.put('/api/admin/pedidos/:id_pedido/estado', async (req, res) => {
+  const { id_pedido } = req.params;
+  const { nuevo_estado } = req.body; // 'completado', 'cancelado', 'pendiente', etc.
+
+  // Validar el nuevo estado (opcional pero recomendado)
+  const estadosValidos = ['pendiente', 'completado', 'cancelado'];
+  if (!estadosValidos.includes(nuevo_estado)) {
+    return res.status(400).json({ message: 'Estado de pedido no válido.' });
+  }
+
+  let client;
+  try {
+    client = await pool.connect();
+    await client.query('BEGIN');
+
+    // Actualizar el estado del pedido
+    const result = await client.query(
+      'UPDATE pedido SET estado_pedido = $1 WHERE id_pedido = $2 RETURNING *',
+      [nuevo_estado, id_pedido]
+    );
+
+    if (result.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ message: 'Pedido no encontrado.' });
+    }
+
+    // Opcional: Actualizar el estado de pago de la factura si el pedido se completa o cancela
+    let estado_pago_factura = 'Pagado'; // Asumimos pagado por defecto si se completa
+    if (nuevo_estado === 'cancelado') {
+      estado_pago_factura = 'Reembolsado'; // O 'Anulado' si el pedido se cancela
+    } else if (nuevo_estado === 'pendiente') {
+      estado_pago_factura = 'Pendiente'; // Si el estado del pedido vuelve a pendiente, la factura también
+    }
+
+    await client.query(
+      'UPDATE factura SET estado_pago = $1 WHERE id_pedido = $2',
+      [estado_pago_factura, id_pedido]
+    );
+
+    await client.query('COMMIT');
+    res.status(200).json({
+      message: `Estado del pedido ${id_pedido} actualizado a ${nuevo_estado}.`,
+      pedido: result.rows[0]
+    });
+
+  } catch (error) {
+    if (client) {
+      await client.query('ROLLBACK');
+    }
+    console.error(`Error al actualizar estado del pedido ${id_pedido}:`, error);
+    res.status(500).json({ message: 'Error al actualizar el estado del pedido.' });
+  } finally {
+    if (client) {
+      client.release();
+    }
+  }
+});
+
+
+// --------------------------------------------------------
+// FIN DE RUTAS PARA LA GESTIÓN DE PEDIDOS DEL ADMINISTRADOR
+
+
+// Inicio del servidor
 app.listen(PORT, () => {
   console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
 });
