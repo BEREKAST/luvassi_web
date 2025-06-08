@@ -7,6 +7,7 @@ import InformativaPage from '../pages/InformativaPage';
 import ProductsPage from '../pages/ProductsPage';
 import OrdersPage from '../pages/OrdersPage'; // ✅ Importamos OrdersPage
 import AdminOrdersPage from '../pages/AdminOrdersPage'; // ✅ Importamos el nuevo AdminOrdersPage
+import SalesHistoryPage from '../pages/SalesHistoryPage'; // ✅ Importamos el nuevo SalesHistoryPage
 
 const AppRouter = () => {
   return (
@@ -20,6 +21,8 @@ const AppRouter = () => {
         <Route path="/perfil" element={<OrdersPage />} /> {/* ✅ Ruta corregida a /perfil */}
         {/* === NUEVA RUTA PARA EL PANEL DE ADMINISTRACIÓN DE PEDIDOS === */}
         <Route path="/admin/pedidos" element={<AdminOrdersPage />} />
+        {/* === NUEVA RUTA PARA EL HISTORIAL DE VENTAS === */}
+        <Route path="/admin/sales-history" element={<SalesHistoryPage />} />
         {/* ========================================================== */}
       </Routes>
     </Router>

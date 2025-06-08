@@ -6,13 +6,16 @@ import InputForm from '../components/InputForm'; // Importa el componente InputF
 
 const InformativaPage = () => {
   const navigate = useNavigate();
-  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  const usuario = JSON.parse(localStorage.getItem('usuario')); // Obtener el usuario del localStorage
 
   const handleLogout = () => {
     localStorage.removeItem('usuario');
     navigate('/');
-    window.location.reload();
+    window.location.reload(); // Recargar para limpiar el estado de autenticación
   };
+
+  // Verificar si el usuario tiene rol de administrador
+  const isAdmin = usuario && usuario.rol === 'admin';
 
   return (
     <div className="info-container">
@@ -29,7 +32,16 @@ const InformativaPage = () => {
           {usuario ? (
             <div className="user-menu">
               <span>👋 Hola, {usuario.nombre}</span>
-              <Link to="/perfil">Perfil</Link>
+              {/* Enlace al perfil/pedidos del usuario normal (Mis Pedidos) */}
+              {!isAdmin && <Link to="/perfil">Mis Pedidos</Link>} {/* Visible solo para usuarios NO admin */}
+
+              {/* Enlaces de administración, visibles solo si es admin */}
+              {isAdmin && (
+                <>
+                  <Link to="/admin/pedidos">Gestión Pedidos Admin</Link>
+                  <Link to="/admin/sales-history">Historial de Ventas</Link> {/* Nuevo enlace para el historial */}
+                </>
+              )}
               <button onClick={handleLogout} className="logout-btn">Cerrar sesión</button>
             </div>
           ) : (

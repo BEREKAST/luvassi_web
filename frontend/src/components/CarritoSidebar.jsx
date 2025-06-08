@@ -24,7 +24,7 @@ const CarritoSidebar = ({ carrito: carritoProp, mostrar, onClose }) => {
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('usuario'));
     setUsuario(storedUser);
-    console.log("CarritoSidebar: Usuario cargado desde localStorage:", storedUser);
+    // console.log("CarritoSidebar: Usuario cargado desde localStorage:", storedUser); // Eliminado
   }, [mostrar]);
 
   const total = carrito.reduce((sum, item) => sum + Number(item.precio), 0);
@@ -49,19 +49,19 @@ const CarritoSidebar = ({ carrito: carritoProp, mostrar, onClose }) => {
   };
 
   const finalizarCompra = async () => {
-    console.log("finalizarCompra: Iniciando proceso de compra.");
-    console.log("finalizarCompra: Usuario actual:", usuario);
-    console.log("finalizarCompra: id_cliente del usuario:", usuario ? usuario.id_cliente : 'N/A');
-    console.log("finalizarCompra: Método de pago seleccionado:", metodoPago);
+    // console.log("finalizarCompra: Iniciando proceso de compra."); // Eliminado
+    // console.log("finalizarCompra: Usuario actual:", usuario); // Eliminado
+    // console.log("finalizarCompra: id_cliente del usuario:", usuario ? usuario.id_cliente : 'N/A'); // Eliminado
+    // console.log("finalizarCompra: Método de pago seleccionado:", metodoPago); // Eliminado
 
     if (!usuario || !usuario.id_cliente) {
       mostrarMensaje("Debes iniciar sesión para finalizar la compra.");
-      console.log("finalizarCompra: Usuario no logueado o sin id_cliente. Deteniendo compra.");
+      // console.log("finalizarCompra: Usuario no logueado o sin id_cliente. Deteniendo compra."); // Eliminado
       return;
     }
     if (carrito.length === 0) {
       mostrarMensaje("Tu carrito está vacío.");
-      console.log("finalizarCompra: Carrito vacío. Deteniendo compra.");
+      // console.log("finalizarCompra: Carrito vacío. Deteniendo compra."); // Eliminado
       return;
     }
 
@@ -71,13 +71,13 @@ const CarritoSidebar = ({ carrito: carritoProp, mostrar, onClose }) => {
         cantidad: 1 // Asumiendo cantidad 1 por ahora, ajusta si manejas cantidades en el carrito
       }));
 
-      console.log("🛒 Enviando pedido con datos:", {
-        id_cliente: usuario.id_cliente,
-        productos: productosParaPedido,
-        metodo_pago: metodoPago
-      });
+      // console.log("🛒 Enviando pedido con datos:", { // Eliminado
+      //   id_cliente: usuario.id_cliente,
+      //   productos: productosParaPedido,
+      //   metodo_pago: metodoPago
+      // });
 
-      // MODIFICACIÓN: Usar API_BASE_URL para la llamada fetch
+      // Usar API_BASE_URL para la llamada fetch
       const res = await fetch(`${API_BASE_URL}/api/pedidos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,15 +100,15 @@ const CarritoSidebar = ({ carrito: carritoProp, mostrar, onClose }) => {
         
         mostrarMensaje(successMessage, qrUrlToDisplay);
         onClose(); // Cierra el sidebar
-        console.log("finalizarCompra: Compra exitosa. Mensaje:", successMessage);
-        console.log("finalizarCompra: URL del QR recibida:", qrUrlToDisplay);
+        // console.log("finalizarCompra: Compra exitosa. Mensaje:", successMessage); // Eliminado
+        // console.log("finalizarCompra: URL del QR recibida:", qrUrlToDisplay); // Eliminado
       } else {
         const error = await res.json();
         mostrarMensaje(`❌ Error del servidor: ${error.message}`);
-        console.error("finalizarCompra: Respuesta con error del servidor:", error);
+        console.error("finalizarCompra: Respuesta con error del servidor:", error); // Mantenido para depuración
       }
     } catch (err) {
-      console.error("finalizarCompra: Error en la conexión al servidor:", err);
+      console.error("finalizarCompra: Error en la conexión al servidor:", err); // Mantenido para depuración
       mostrarMensaje("❌ Error en la conexión al servidor. Inténtalo de nuevo más tarde.");
     }
   };

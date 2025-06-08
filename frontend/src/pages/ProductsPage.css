@@ -1,186 +1,459 @@
 /* frontend/src/pages/ProductsPage.css */
+
 .productos-container {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 2.5rem; /* Más padding para un look espacioso */
+  max-width: 1280px; /* Ancho máximo un poco más grande */
+  margin: 2rem auto;
+  background-color: #f5f7fa; /* Un gris claro muy suave y moderno */
+  border-radius: 16px; /* Más redondeo */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra más grande y suave */
+  font-family: 'Inter', sans-serif; /* Usar Inter como fuente principal */
+  color: #333; /* Color de texto general */
 }
 
 .productos-title {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  font-size: 3em; /* Tamaño de fuente más grande */
+  margin-bottom: 2.5rem; /* Más margen inferior */
   text-align: center;
-  color: #2c3e50; /* Un color de título más oscuro */
-  font-weight: 700; /* Negrita para el título */
+  color: #2c3e50; /* Un color de título oscuro y elegante */
+  font-weight: 800; /* Extra negrita para el título */
+  letter-spacing: -0.8px; /* Ligero ajuste en el espaciado entre letras */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* Sombra de texto sutil */
 }
 
 .productos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Tarjetas un poco más anchas */
+  gap: 2rem; /* Mayor espacio entre tarjetas */
 }
 
 .producto-card {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 1rem;
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: 0.3s ease;
+  border: 1px solid #e0e0e0; /* Borde más sutil */
+  border-radius: 15px; /* Más redondeo en las tarjetas */
+  padding: 1.5rem; /* Más padding interno */
+  background-color: #ffffff;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Sombra suave y elegante */
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición más sofisticada */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden; /* Asegura que nada sobresalga del borde redondeado */
 }
 
 .producto-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px); /* Efecto de "levantamiento" más notorio */
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Sombra más intensa al pasar el ratón */
 }
 
 .producto-img {
   width: 100%;
-  height: 180px;
+  max-width: 220px; /* Tamaño máximo para la imagen */
+  height: 200px; /* Altura fija para uniformidad */
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 12px; /* Redondeo de imagen */
+  margin-bottom: 1rem;
+  border: 2px solid #f0f0f0; /* Borde sutil alrededor de la imagen */
 }
 
 .producto-nombre {
-  margin: 0.5rem 0;
+  font-size: 1.6em; /* Tamaño de nombre más grande */
+  font-weight: 700;
+  color: #34495e;
+  margin-bottom: 0.6rem;
+  line-height: 1.2;
 }
 
 .producto-desc {
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 0.95em;
+  color: #7f8c8d; /* Gris más suave */
+  margin-bottom: 1rem;
+  flex-grow: 1; /* Permite que la descripción ocupe espacio variable */
 }
 
 .producto-precio {
-  font-weight: bold;
-  margin-top: 0.5rem;
+  font-size: 1.5em; /* Precio más grande */
+  font-weight: 800;
+  color: #27ae60; /* Verde vibrante */
+  margin-top: 0.8rem;
+  margin-bottom: 1.2rem;
 }
 
 .producto-stock {
-  font-size: 0.85rem;
-  color: #888;
+  font-size: 0.9em;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px; /* Forma de píldora */
+  margin-bottom: 1.5rem;
+  display: inline-block; /* Para que el padding y border-radius funcionen bien */
 }
+
+/* Estilos para stock */
+.producto-stock {
+  color: #3498db; /* Azul estándar para stock normal */
+  background-color: #eaf6ff;
+  border: 1px solid #cce7ff;
+}
+
+.producto-stock.low-stock {
+  color: #e67e22; /* Naranja para stock bajo */
+  background-color: #fff0e5;
+  border: 1px solid #ffd8b1;
+  font-weight: 700;
+}
+
+.producto-stock.out-of-stock {
+  color: #e74c3c; /* Rojo para stock agotado */
+  background-color: #ffebeb;
+  border: 1px solid #ffccd5;
+  font-weight: 700;
+  text-transform: uppercase;
+  animation: pulseRed 1.5s infinite; /* Pequeña animación para agotado */
+}
+
+@keyframes pulseRed {
+  0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+}
+
 
 .btn-add {
-  background-color: #4CAF50;
+  background-color: #3498db; /* Azul suave */
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 12px 25px;
   border: none;
-  margin-top: 0.8rem;
+  border-radius: 30px; /* Muy redondeado (píldora) */
+  font-size: 1.1em;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 5px;
-  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  width: 80%; /* Ajuste para un ancho más estético */
+  max-width: 200px;
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
 }
 
-.btn-add:hover {
-  background-color: #3e8e41;
+.btn-add:hover:not(:disabled) {
+  background-color: #217dbb; /* Azul más oscuro */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+}
+
+.btn-add:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
 }
 
 .btn-delete {
-  background-color: #e53935;
+  background-color: #e74c3c; /* Rojo de emergencia */
   color: white;
-  padding: 0.4rem 1rem;
+  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
-  width: 100%;
-  margin-top: 0.5rem;
+  border-radius: 20px; /* Más redondeado */
+  font-size: 0.95em;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 80%;
+  max-width: 200px;
+  margin-top: 0.8rem;
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
 }
 
 .btn-delete:hover {
-  background-color: #c62828;
+  background-color: #c0392b; /* Rojo más oscuro */
+  transform: translateY(-2px);
 }
 
+.loading-message,
+.error-message,
 .productos-vacio {
   text-align: center;
-  font-size: 1rem;
-  color: gray;
+  font-size: 1.3em;
+  color: #6c757d;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  margin-top: 3rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.error-message {
+  color: #dc3545;
+  background-color: #fef0f0;
+  border: 1px solid #dc3545;
 }
 
 /* --- ESTILOS DE LA BARRA DE BÚSQUEDA - MEJORADOS Y ELEGANTES --- */
 .search-bar {
-  margin: 25px auto 40px auto; /* Más margen inferior para separarlo de la grilla */
-  max-width: 600px; /* Ancho máximo para el buscador */
-  position: relative; /* Para posicionar el icono */
+  margin: 35px auto 50px auto; /* Más margen inferior y superior */
+  max-width: 650px; /* Ancho máximo para el buscador */
+  position: relative;
 }
 
 .search-input {
   width: 100%;
-  padding: 14px 45px 14px 20px; /* Más padding para el icono a la derecha */
-  border: 1px solid #c0c0c0; /* Borde más definido */
-  border-radius: 30px; /* Más redondeado aún */
-  font-size: 1.1em;
+  padding: 15px 50px 15px 25px; /* Más padding para el icono y texto */
+  border: 1px solid #ced4da; /* Borde más suave */
+  border-radius: 35px; /* Muy redondeado */
+  font-size: 1.15em;
   outline: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada pero suave */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada pero suave */
   transition: all 0.3s ease-in-out;
-  background-color: #fcfcfc; /* Fondo casi blanco */
-  color: #333; /* Color de texto más oscuro */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente profesional */
+  background-color: #ffffff; /* Fondo blanco */
+  color: #333;
+  font-family: 'Inter', sans-serif; /* Consistencia de fuente */
 }
 
 .search-input::placeholder {
-  color: #a0a0a0; /* Color de placeholder más claro */
+  color: #a0a0a0;
+  font-style: italic; /* Placeholder en cursiva */
 }
 
 .search-input:focus {
-  border-color: #3498db; /* Azul más vibrante al enfocar */
-  box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.3); /* Resplandor más grande y suave */
+  border-color: #3498db;
+  box-shadow: 0 0 0 6px rgba(52, 152, 219, 0.25); /* Resplandor más grande y suave */
   background-color: #ffffff;
 }
 
-/* Icono de lupa dentro del input (opcional, usando CSS) */
-/* Si usaras un icono de FontAwesome, lo añadirías directamente en el JSX */
 .search-bar::after {
-  content: '🔍'; /* Unicode de una lupa */
+  content: '🔍';
   position: absolute;
-  right: 20px;
+  right: 25px; /* Ajuste de posición del icono */
   top: 50%;
   transform: translateY(-50%);
   color: #888;
+  font-size: 1.4em; /* Tamaño del icono */
+  pointer-events: none;
+}
+
+/* FORM ADMIN STYLES */
+.form-admin {
+  background-color: #ffffff; /* Fondo blanco */
+  padding: 30px;
+  border-radius: 15px; /* Más redondeado */
+  margin-bottom: 50px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra más fuerte */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Mayor espacio entre elementos */
+  border: 1px solid #e0e0e0; /* Borde sutil */
+}
+
+.form-admin h3 {
+  text-align: center;
+  color: #34495e;
+  margin-bottom: 20px;
+  font-size: 2em; /* Título más grande */
+  font-weight: 700;
+}
+
+.form-admin input[type="text"],
+.form-admin input[type="number"],
+.form-admin input[type="file"] {
+  padding: 14px; /* Más padding */
+  border: 1px solid #dcdcdc; /* Borde más suave */
+  border-radius: 10px; /* Más redondeado */
+  font-size: 1.05em;
+  color: #495057;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-admin input[type="file"] {
+  padding: 10px; /* Ajuste para el input de archivo */
+}
+
+.form-admin input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2); /* Resplandor suave al enfocar */
+  outline: none;
+}
+
+.form-admin button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
   font-size: 1.2em;
-  pointer-events: none; /* Asegura que no interfiera con el input */
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
 }
 
-/* --- FIN ESTILOS DE LA BARRA DE BÚSQUEDA --- */
-
-/* Estilos para mensajes de carga y error */
-.loading-message,
-.error-message,
-.productos-vacio {
-    text-align: center;
-    font-size: 1.1rem;
-    color: #555;
-    padding: 20px;
-    background-color: #f8f8f8;
-    border-radius: 8px;
-    margin-top: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+.form-admin button[type="submit"]:hover {
+  background-color: #218838;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
 }
 
-.error-message {
-    color: #e74c3c; /* Rojo para errores */
-    background-color: #ffe0e0;
-    border: 1px solid #e74c3c;
-}
 
 /* Media queries para responsividad */
 @media (max-width: 768px) {
   .productos-container {
-    padding: 1rem;
+    padding: 1.5rem;
+    margin: 1rem auto;
   }
 
   .productos-title {
-    font-size: 1.8rem;
+    font-size: 2.2em;
+    margin-bottom: 1.8rem;
   }
 
   .productos-grid {
-    grid-template-columns: 1fr; /* Una columna en móviles */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .producto-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .producto-img {
+    max-width: 180px;
+    height: 160px;
+  }
+
+  .producto-nombre {
+    font-size: 1.4em;
+  }
+
+  .producto-desc {
+    font-size: 0.9em;
+  }
+
+  .producto-precio {
+    font-size: 1.3em;
+  }
+
+  .producto-stock {
+    font-size: 0.8em;
+    padding: 5px 10px;
+  }
+
+  .btn-add, .btn-delete {
+    padding: 10px 20px;
+    font-size: 0.95em;
+    width: 90%;
+    max-width: none;
+  }
+
+  .search-bar {
+    margin: 25px auto 40px auto;
   }
 
   .search-input {
     font-size: 1em;
-    padding: 12px 40px 12px 15px; /* Ajuste padding para móviles */
+    padding: 12px 45px 12px 20px;
+  }
+
+  .search-bar::after {
+    right: 20px;
+    font-size: 1.1em;
+  }
+
+  .form-admin {
+    padding: 25px;
+    gap: 15px;
+  }
+
+  .form-admin h3 {
+    font-size: 1.8em;
+  }
+
+  .form-admin input {
+    padding: 12px;
+  }
+
+  .form-admin button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .productos-container {
+    padding: 1rem;
+    margin: 1rem auto;
+    border-radius: 10px;
+  }
+
+  .productos-title {
+    font-size: 2em;
+    margin-bottom: 1.5rem;
+  }
+
+  .productos-grid {
+    grid-template-columns: 1fr; /* Una columna en móviles pequeños */
+    gap: 1.2rem;
+  }
+
+  .producto-card {
+    padding: 0.8rem;
+    border-radius: 10px;
+  }
+
+  .producto-img {
+    max-width: 120px;
+    height: 120px;
+  }
+
+  .producto-nombre {
+    font-size: 1.2em;
+  }
+
+  .producto-desc {
+    font-size: 0.85em;
+  }
+
+  .producto-precio {
+    font-size: 1.2em;
+  }
+
+  .producto-stock {
+    font-size: 0.75em;
+    padding: 4px 8px;
+  }
+
+  .btn-add, .btn-delete {
+    padding: 8px 15px;
+    font-size: 0.85em;
+    width: 95%;
+  }
+
+  .search-bar {
+    margin: 20px auto 30px auto;
+  }
+
+  .search-input {
+    font-size: 0.9em;
+    padding: 10px 40px 10px 15px;
   }
 
   .search-bar::after {
     right: 15px;
+    font-size: 1em;
+  }
+
+  .form-admin {
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .form-admin h3 {
+    font-size: 1.6em;
+  }
+
+  .form-admin input {
+    padding: 10px;
+  }
+
+  .form-admin button {
+    padding: 10px 20px;
+    font-size: 1em;
   }
 }

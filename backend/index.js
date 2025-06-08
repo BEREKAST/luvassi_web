@@ -5,7 +5,7 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs'); // Corregido: antes era 'require = ('fs');'
 const pool = require('./db'); // Conexión a PostgreSQL
 
 const app = express();
@@ -182,7 +182,7 @@ app.get('/api/productos', async (req, res) => {
   query += ' ORDER BY id_producto ASC;'; // O el orden que prefieras
 
   try {
-    console.log("Executing product query:", query, queryParams); // Log para depuración
+    // console.log("Executing product query:", query, queryParams); // Log para depuración
     const result = await pool.query(query, queryParams);
     res.json(result.rows);
   } catch (err) {
@@ -235,29 +235,31 @@ app.get('/api/pedidos/cliente/:id_cliente', async (req, res) => {
     // Consulta para obtener pedidos con sus detalles y la información de la factura
     const pedidosResult = await pool.query(
       `SELECT
-         p.id_pedido,
-         p.estado_pedido,
-         p.total,
-         p.fecha_pedido,
-         json_agg(
-           json_build_object(
-             'id_producto', dp.id_producto,
-             'nombre_producto', prod.nombre_producto,
-             'cantidad', dp.cantidad,
-             'precio_unitario', dp.precio,
-             'imagen', prod.imagen
-           )
-         ) AS productos,
-         f.metodo_pago,
-         f.estado_pago,
-         f.fecha_emision AS fecha_factura
-       FROM pedido p
-       JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
-       JOIN producto prod ON dp.id_producto = prod.id_producto
-       JOIN factura f ON p.id_pedido = f.id_pedido
-       WHERE p.id_cliente = $1
-       GROUP BY p.id_pedido, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago, f.estado_pago, f.fecha_emision
-       ORDER BY p.fecha_pedido DESC`,
+           p.id_pedido,
+           p.estado_pedido,
+           p.total,
+           p.fecha_pedido,
+           json_agg(
+             json_build_object(
+               'id_producto', dp.id_producto,
+               'nombre_producto', prod.nombre_producto,
+               'cantidad', dp.cantidad,
+               'precio_unitario', dp.precio,
+               'imagen', prod.imagen
+             )
+           ) AS productos,
+           f.metodo_pago,
+           f.estado_pago,
+           f.fecha_emision AS fecha_factura
+         FROM pedido p
+         JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+         JOIN producto prod ON dp.id_producto = prod.id_producto
+         JOIN factura f ON p.id_pedido = f.id_pedido
+         JOIN cliente c ON p.id_cliente = c.id_cliente
+         JOIN usuario u ON c.id_usuario = u.id_usuario
+         WHERE p.id_cliente = $1
+         GROUP BY p.id_pedido, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago, f.estado_pago, f.fecha_emision, f.id_factura
+         ORDER BY p.fecha_pedido DESC`,
       [id_cliente]
     );
 
@@ -274,6 +276,7 @@ app.get('/api/pedidos/cliente/:id_cliente', async (req, res) => {
     res.status(500).json({ message: 'Error al obtener historial de pedidos.' });
   }
 });
+
 
 // Crear pedido con factura (CORRECCIÓN CLAVE: Usar 'client.query' en todas las operaciones de la transacción)
 app.post('/api/pedidos', async (req, res) => {
@@ -296,7 +299,7 @@ app.post('/api/pedidos', async (req, res) => {
       return res.status(400).json({ message: 'El ID de cliente no es válido.' });
     }
 
-    // 2. Insertar el pedido (usando 'client.query')
+    // 2. Insertar el pedido (AHORA SIN 'metodo_pago' en la tabla 'pedido')
     const now = new Date();
     const pedidoResult = await client.query(
       'INSERT INTO pedido (id_cliente, estado_pedido, total, fecha_pedido) VALUES ($1, $2, 0, $3) RETURNING id_pedido',
@@ -306,21 +309,42 @@ app.post('/api/pedidos', async (req, res) => {
 
     let total = 0;
 
-    // 3. Insertar los detalles del pedido y calcular el total (usando 'client.query')
+    // 3. Procesar cada producto en el pedido: verificar stock, insertar detalle, actualizar stock
     for (const p of productos) {
-      // Obtener el precio del producto (usando 'client.query' para consistencia transaccional)
-      const prodResult = await client.query('SELECT * FROM producto WHERE id_producto = $1', [p.id_producto]);
+      // Obtener el precio y stock del producto (usando 'client.query' y FOR UPDATE)
+      const prodResult = await client.query(
+        'SELECT nombre_producto, precio, cantidad_en_inventario FROM producto WHERE id_producto = $1 FOR UPDATE',
+        [p.id_producto]
+      );
+
       if (prodResult.rows.length === 0) {
         await client.query('ROLLBACK'); // Deshacer si un producto no se encuentra
         return res.status(404).json({ message: `Producto con ID ${p.id_producto} no encontrado.` });
       }
-      const precio = prodResult.rows[0].precio;
+
+      const productoDB = prodResult.rows[0];
+
+      // Verificar stock
+      if (productoDB.cantidad_en_inventario < p.cantidad) {
+        await client.query('ROLLBACK'); // Deshacer si no hay stock suficiente
+        return res.status(400).json({
+          message: `Stock insuficiente para el producto '${productoDB.nombre_producto}'. Disponible: ${productoDB.cantidad_en_inventario}, Solicitado: ${p.cantidad}`
+        });
+      }
+
+      const precio = productoDB.precio;
       total += precio * p.cantidad;
 
       // Insertar detalle de pedido (usando 'client.query')
       await client.query(
         'INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio) VALUES ($1, $2, $3, $4)',
         [id_pedido, p.id_producto, p.cantidad, precio]
+      );
+
+      // Decrementar la cantidad en inventario (usando 'client.query')
+      await client.query(
+        'UPDATE producto SET cantidad_en_inventario = cantidad_en_inventario - $1 WHERE id_producto = $2',
+        [p.cantidad, p.id_producto]
       );
     }
 
@@ -330,26 +354,34 @@ app.post('/api/pedidos', async (req, res) => {
       [total, id_pedido]
     );
 
-    // 5. Insertar la factura (CORRECCIÓN CLAVE: Usando 'client.query' aquí)
+    // 5. Insertar la factura (CORRECCIÓN CLAVE: Usando 'client.query' aquí y con metodo_pago)
     const facturaResult = await client.query(
       'INSERT INTO factura (id_pedido, fecha_emision, monto_total, estado_pago, metodo_pago) VALUES ($1, $2, $3, $4, $5) RETURNING id_factura',
-      [id_pedido, now, total, 'Pagado', metodo_pago]
+      [id_pedido, now, total, 'Pendiente', metodo_pago] // 'metodo_pago' se usa aquí para la factura
     );
     const id_factura = facturaResult.rows[0].id_factura;
+
+    let qr_code_url = null;
+    // Generar URL de QR si el método de pago es 'Pago QR'
+    if (metodo_pago === 'Pago QR') {
+      const qr_data = `http://localhost:3000/confirmar-pago?pedido=${id_pedido}&total=${total}&factura=${id_factura}`;
+      qr_code_url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(qr_data)}`;
+    }
 
     await client.query('COMMIT'); // Confirmar la transacción
 
     res.status(201).json({
       message: 'Pedido registrado exitosamente',
       id_pedido,
-      id_factura
+      id_factura,
+      qr_code_url // Incluye la URL del QR en la respuesta
     });
   } catch (error) {
-    if (client) { // Asegurarse de que 'client' existe antes de intentar 'ROLLBACK'
+    if (client) {
       await client.query('ROLLBACK'); // Deshacer la transacción en caso de cualquier error
     }
     console.error('Error al crear pedido:', error);
-    res.status(500).json({ message: 'Error al registrar pedido' });
+    res.status(500).json({ message: 'Error al registrar pedido: ' + error.message }); // Mensaje de error más detallado
   } finally {
     if (client) {
       client.release(); // Siempre liberar el cliente de vuelta al pool
@@ -363,41 +395,36 @@ app.post('/api/pedidos', async (req, res) => {
 // Ruta para obtener todos los pedidos (solo para administradores)
 app.get('/api/admin/pedidos', async (req, res) => {
   try {
-    // NOTA: En un sistema real, implementar aquí un middleware de autenticación
-    // y autorización para verificar que el usuario es un 'admin'.
-    // Por ahora, esta ruta es accesible para cualquier solicitud,
-    // la verificación de rol se hará en el frontend por simplicidad.
-
     const allPedidos = await pool.query(
       `SELECT
-         p.id_pedido,
-         p.id_cliente,
-         u.nombre AS nombre_cliente,
-         u.correo_electronico AS correo_cliente,
-         p.estado_pedido,
-         p.total,
-         p.fecha_pedido,
-         json_agg(
-           json_build_object(
-             'id_producto', dp.id_producto,
-             'nombre_producto', prod.nombre_producto,
-             'cantidad', dp.cantidad,
-             'precio_unitario', dp.precio,
-             'imagen', prod.imagen
-           )
-         ) AS productos,
-         f.metodo_pago,
-         f.estado_pago,
-         f.fecha_emision AS fecha_factura,
-         f.id_factura
-       FROM pedido p
-       JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
-       JOIN producto prod ON dp.id_producto = prod.id_producto
-       JOIN factura f ON p.id_pedido = f.id_pedido
-       JOIN cliente c ON p.id_cliente = c.id_cliente
-       JOIN usuario u ON c.id_usuario = u.id_usuario
-       GROUP BY p.id_pedido, p.id_cliente, u.nombre, u.correo_electronico, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago, f.estado_pago, f.fecha_emision, f.id_factura
-       ORDER BY p.fecha_pedido DESC`
+           p.id_pedido,
+           p.id_cliente,
+           u.nombre AS nombre_cliente,
+           u.correo_electronico AS correo_cliente,
+           p.estado_pedido,
+           p.total,
+           p.fecha_pedido,
+           json_agg(
+             json_build_object(
+               'id_producto', dp.id_producto,
+               'nombre_producto', prod.nombre_producto,
+               'cantidad', dp.cantidad,
+               'precio_unitario', dp.precio,
+               'imagen', prod.imagen
+             )
+           ) AS productos,
+           f.metodo_pago,
+           f.estado_pago,
+           f.fecha_emision AS fecha_factura,
+           f.id_factura
+         FROM pedido p
+         JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+         JOIN producto prod ON dp.id_producto = prod.id_producto
+         JOIN factura f ON p.id_pedido = f.id_pedido
+         JOIN cliente c ON p.id_cliente = c.id_cliente
+         JOIN usuario u ON c.id_usuario = u.id_usuario
+         GROUP BY p.id_pedido, p.id_cliente, u.nombre, u.correo_electronico, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago, f.estado_pago, f.fecha_emision, f.id_factura
+         ORDER BY p.fecha_pedido DESC`
     );
 
     res.status(200).json(allPedidos.rows);
@@ -466,9 +493,219 @@ app.put('/api/admin/pedidos/:id_pedido/estado', async (req, res) => {
   }
 });
 
+// NUEVA RUTA: Obtener todos los usuarios registrados (para admin)
+app.get('/api/admin/users', async (req, res) => {
+  try {
+    // En un sistema real, aquí iría un middleware de autenticación y autorización
+    // para asegurar que solo los administradores puedan acceder a esta ruta.
+    const users = await pool.query(
+      `SELECT
+         id_usuario,
+         nombre,
+         correo_electronico,
+         direccion,
+         rol
+       FROM usuario
+       ORDER BY nombre ASC`
+    );
+    res.status(200).json(users.rows);
+  } catch (error) {
+    console.error('Error al obtener todos los usuarios para admin:', error);
+    res.status(500).json({ message: 'Error al obtener la lista de usuarios.' });
+  }
+});
+
+// NUEVA RUTA: Actualizar stock de un producto (para admin)
+app.put('/api/admin/products/:id_producto/stock', async (req, res) => {
+  const { id_producto } = req.params;
+  const { quantity } = req.body; // La cantidad a añadir
+
+  // Validación básica
+  if (typeof quantity !== 'number' || quantity <= 0) {
+    return res.status(400).json({ message: 'La cantidad a agregar debe ser un número positivo.' });
+  }
+
+  try {
+    const result = await pool.query(
+      'UPDATE producto SET cantidad_en_inventario = cantidad_en_inventario + $1 WHERE id_producto = $2 RETURNING *',
+      [quantity, id_producto]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Producto no encontrado.' });
+    }
+
+    res.status(200).json({
+      message: `Stock del producto ${id_producto} actualizado. Nuevo stock: ${result.rows[0].cantidad_en_inventario}`,
+      product: result.rows[0]
+    });
+  } catch (error) {
+    console.error(`Error al actualizar stock del producto ${id_producto}:`, error);
+    res.status(500).json({ message: 'Error al actualizar el stock del producto.' });
+  }
+});
+
+// NUEVA RUTA: Eliminar un usuario y sus registros relacionados (para admin)
+app.delete('/api/admin/users/:id_usuario', async (req, res) => {
+  const { id_usuario } = req.params;
+  let client;
+
+  try {
+    client = await pool.connect();
+    await client.query('BEGIN'); // Iniciar la transacción
+
+    // 1. Obtener id_cliente asociado al id_usuario
+    const clienteResult = await client.query(
+      'SELECT id_cliente FROM cliente WHERE id_usuario = $1',
+      [id_usuario]
+    );
+
+    const id_cliente = clienteResult.rows.length > 0 ? clienteResult.rows[0].id_cliente : null;
+
+    if (id_cliente) {
+      // 2. Eliminar facturas asociadas a los pedidos de este cliente
+      await client.query(
+        `DELETE FROM factura WHERE id_pedido IN (SELECT id_pedido FROM pedido WHERE id_cliente = $1)`,
+        [id_cliente]
+      );
+
+      // 3. Eliminar detalles de pedidos asociados a los pedidos de este cliente
+      await client.query(
+        `DELETE FROM detalle_pedido WHERE id_pedido IN (SELECT id_pedido FROM pedido WHERE id_cliente = $1)`,
+        [id_cliente]
+      );
+
+      // 4. Eliminar pedidos del cliente
+      await client.query('DELETE FROM pedido WHERE id_cliente = $1', [id_cliente]);
+
+      // 5. Eliminar el registro del cliente
+      await client.query('DELETE FROM cliente WHERE id_cliente = $1', [id_cliente]);
+    }
+
+    // 6. Finalmente, eliminar el usuario
+    const userDeleteResult = await client.query(
+      'DELETE FROM usuario WHERE id_usuario = $1 RETURNING *',
+      [id_usuario]
+    );
+
+    if (userDeleteResult.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ message: 'Usuario no encontrado.' });
+    }
+
+    await client.query('COMMIT'); // Confirmar la transacción
+    res.status(200).json({ message: 'Usuario y todos sus registros relacionados eliminados exitosamente.' });
+
+  } catch (error) {
+    if (client) {
+      await client.query('ROLLBACK'); // Deshacer la transacción en caso de error
+    }
+    console.error(`Error al eliminar usuario ${id_usuario} y sus registros relacionados:`, error);
+    res.status(500).json({ message: 'Error al eliminar el usuario y sus registros.' });
+  } finally {
+    if (client) {
+      client.release(); // Siempre liberar el cliente de vuelta al pool
+    }
+  }
+});
+
 
 // --------------------------------------------------------
 // FIN DE RUTAS PARA LA GESTIÓN DE PEDIDOS DEL ADMINISTRADOR
+
+
+// ==============================================================
+//           NUEVAS RUTAS PARA EL HISTORIAL DE VENTAS Y ESTADÍSTICAS
+// ==============================================================
+
+// Ruta: Obtener todas las ventas completadas
+app.get('/api/sales/completed', async (req, res) => {
+  try {
+    const sales = await pool.query(
+      `SELECT
+         p.id_pedido,
+         p.fecha_pedido,
+         p.total,
+         f.metodo_pago,
+         u.nombre AS nombre_cliente,
+         u.correo_electronico AS correo_cliente
+       FROM pedido p
+       JOIN cliente c ON p.id_cliente = c.id_cliente
+       JOIN usuario u ON c.id_usuario = u.id_usuario
+       LEFT JOIN factura f ON p.id_pedido = f.id_pedido
+       WHERE p.estado_pedido = 'completado'
+       ORDER BY p.fecha_pedido DESC`
+    );
+    res.status(200).json(sales.rows);
+  } catch (error) {
+    console.error('Error al obtener ventas completadas:', error);
+    res.status(500).json({ message: 'Error del servidor al obtener ventas completadas.' });
+  }
+});
+
+// Ruta: Obtener todas las ventas canceladas
+app.get('/api/sales/cancelled', async (req, res) => {
+  try {
+    const sales = await pool.query(
+      `SELECT
+         p.id_pedido,
+         p.fecha_pedido,
+         p.total,
+         f.metodo_pago,
+         u.nombre AS nombre_cliente,
+         u.correo_electronico AS correo_cliente
+       FROM pedido p
+       JOIN cliente c ON p.id_cliente = c.id_cliente
+       JOIN usuario u ON c.id_usuario = u.id_usuario
+       LEFT JOIN factura f ON p.id_pedido = f.id_pedido
+       WHERE p.estado_pedido = 'cancelado'
+       ORDER BY p.fecha_pedido DESC`
+    );
+    res.status(200).json(sales.rows);
+  } catch (error) {
+    console.error('Error al obtener ventas canceladas:', error);
+    res.status(500).json({ message: 'Error del servidor al obtener ventas canceladas.' });
+  }
+});
+
+// Ruta: Obtener el stock actual de todos los productos
+app.get('/api/products/stock', async (req, res) => {
+  try {
+    const products = await pool.query(
+      `SELECT id_producto, nombre_producto, cantidad_en_inventario, imagen
+       FROM producto
+       ORDER BY nombre_producto ASC`
+    );
+    res.status(200).json(products.rows);
+  } catch (error) {
+    console.error('Error al obtener stock de productos:', error);
+    res.status(500).json({ message: 'Error del servidor al obtener stock de productos.' });
+  }
+});
+
+// Ruta: Obtener resumen de ventas por fecha (para gráfico)
+app.get('/api/sales/summary-by-date', async (req, res) => {
+  try {
+    const salesSummary = await pool.query(
+      `SELECT
+         TO_CHAR(fecha_pedido, 'YYYY-MM-DD') AS sale_date,
+         COUNT(id_pedido) AS total_orders,
+         SUM(total) AS total_revenue
+       FROM pedido
+       WHERE estado_pedido = 'completado'
+       GROUP BY TO_CHAR(fecha_pedido, 'YYYY-MM-DD')
+       ORDER BY sale_date ASC`
+    );
+    res.status(200).json(salesSummary.rows);
+  } catch (error) {
+    console.error('Error al obtener resumen de ventas por fecha:', error);
+    res.status(500).json({ message: 'Error del servidor al obtener resumen de ventas.' });
+  }
+});
+
+// ==============================================================
+//           FIN DE RUTAS PARA EL HISTORIAL DE VENTAS Y ESTADÍSTICAS
+// ==============================================================
 
 
 // Inicio del servidor

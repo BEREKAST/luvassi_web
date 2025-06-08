@@ -11,6 +11,11 @@ const AdminOrdersPage = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // Estados para el modal de confirmación personalizado
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [confirmAction, setConfirmAction] = useState(() => () => {}); // Función a ejecutar al confirmar
+
   // Obtener usuario del localStorage para verificar el rol
   const [usuario, setUsuario] = useState(() => {
     try {
@@ -53,11 +58,28 @@ const AdminOrdersPage = () => {
     fetchAllOrders();
   }, [usuario, navigate]); // Dependencia en 'usuario' y 'navigate'
 
-  const handleEstadoChange = async (id_pedido, nuevo_estado) => {
-    if (!window.confirm(`¿Estás seguro de cambiar el estado del pedido #${id_pedido} a "${nuevo_estado}"?`)) {
+  // Nueva función para manejar el cambio de estado con confirmación vía modal
+  const handleChangeEstadoWithConfirmation = (id_pedido, nuevo_estado) => {
+    const pedidoActual = pedidos.find(p => p.id_pedido === id_pedido);
+
+    // Si el estado ya es final, no permitir cambio y mostrar mensaje
+    if (pedidoActual && (pedidoActual.estado_pedido === 'completado' || pedidoActual.estado_pedido === 'cancelado')) {
+      setModalMessage(`El estado del pedido #${id_pedido} ya está en "${pedidoActual.estado_pedido}" y no puede ser modificado.`);
+      setConfirmAction(() => () => setShowConfirmModal(false)); // Solo cerrar el modal
+      setShowConfirmModal(true);
       return;
     }
 
+    // Si el estado no es final, pedir confirmación para el cambio
+    setModalMessage(`¿Estás seguro de cambiar el estado del pedido #${id_pedido} a "${nuevo_estado}"?`);
+    setConfirmAction(() => () => { // Usamos una función que retorna una función para el closure correcto
+      handleEstadoChange(id_pedido, nuevo_estado);
+      setShowConfirmModal(false); // Cierra el modal después de la acción
+    });
+    setShowConfirmModal(true);
+  };
+
+  const handleEstadoChange = async (id_pedido, nuevo_estado) => {
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/pedidos/${id_pedido}/estado`, {
         method: 'PUT',
@@ -77,10 +99,17 @@ const AdminOrdersPage = () => {
       setPedidos(pedidos.map(pedido =>
         pedido.id_pedido === id_pedido ? { ...pedido, estado_pedido: nuevo_estado } : pedido
       ));
-      alert(`Pedido #${id_pedido} actualizado a "${nuevo_estado}" con éxito.`);
+      // Mostrar notificación de éxito, también con el modal
+      setModalMessage(`Pedido #${id_pedido} actualizado a "${nuevo_estado}" con éxito.`);
+      setConfirmAction(() => () => setShowConfirmModal(false)); // Solo cerrar
+      setShowConfirmModal(true);
+
     } catch (err) {
       console.error('Error al actualizar estado del pedido:', err);
-      alert(`Error: ${err.message || 'No se pudo actualizar el estado del pedido.'}`);
+      // Mostrar notificación de error con el modal
+      setModalMessage(`Error: ${err.message || 'No se pudo actualizar el estado del pedido.'}`);
+      setConfirmAction(() => () => setShowConfirmModal(false)); // Solo cerrar
+      setShowConfirmModal(true);
     }
   };
 
@@ -103,7 +132,18 @@ const AdminOrdersPage = () => {
             <div key={pedido.id_pedido} className="pedido-admin-card">
               <h3>Pedido #{pedido.id_pedido}</h3>
               <p>Cliente: {pedido.nombre_cliente} ({pedido.correo_cliente})</p>
-              <p>Estado Actual: <strong>{pedido.estado_pedido}</strong></p>
+              <p>
+                Estado Actual:{' '}
+                <strong
+                  className={`
+                    ${pedido.estado_pedido === 'completado' ? 'estado-pedido-completado' : ''}
+                    ${pedido.estado_pedido === 'cancelado' ? 'estado-pedido-cancelado' : ''}
+                    ${pedido.estado_pedido === 'pendiente' ? 'estado-pedido-pendiente' : ''}
+                  `}
+                >
+                  {pedido.estado_pedido}
+                </strong>
+              </p>
               <p>Fecha: {new Date(pedido.fecha_pedido).toLocaleDateString()}</p>
               <p>Total: Bs {Number(pedido.total).toFixed(2)}</p>
 
@@ -113,7 +153,7 @@ const AdminOrdersPage = () => {
                   <li key={index} className="producto-admin-item">
                     {prod.imagen && (
                       <img
-                        src={`${API_BASE_URL}${prod.imagen}`}
+                        src={`http://localhost:5000${prod.imagen}`}
                         alt={prod.nombre_producto}
                         className="producto-admin-imagen"
                         onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/50x50?text=No+Img" }}
@@ -129,8 +169,10 @@ const AdminOrdersPage = () => {
                 <select
                   id={`estado-${pedido.id_pedido}`}
                   value={pedido.estado_pedido}
-                  onChange={(e) => handleEstadoChange(pedido.id_pedido, e.target.value)}
-                  className="form-select" // Puedes usar clases de Bootstrap si lo tienes
+                  onChange={(e) => handleChangeEstadoWithConfirmation(pedido.id_pedido, e.target.value)}
+                  className="form-select"
+                  // Deshabilitar si el estado es 'completado' o 'cancelado'
+                  disabled={pedido.estado_pedido === 'completado' || pedido.estado_pedido === 'cancelado'}
                 >
                   <option value="pendiente">Pendiente</option>
                   <option value="completado">Completado</option>
@@ -139,6 +181,27 @@ const AdminOrdersPage = () => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Modal de confirmación/notificación personalizado */}
+      {showConfirmModal && (
+        <div className="custom-modal-overlay">
+          <div className="custom-modal-content">
+            <p>{modalMessage}</p>
+            <div className="modal-actions">
+              {/* Si el mensaje es una pregunta de confirmación, mostrar Aceptar/Cancelar */}
+              {modalMessage.startsWith('¿Estás seguro') ? (
+                <>
+                  <button onClick={confirmAction} className="modal-btn-confirm">Aceptar</button>
+                  <button onClick={() => setShowConfirmModal(false)} className="modal-btn-cancel">Cancelar</button>
+                </>
+              ) : (
+                // Si es solo un mensaje informativo, mostrar solo Aceptar
+                <button onClick={() => setShowConfirmModal(false)} className="modal-btn-accept">Aceptar</button>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
