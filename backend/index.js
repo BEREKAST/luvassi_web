@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 // === MODIFICACIÓN CLAVE AQUÍ PARA CORS DINÁMICO ===
 const allowedOrigins = [
-  'https://luvassi-frontend-app.onrender.com', // Frontend desplegado en Render
+  'https://luvassi-web.vercel.app',, // Frontend desplegado en vercel
   'http://localhost:3000' // Frontend en desarrollo local
 ];
 
