@@ -9,6 +9,10 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra más grande y suave */
   font-family: 'Inter', sans-serif; /* Usar Inter como fuente principal */
   color: #333; /* Color de texto general */
+  /* AJUSTE RESPONSIVO BASE */
+  width: 95%; /* Asegura que el contenedor principal sea responsivo */
+  box-sizing: border-box; /* Incluye padding y border en el ancho/alto */
+  /* FIN AJUSTE RESPONSIVO BASE */
 }
 
 .productos-title {
@@ -23,14 +27,16 @@
 
 .productos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Tarjetas un poco más anchas */
+  /* AJUSTE RESPONSIVO BASE: minmax ligeramente más pequeño para empezar */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Tarjetas un poco más anchas pero con min un poco más chico */
+  /* FIN AJUSTE RESPONSIVO BASE */
   gap: 2rem; /* Mayor espacio entre tarjetas */
 }
 
 .producto-card {
   border: 1px solid #e0e0e0; /* Borde más sutil */
   border-radius: 15px; /* Más redondeo en las tarjetas */
-  padding: 1.5rem; /* Más padding interno */
+  padding: 1.4rem; /* Ligeramente menos padding interno en base */
   background-color: #ffffff;
   box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Sombra suave y elegante */
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición más sofisticada */
@@ -39,6 +45,9 @@
   align-items: center;
   text-align: center;
   overflow: hidden; /* Asegura que nada sobresalga del borde redondeado */
+  /* AJUSTE RESPONSIVO BASE */
+  box-sizing: border-box; /* Crucial para que el padding no desborde el ancho */
+  /* FIN AJUSTE RESPONSIVO BASE */
 }
 
 .producto-card:hover {
@@ -48,67 +57,67 @@
 
 .producto-img {
   width: 100%;
-  max-width: 220px; /* Tamaño máximo para la imagen */
-  height: 200px; /* Altura fija para uniformidad */
+  max-width: 200px; /* Tamaño máximo de la imagen ligeramente más pequeño */
+  height: 180px; /* Altura fija ligeramente más pequeña */
   object-fit: cover;
   border-radius: 12px; /* Redondeo de imagen */
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem; /* Margen ligeramente reducido */
   border: 2px solid #f0f0f0; /* Borde sutil alrededor de la imagen */
 }
 
 .producto-nombre {
-  font-size: 1.6em; /* Tamaño de nombre más grande */
+  font-size: 1.5em; /* Tamaño de nombre ligeramente más pequeño */
   font-weight: 700;
   color: #34495e;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem; /* Margen ligeramente reducido */
   line-height: 1.2;
 }
 
 .producto-desc {
-  font-size: 0.95em;
+  font-size: 0.9em; /* Descripción ligeramente más pequeña */
   color: #7f8c8d; /* Gris más suave */
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem; /* Margen ligeramente reducido */
   flex-grow: 1; /* Permite que la descripción ocupe espacio variable */
 }
 
 .producto-precio {
-  font-size: 1.5em; /* Precio más grande */
+  font-size: 1.4em; /* Precio ligeramente más pequeño */
   font-weight: 800;
   color: #27ae60; /* Verde vibrante */
-  margin-top: 0.8rem;
-  margin-bottom: 1.2rem;
+  margin-top: 0.7rem; /* Margen ligeramente reducido */
+  margin-bottom: 1.1rem; /* Margen ligeramente reducido */
 }
 
 .producto-stock {
-  font-size: 0.9em;
+  font-size: 0.85em; /* Stock ligeramente más pequeño */
   font-weight: 600;
-  padding: 6px 12px;
+  padding: 5px 10px; /* Padding ligeramente reducido */
   border-radius: 20px; /* Forma de píldora */
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.4rem; /* Margen ligeramente reducido */
   display: inline-block; /* Para que el padding y border-radius funcionen bien */
 }
 
-/* Estilos para stock */
+/* Estilos para stock (mantener sin cambios) */
 .producto-stock {
-  color: #3498db; /* Azul estándar para stock normal */
+  color: #3498db;
   background-color: #eaf6ff;
   border: 1px solid #cce7ff;
 }
 
 .producto-stock.low-stock {
-  color: #e67e22; /* Naranja para stock bajo */
+  color: #e67e22;
   background-color: #fff0e5;
   border: 1px solid #ffd8b1;
   font-weight: 700;
 }
 
 .producto-stock.out-of-stock {
-  color: #e74c3c; /* Rojo para stock agotado */
+  color: #e74c3c;
   background-color: #ffebeb;
   border: 1px solid #ffccd5;
   font-weight: 700;
   text-transform: uppercase;
-  animation: pulseRed 1.5s infinite; /* Pequeña animación para agotado */
+  animation: pulseRed 1.5s infinite;
 }
 
 @keyframes pulseRed {
@@ -117,24 +126,23 @@
   100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
 }
 
-
 .btn-add {
-  background-color: #3498db; /* Azul suave */
+  background-color: #3498db;
   color: white;
-  padding: 12px 25px;
+  padding: 11px 22px; /* Padding ligeramente reducido */
   border: none;
-  border-radius: 30px; /* Muy redondeado (píldora) */
-  font-size: 1.1em;
+  border-radius: 30px;
+  font-size: 1em; /* Fuente ligeramente más pequeña */
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  width: 80%; /* Ajuste para un ancho más estético */
-  max-width: 200px;
+  width: 85%; /* Ajuste para un ancho más estético, más ancho por defecto */
+  max-width: 180px; /* Máximo un poco más pequeño */
   box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
 }
 
 .btn-add:hover:not(:disabled) {
-  background-color: #217dbb; /* Azul más oscuro */
+  background-color: #217dbb;
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
 }
@@ -147,23 +155,23 @@
 }
 
 .btn-delete {
-  background-color: #e74c3c; /* Rojo de emergencia */
+  background-color: #e74c3c;
   color: white;
-  padding: 10px 20px;
+  padding: 9px 18px; /* Padding ligeramente reducido */
   border: none;
-  border-radius: 20px; /* Más redondeado */
-  font-size: 0.95em;
+  border-radius: 20px;
+  font-size: 0.9em; /* Fuente ligeramente más pequeña */
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  width: 80%;
-  max-width: 200px;
-  margin-top: 0.8rem;
+  width: 85%; /* Ajuste para un ancho más estético, más ancho por defecto */
+  max-width: 180px; /* Máximo un poco más pequeño */
+  margin-top: 0.7rem; /* Margen ligeramente reducido */
   box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
 }
 
 .btn-delete:hover {
-  background-color: #c0392b; /* Rojo más oscuro */
+  background-color: #c0392b;
   transform: translateY(-2px);
 }
 
@@ -171,13 +179,20 @@
 .error-message,
 .productos-vacio {
   text-align: center;
-  font-size: 1.3em;
+  font-size: 1.2em; /* Ligeramente más pequeño en base */
   color: #6c757d;
-  padding: 30px;
+  padding: 25px; /* Padding ligeramente reducido */
   background-color: #ffffff;
   border-radius: 12px;
-  margin-top: 3rem;
+  margin-top: 2.5rem; /* Margen ligeramente reducido */
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  /* AJUSTE RESPONSIVO BASE */
+  width: 90%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  /* FIN AJUSTE RESPONSIVO BASE */
 }
 
 .error-message {
@@ -188,100 +203,122 @@
 
 /* --- ESTILOS DE LA BARRA DE BÚSQUEDA - MEJORADOS Y ELEGANTES --- */
 .search-bar {
-  margin: 35px auto 50px auto; /* Más margen inferior y superior */
-  max-width: 650px; /* Ancho máximo para el buscador */
+  margin: 30px auto 45px auto; /* Márgenes ligeramente reducidos */
+  max-width: 650px;
   position: relative;
+  /* AJUSTE RESPONSIVO BASE */
+  width: 90%;
+  box-sizing: border-box;
+  /* FIN AJUSTE RESPONSIVO BASE */
 }
 
 .search-input {
   width: 100%;
-  padding: 15px 50px 15px 25px; /* Más padding para el icono y texto */
-  border: 1px solid #ced4da; /* Borde más suave */
-  border-radius: 35px; /* Muy redondeado */
-  font-size: 1.15em;
+  padding: 13px 45px 13px 22px; /* Padding ligeramente reducido */
+  border: 1px solid #ced4da;
+  border-radius: 35px;
+  font-size: 1.1em; /* Fuente ligeramente más pequeña */
   outline: none;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada pero suave */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease-in-out;
-  background-color: #ffffff; /* Fondo blanco */
+  background-color: #ffffff;
   color: #333;
-  font-family: 'Inter', sans-serif; /* Consistencia de fuente */
+  font-family: 'Inter', sans-serif;
+  /* AJUSTE RESPONSIVO BASE */
+  box-sizing: border-box;
+  /* FIN AJUSTE RESPONSIVO BASE */
 }
 
 .search-input::placeholder {
   color: #a0a0a0;
-  font-style: italic; /* Placeholder en cursiva */
+  font-style: italic;
 }
 
 .search-input:focus {
   border-color: #3498db;
-  box-shadow: 0 0 0 6px rgba(52, 152, 219, 0.25); /* Resplandor más grande y suave */
+  box-shadow: 0 0 0 6px rgba(52, 152, 219, 0.25);
   background-color: #ffffff;
 }
 
 .search-bar::after {
   content: '🔍';
   position: absolute;
-  right: 25px; /* Ajuste de posición del icono */
+  right: 22px; /* Ajuste de posición del icono ligeramente */
   top: 50%;
   transform: translateY(-50%);
   color: #888;
-  font-size: 1.4em; /* Tamaño del icono */
+  font-size: 1.3em; /* Tamaño del icono ligeramente más pequeño */
   pointer-events: none;
 }
 
 /* FORM ADMIN STYLES */
 .form-admin {
-  background-color: #ffffff; /* Fondo blanco */
-  padding: 30px;
-  border-radius: 15px; /* Más redondeado */
-  margin-bottom: 50px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra más fuerte */
+  background-color: #ffffff;
+  padding: 25px; /* Padding ligeramente reducido */
+  border-radius: 15px;
+  margin-bottom: 40px; /* Margen ligeramente reducido */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Mayor espacio entre elementos */
-  border: 1px solid #e0e0e0; /* Borde sutil */
+  gap: 18px; /* Espacio ligeramente reducido */
+  border: 1px solid #e0e0e0;
+  /* AJUSTE RESPONSIVO BASE */
+  width: 95%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  /* FIN AJUSTE RESPONSIVO BASE */
 }
 
 .form-admin h3 {
   text-align: center;
   color: #34495e;
-  margin-bottom: 20px;
-  font-size: 2em; /* Título más grande */
+  margin-bottom: 18px; /* Margen ligeramente reducido */
+  font-size: 1.8em; /* Título ligeramente más pequeño */
   font-weight: 700;
 }
 
 .form-admin input[type="text"],
 .form-admin input[type="number"],
 .form-admin input[type="file"] {
-  padding: 14px; /* Más padding */
-  border: 1px solid #dcdcdc; /* Borde más suave */
-  border-radius: 10px; /* Más redondeado */
-  font-size: 1.05em;
+  padding: 12px; /* Padding ligeramente reducido */
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  font-size: 1em; /* Fuente ligeramente más pequeña */
   color: #495057;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  /* AJUSTE RESPONSIVO BASE */
+  width: 100%;
+  box-sizing: border-box;
+  /* FIN AJUSTE RESPONSIVO BASE */
 }
 
 .form-admin input[type="file"] {
-  padding: 10px; /* Ajuste para el input de archivo */
+  padding: 9px; /* Ajuste para el input de archivo ligeramente */
 }
 
 .form-admin input:focus {
   border-color: #007bff;
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2); /* Resplandor suave al enfocar */
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
   outline: none;
 }
 
 .form-admin button[type="submit"] {
   background-color: #28a745;
   color: white;
-  padding: 15px 30px;
+  padding: 13px 25px; /* Padding ligeramente reducido */
   border: none;
   border-radius: 10px;
-  font-size: 1.2em;
+  font-size: 1.1em; /* Fuente ligeramente más pequeña */
   font-weight: 700;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
+  /* AJUSTE RESPONSIVO BASE */
+  width: 100%;
+  box-sizing: border-box;
+  /* FIN AJUSTE RESPONSIVO BASE */
 }
 
 .form-admin button[type="submit"]:hover {
@@ -292,54 +329,61 @@
 
 
 /* Media queries para responsividad */
-@media (max-width: 768px) {
+
+/* Para tabletas y medium screens (hasta 992px) */
+@media (max-width: 992px) {
   .productos-container {
-    padding: 1.5rem;
-    margin: 1rem auto;
+    padding: 1.8rem; /* Un poco menos */
+    margin: 1.2rem auto;
   }
 
   .productos-title {
-    font-size: 2.2em;
+    font-size: 2.2em; /* Reducción más notoria */
     margin-bottom: 1.8rem;
   }
 
   .productos-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Minwidth reducido */
+    gap: 1.5rem; /* Reducción de gap */
   }
 
   .producto-card {
-    padding: 1rem;
+    padding: 1.1rem; /* Reducción de padding */
     border-radius: 12px;
   }
 
   .producto-img {
     max-width: 180px;
     height: 160px;
+    margin-bottom: 0.8rem;
   }
 
   .producto-nombre {
-    font-size: 1.4em;
+    font-size: 1.35em; /* Reducción */
   }
 
   .producto-desc {
-    font-size: 0.9em;
+    font-size: 0.85em; /* Reducción */
+    margin-bottom: 0.8rem;
   }
 
   .producto-precio {
-    font-size: 1.3em;
+    font-size: 1.25em; /* Reducción */
+    margin-top: 0.7rem;
+    margin-bottom: 1rem;
   }
 
   .producto-stock {
-    font-size: 0.8em;
-    padding: 5px 10px;
+    font-size: 0.75em; /* Reducción */
+    padding: 4px 9px;
+    margin-bottom: 1.2rem;
   }
 
   .btn-add, .btn-delete {
-    padding: 10px 20px;
-    font-size: 0.95em;
+    padding: 10px 20px; /* Reducción */
+    font-size: 0.95em; /* Reducción */
     width: 90%;
-    max-width: none;
+    max-width: 160px; /* Máximo más pequeño */
   }
 
   .search-bar {
@@ -347,113 +391,240 @@
   }
 
   .search-input {
-    font-size: 1em;
-    padding: 12px 45px 12px 20px;
+    font-size: 1em; /* Reducción */
+    padding: 12px 42px 12px 20px; /* Reducción */
   }
 
   .search-bar::after {
     right: 20px;
-    font-size: 1.1em;
+    font-size: 1.1em; /* Reducción */
   }
 
   .form-admin {
-    padding: 25px;
+    padding: 22px; /* Reducción */
     gap: 15px;
   }
 
   .form-admin h3 {
-    font-size: 1.8em;
+    font-size: 1.7em; /* Reducción */
   }
 
   .form-admin input {
-    padding: 12px;
+    padding: 11px; /* Reducción */
   }
 
   .form-admin button {
-    padding: 12px 25px;
+    padding: 12px 25px; /* Reducción */
+    font-size: 1.05em; /* Reducción */
+  }
+
+  .loading-message,
+  .error-message,
+  .productos-vacio {
     font-size: 1.1em;
+    padding: 20px;
+    margin-top: 2rem;
+    width: 95%;
   }
 }
 
-@media (max-width: 480px) {
+/* Para Large phones and small tablets (hasta 768px) - ajustes más finos */
+@media (max-width: 768px) {
   .productos-container {
-    padding: 1rem;
+    padding: 1.2rem; /* Más reducido */
     margin: 1rem auto;
     border-radius: 10px;
+    width: 98%;
   }
 
   .productos-title {
-    font-size: 2em;
-    margin-bottom: 1.5rem;
+    font-size: 1.8em; /* Aún más pequeño */
+    margin-bottom: 1.2rem;
   }
 
   .productos-grid {
-    grid-template-columns: 1fr; /* Una columna en móviles pequeños */
-    gap: 1.2rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Minwidth para 2 columnas en muchos móviles */
+    gap: 1rem; /* Más pequeño */
   }
 
   .producto-card {
-    padding: 0.8rem;
-    border-radius: 10px;
+    padding: 0.9rem; /* Más reducido */
+    border-radius: 9px;
   }
 
   .producto-img {
-    max-width: 120px;
-    height: 120px;
+    max-width: 140px; /* Más pequeño */
+    height: 120px; /* Más pequeño */
+    margin-bottom: 0.7rem;
   }
 
   .producto-nombre {
-    font-size: 1.2em;
+    font-size: 1.1em; /* Más pequeño */
+    margin-bottom: 0.4rem;
   }
 
   .producto-desc {
-    font-size: 0.85em;
+    font-size: 0.8em; /* Más pequeño */
+    margin-bottom: 0.7rem;
   }
 
   .producto-precio {
-    font-size: 1.2em;
+    font-size: 1.1em; /* Más pequeño */
+    margin-top: 0.6rem;
+    margin-bottom: 0.9rem;
   }
 
   .producto-stock {
-    font-size: 0.75em;
-    padding: 4px 8px;
+    font-size: 0.7em; /* Más pequeño */
+    padding: 3px 8px;
+    margin-bottom: 1.1rem;
   }
 
   .btn-add, .btn-delete {
-    padding: 8px 15px;
-    font-size: 0.85em;
+    padding: 8px 16px; /* Más reducido */
+    font-size: 0.85em; /* Más reducido */
     width: 95%;
+    max-width: 140px; /* Máximo más pequeño */
   }
 
   .search-bar {
-    margin: 20px auto 30px auto;
+    margin: 20px auto 25px auto;
   }
 
   .search-input {
-    font-size: 0.9em;
-    padding: 10px 40px 10px 15px;
+    font-size: 0.9em; /* Más reducido */
+    padding: 10px 38px 10px 16px; /* Más reducido */
   }
 
   .search-bar::after {
-    right: 15px;
-    font-size: 1em;
+    right: 16px;
+    font-size: 1em; /* Más reducido */
   }
 
   .form-admin {
-    padding: 20px;
-    gap: 12px;
+    padding: 18px; /* Más reducido */
+    gap: 10px;
   }
 
   .form-admin h3 {
-    font-size: 1.6em;
+    font-size: 1.5em; /* Más reducido */
+    margin-bottom: 12px;
   }
 
   .form-admin input {
-    padding: 10px;
+    padding: 10px; /* Más reducido */
   }
 
   .form-admin button {
-    padding: 10px 20px;
+    padding: 10px 20px; /* Más reducido */
+    font-size: 0.95em; /* Más reducido */
+  }
+
+  .loading-message,
+  .error-message,
+  .productos-vacio {
     font-size: 1em;
+    padding: 18px;
+    margin-top: 1.8rem;
+    width: 98%;
+  }
+}
+
+/* Para pantallas de móviles muy pequeñas (hasta 400px, p. ej. iPhone SE, Pixel 4a) */
+@media (max-width: 400px) {
+  .productos-container {
+    padding: 0.8rem; /* Aún más pequeño */
+    margin: 0.6rem auto;
+    border-radius: 8px;
+  }
+
+  .productos-title {
+    font-size: 1.6em; /* Aún más pequeño */
+    margin-bottom: 1rem;
+  }
+
+  .productos-grid {
+    grid-template-columns: 1fr; /* Una columna para asegurar el ajuste */
+    gap: 0.8rem; /* Aún más pequeño */
+  }
+
+  .producto-card {
+    padding: 0.6rem; /* Aún más pequeño */
+    border-radius: 8px;
+  }
+
+  .producto-img {
+    max-width: 90px; /* Aún más pequeña */
+    height: 90px; /* Aún más pequeña */
+    margin-bottom: 0.5rem;
+  }
+
+  .producto-nombre {
+    font-size: 1em; /* Aún más pequeño */
+    margin-bottom: 0.3rem;
+  }
+
+  .producto-desc {
+    font-size: 0.75em; /* Aún más pequeño */
+    margin-bottom: 0.5rem;
+  }
+
+  .producto-precio {
+    font-size: 1em; /* Aún más pequeño */
+    margin-top: 0.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .producto-stock {
+    font-size: 0.65em; /* Aún más pequeño */
+    padding: 2px 6px;
+    margin-bottom: 0.9rem;
+  }
+
+  .btn-add, .btn-delete {
+    padding: 6px 10px; /* Aún más pequeño */
+    font-size: 0.75em; /* Aún más pequeño */
+    width: 100%; /* Ocupa todo el ancho */
+  }
+
+  .search-bar {
+    margin: 15px auto 20px auto;
+  }
+
+  .search-input {
+    font-size: 0.8em; /* Aún más pequeño */
+    padding: 8px 30px 8px 10px; /* Aún más pequeño */
+  }
+
+  .search-bar::after {
+    right: 10px;
+    font-size: 0.8em; /* Aún más pequeño */
+  }
+
+  .form-admin {
+    padding: 12px; /* Aún más pequeño */
+    gap: 6px;
+  }
+
+  .form-admin h3 {
+    font-size: 1.2em; /* Aún más pequeño */
+    margin-bottom: 10px;
+  }
+
+  .form-admin input {
+    padding: 8px; /* Aún más pequeño */
+  }
+
+  .form-admin button {
+    padding: 8px 15px; /* Aún más pequeño */
+    font-size: 0.85em; /* Aún más pequeño */
+  }
+
+  .loading-message,
+  .error-message,
+  .productos-vacio {
+    font-size: 0.9em;
+    padding: 12px;
+    margin-top: 1.2rem;
   }
 }

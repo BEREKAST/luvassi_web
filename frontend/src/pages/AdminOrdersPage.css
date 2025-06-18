@@ -2,396 +2,511 @@
 
 /* Contenedor principal */
 .admin-orders-container {
-  max-width: 1280px; /* Increased max-width for more space */
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #ffffff; /* White background for a clean appearance */
-  border-radius: 16px; /* More rounded borders */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1); /* More pronounced but soft shadow */
-  font-family: 'Inter', sans-serif; /* Modern and consistent font */
-  color: #333;
+    max-width: 1280px; /* Increased max-width for more space */
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff; /* White background for a clean appearance */
+    border-radius: 16px; /* More rounded borders */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1); /* More pronounced but soft shadow */
+    font-family: 'Inter', sans-serif; /* Modern and consistent font */
+    color: #333;
+    box-sizing: border-box; /* Asegura que padding y border se incluyan en el ancho/alto */
+    width: 95%; /* Añadido: Hace que el contenedor sea responsivo desde el inicio */
 }
 
 .admin-orders-container h2 {
-  text-align: center;
-  color: #2c3e50; /* A dark blue/gray for titles */
-  margin-bottom: 30px;
-  font-size: 2.8em; /* Larger title font size */
-  font-weight: 800; /* Extra bold */
-  position: relative;
-  padding-bottom: 18px; /* More space for the bottom line */
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+    text-align: center;
+    color: #2c3e50; /* A dark blue/gray for titles */
+    margin-bottom: 30px;
+    font-size: 2.8em; /* Larger title font size */
+    font-weight: 800; /* Extra bold */
+    position: relative;
+    padding-bottom: 18px; /* More space for the bottom line */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.05);
 }
 
 .admin-orders-container h2::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 100px; /* Wider line */
-  height: 5px; /* Thicker line */
-  background-color: #3498db; /* Blue decorative line */
-  border-radius: 3px;
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100px; /* Wider line */
+    height: 5px; /* Thicker line */
+    background-color: #3498db; /* Blue decorative line */
+    border-radius: 3px;
 }
 
 /* List of orders (Grid layout for better distribution) */
 .pedidos-admin-list {
-  display: grid;
-  /* Responsive columns, with a minimum of 300px for larger cards */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted minmax */
-  gap: 25px; /* Slightly reduced gap between cards */
+    display: grid;
+    /* Responsive columns, with a minimum of 300px for larger cards */
+    /* Asegura que al menos haya una columna si la pantalla es muy pequeña */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Ajustado minmax base */
+    gap: 25px; /* Slightly reduced gap between cards */
 }
 
 /* Each order card */
 .pedido-admin-card {
-  background-color: #fcfcfc; /* Off-white background for soft contrast */
-  border: 1px solid #e0e0e0; /* Lighter border */
-  border-radius: 12px; /* More rounded */
-  padding: 25px; /* Adjusted: More padding for content visibility */
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* More defined shadow */
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth hover transition */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Pushes content to occupy vertical space */
-  
-  /* KEY: Remove fixed height. Let content define height within min/max constraints if any. */
-  /* Replaced 'height' with 'min-height' and 'max-height' for flexibility */
-  min-height: 400px; /* Minimum height for consistency */
-  /* max-height: 550px; /* Optional: if you want a cap on card height even with long lists */
+    background-color: #fcfcfc; /* Off-white background for soft contrast */
+    border: 1px solid #e0e0e0; /* Lighter border */
+    border-radius: 12px; /* More rounded */
+    padding: 25px; /* Adjusted: More padding for content visibility */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* More defined shadow */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth hover transition */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes content to occupy vertical space */
+
+    /* CLAVE: Eliminar height fijo. Usar min-height para asegurar altura mínima
+       y permitir que el contenido defina la altura si es necesario. */
+    min-height: 400px; /* Minimum height for consistency */
+    box-sizing: border-box; /* Asegura que padding y border se incluyan */
 }
 
 .pedido-admin-card:hover {
-  transform: translateY(-5px); /* Floating effect on hover */
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px); /* Floating effect on hover */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .pedido-admin-card h3 {
-  color: #3498db; /* Primary blue */
-  margin-bottom: 12px; /* Adjusted */
-  font-size: 1.7em; /* Larger, clearer heading for each order */
-  font-weight: 700;
-  border-bottom: 1px solid #e0e0e0; /* Subtle line */
-  padding-bottom: 10px; /* Adjusted */
+    color: #3498db; /* Primary blue */
+    margin-bottom: 12px; /* Adjusted */
+    font-size: 1.7em; /* Larger, clearer heading for each order */
+    font-weight: 700;
+    border-bottom: 1px solid #e0e0e0; /* Subtle line */
+    padding-bottom: 10px; /* Adjusted */
 }
 
 .pedido-admin-card p {
-  margin-bottom: 8px; /* Adjusted */
-  color: #555;
-  font-size: 1em; /* Slightly larger for readability */
-  line-height: 1.4;
+    margin-bottom: 8px; /* Adjusted */
+    color: #555;
+    font-size: 1em; /* Slightly larger for readability */
+    line-height: 1.4;
 }
 
 .pedido-admin-card strong {
-  color: #333;
-  font-weight: 700;
+    color: #333;
+    font-weight: 700;
 }
 
 /* New: Styles for status text within the card */
 .pedido-admin-card p strong.estado-pedido-completado {
-  background-color: #e6ffe6; /* Light green */
-  color: #28a745; /* Dark green */
-  padding: 5px 12px; /* Adjusted padding */
-  border-radius: 20px;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.95em; /* Adjusted font size */
-  border: 1px solid #c3e6cb;
+    background-color: #e6ffe6; /* Light green */
+    color: #28a745; /* Dark green */
+    padding: 5px 12px; /* Adjusted padding */
+    border-radius: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.95em; /* Adjusted font size */
+    border: 1px solid #c3e6cb;
 }
 
 .pedido-admin-card p strong.estado-pedido-cancelado {
-  background-color: #ffe6e6; /* Light red */
-  color: #dc3545; /* Dark red */
-  padding: 5px 12px; /* Adjusted padding */
-  border-radius: 20px;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.95em; /* Adjusted font size */
-  border: 1px solid #f5c6cb;
+    background-color: #ffe6e6; /* Light red */
+    color: #dc3545; /* Dark red */
+    padding: 5px 12px; /* Adjusted padding */
+    border-radius: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.95em; /* Adjusted font size */
+    border: 1px solid #f5c6cb;
 }
 
 .pedido-admin-card p strong.estado-pedido-pendiente {
-  background-color: #e6f7ff; /* Light blue */
-  color: #007bff; /* Dark blue */
-  padding: 5px 12px; /* Adjusted padding */
-  border-radius: 20px;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.95em; /* Adjusted font size */
-  border: 1px solid #b3d7ff;
+    background-color: #e6f7ff; /* Light blue */
+    color: #007bff; /* Dark blue */
+    padding: 5px 12px; /* Adjusted padding */
+    border-radius: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.95em; /* Adjusted font size */
+    border: 1px solid #b3d7ff;
 }
 
-
 .pedido-admin-card h4 {
-  margin-top: 20px;
-  margin-bottom: 12px;
-  color: #2c3e50;
-  font-size: 1.2em; /* Slightly larger for visibility */
-  font-weight: 600;
-  border-top: 1px solid #e0e0e0;
-  padding-top: 12px;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    color: #2c3e50;
+    font-size: 1.2em; /* Slightly larger for visibility */
+    font-weight: 600;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 12px;
 }
 
 /* Product list within the order card */
 .productos-admin-detalle-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex-grow: 1; /* Allows the product list to expand, helping card height consistency */
-  /* KEY: Max height for the product list before scrolling */
-  max-height: 200px; /* Adjusted: More generous scroll height for better visibility */
-  overflow-y: auto; /* Enables vertical scrolling when content exceeds max-height */
-  padding-right: 8px; /* Small padding so the scrollbar doesn't stick to the text */
-  margin-bottom: 15px; /* Space before actions */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Allows the product list to expand, helping card height consistency */
+    /* KEY: Max height for the product list before scrolling */
+    max-height: 200px; /* Adjusted: More generous scroll height for better visibility */
+    overflow-y: auto; /* Enables vertical scrolling when content exceeds max-height */
+    padding-right: 8px; /* Small padding so the scrollbar doesn't stick to the text */
+    margin-bottom: 15px; /* Space before actions */
 }
 
 /* Scrollbar styles (webkits) */
 .productos-admin-detalle-list::-webkit-scrollbar {
-  width: 8px; /* Slightly wider scrollbar */
+    width: 8px; /* Slightly wider scrollbar */
 }
 
 .productos-admin-detalle-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
+    background: #f1f1f1;
+    border-radius: 10px;
 }
 
 .productos-admin-detalle-list::-webkit-scrollbar-thumb {
-  background: #a0a0a0; /* Lighter scrollbar */
-  border-radius: 10px;
+    background: #a0a0a0; /* Lighter scrollbar */
+    border-radius: 10px;
 }
 
 .productos-admin-detalle-list::-webkit-scrollbar-thumb:hover {
-  background: #777;
+    background: #777;
 }
 
-
 .producto-admin-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px; /* Adjusted */
-  padding: 6px 0; /* Adjusted */
-  border-bottom: 1px solid #f8f8f8;
-  font-size: 0.9em; /* Slightly larger for readability */
-  color: #444;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Adjusted */
+    padding: 6px 0; /* Adjusted */
+    border-bottom: 1px solid #f8f8f8;
+    font-size: 0.9em; /* Slightly larger for readability */
+    color: #444;
 }
 
 .producto-admin-item:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
+    border-bottom: none;
+    margin-bottom: 0;
 }
 
 .producto-admin-imagen {
-  width: 60px; /* Larger images */
-  height: 60px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-right: 12px; /* Adjusted */
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    width: 60px; /* Larger images */
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 12px; /* Adjusted */
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0; /* Asegura que la imagen no se encoja */
 }
 
 /* Admin actions (change status) */
 .admin-actions {
-  margin-top: auto; /* Pushes actions to the bottom of the card */
-  display: flex;
-  align-items: center;
-  gap: 12px; /* Adjusted */
-  padding-top: 15px; /* Adjusted */
-  border-top: 1px solid #e0e0e0;
+    margin-top: auto; /* Pushes actions to the bottom of the card */
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Adjusted */
+    padding-top: 15px; /* Adjusted */
+    border-top: 1px solid #e0e0e0;
+    flex-wrap: wrap; /* Añadido: Permite que los elementos se envuelvan */
 }
 
 .admin-actions label {
-  font-weight: 600;
-  color: #2c3e50;
-  font-size: 0.95em; /* Slightly larger */
-  white-space: nowrap;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.95em; /* Slightly larger */
+    white-space: nowrap;
+    flex-shrink: 0; /* Evita que la etiqueta se encoja */
 }
 
 .admin-actions select {
-  padding: 8px 15px; /* Adjusted padding */
-  border-radius: 8px;
-  border: 1px solid #b0b0b0;
-  background-color: #f8f8f8;
-  cursor: pointer;
-  font-size: 0.9em; /* Slightly larger */
-  color: #444;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%20viewBox%3D%220%200%20292.4%20292.4%22%3E%3Cpath%20fill%3D%22%233498db%22%20d%3D%22M287%20197.8L146.2%2057%205.4%20197.8c-2.4%202.4-5.5%203.6-8.7%203.6s-6.3-1.2-8.7-3.6c-4.8-4.8-4.8-12.5%200-17.3L137.5%2030.7c4.8-4.8%2012.5-4.8%2017.3%200l138.8%20138.8c4.8%204.8%204.8%2012.5%200%2017.3-4.8%204.9-12.5%204.9-17.3%200z%22%2F%3E%3C%2Fsvg%3E'); /* Custom blue arrow */
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 10px auto;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+    padding: 8px 15px; /* Adjusted padding */
+    border-radius: 8px;
+    border: 1px solid #b0b0b0;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    font-size: 0.9em; /* Slightly larger */
+    color: #444;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%20viewBox%3D%220%200%20292.4%20292.4%22%3E%3Cpath%20fill%3D%22%233498db%22%20d%3D%22M287%20197.8L146.2%2057%205.4%20197.8c-2.4%202.4-5.5%203.6-8.7%203.6s-6.3-1.2-8.7-3.6c-4.8-4.8-4.8-12.5%200-17.3L137.5%2030.7c4.8-4.8%2012.5-4.8%2017.3%200l138.8%20138.8c4.8%204.8%204.8%2012.5%200%2017.3-4.8%204.9-12.5%204.9-17.3%200z%22%2F%3E%3C%2Fsvg%3E'); /* Custom blue arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px auto;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+    flex-grow: 1; /* Permite que el select ocupe el espacio restante */
+    max-width: calc(100% - 70px); /* Ajusta si es necesario, permite espacio para label */
 }
 
 .admin-actions select:focus {
-  outline: none;
-  border-color: #2e86c1;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    outline: none;
+    border-color: #2e86c1;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
 }
 
 .admin-actions select:disabled {
-  background-color: #e9ecef; /* Light gray background when disabled */
-  cursor: not-allowed;
-  opacity: 0.8;
-  border-color: #ced4da;
+    background-color: #e9ecef; /* Light gray background when disabled */
+    cursor: not-allowed;
+    opacity: 0.8;
+    border-color: #ced4da;
 }
 
 /* Style for error or loading messages */
-.error-message,
-.admin-orders-container p {
-  text-align: center;
-  color: #e74c3c;
-  margin-top: 30px;
-  font-size: 1.1em;
-  font-weight: 500;
-  padding: 15px;
-  background-color: #fff5f5;
-  border: 1px solid #f0a0a0;
-  border-radius: 8px;
+/* Nota: Se han combinado las reglas de .error-message y .admin-orders-container p
+   para que siempre tengan un padding y margin-bottom definidos, pero con colores y fondos diferentes.
+   También se eliminó la p genérica del selector de error para evitar conflictos. */
+.error-message {
+    text-align: center;
+    color: #e74c3c;
+    margin-top: 30px;
+    margin-bottom: 20px; /* Añadido */
+    font-size: 1.1em;
+    font-weight: 500;
+    padding: 15px;
+    background-color: #fff5f5;
+    border: 1px solid #f0a0a0;
+    border-radius: 8px;
+    width: 90%; /* Hace que el mensaje también sea responsivo */
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
 }
 
-.admin-orders-container p:not(.error-message) {
-  color: #6c757d;
-  background-color: #f8f8f8;
-  border: none;
+/* Este selector es para <p> que no son mensajes de error (e.g., "No hay órdenes") */
+.admin-orders-container > p:not(.error-message) {
+    color: #6c757d;
+    background-color: #f8f8f8;
+    border: none;
+    padding: 15px; /* Añadido padding para consistencia */
+    margin-top: 30px; /* Mismo margen que error */
+    margin-bottom: 20px; /* Añadido */
+    border-radius: 8px; /* Añadido */
+    text-align: center;
+    width: 90%; /* Hace que el mensaje también sea responsivo */
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
 }
 
 
 /* Media queries for responsiveness */
-@media (max-width: 992px) { /* Tablets and medium screens */
-  .admin-orders-container {
-    padding: 25px;
-    margin: 30px auto;
-  }
-  .pedidos-admin-list {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted minwidth */
-    gap: 20px;
-  }
-  .admin-orders-container h2 {
-    font-size: 2.2em;
-    padding-bottom: 12px;
-  }
-  .admin-orders-container h2::after {
-    width: 70px;
-    height: 3px;
-  }
-  .pedido-admin-card h3 {
-    font-size: 1.6em;
-  }
-  .pedido-admin-card {
-    min-height: 380px; /* Adjusted height for tablets */
-    /* max-height: 500px; */
-  }
-  .productos-admin-detalle-list {
-    max-height: 150px; /* Adjusted scroll height for tablets */
-  }
-  .producto-admin-imagen {
-    width: 50px;
-    height: 50px;
-  }
+
+/* Para pantallas de tabletas y medium screens (hasta 992px) */
+@media (max-width: 992px) {
+    .admin-orders-container {
+        padding: 20px; /* Menos padding */
+        margin: 25px auto; /* Menos margen */
+        max-width: 95%; /* Asegura que no se estire demasiado */
+    }
+    .pedidos-admin-list {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Minwidth ligeramente reducido */
+        gap: 18px; /* Menos espacio entre cards */
+    }
+    .admin-orders-container h2 {
+        font-size: 2em; /* Título más pequeño */
+        padding-bottom: 10px;
+        margin-bottom: 25px;
+    }
+    .admin-orders-container h2::after {
+        width: 60px; /* Línea más corta */
+        height: 3px;
+    }
+    .pedido-admin-card {
+        padding: 20px; /* Padding de la tarjeta reducido */
+        min-height: 360px; /* Altura mínima ajustada */
+    }
+    .pedido-admin-card h3 {
+        font-size: 1.5em; /* Título de tarjeta más pequeño */
+    }
+    .pedido-admin-card p {
+        font-size: 0.95em; /* Texto de párrafo ligeramente más pequeño */
+    }
+    .pedido-admin-card h4 {
+        font-size: 1.1em; /* Título de subsección más pequeño */
+    }
+    .productos-admin-detalle-list {
+        max-height: 160px; /* Altura de scroll ajustada */
+        margin-bottom: 12px;
+    }
+    .producto-admin-imagen {
+        width: 50px; /* Imagen más pequeña */
+        height: 50px;
+        margin-right: 10px;
+    }
+    .producto-admin-item {
+        font-size: 0.85em; /* Texto de item de producto más pequeño */
+        margin-bottom: 8px;
+    }
+    .admin-actions {
+        gap: 10px;
+        padding-top: 12px;
+    }
+    .admin-actions label {
+        font-size: 0.9em;
+    }
+    .admin-actions select {
+        font-size: 0.85em;
+        padding: 7px 12px;
+        background-position: right 8px center;
+        background-size: 9px auto;
+        max-width: calc(100% - 60px); /* Ajustado si la etiqueta es más pequeña */
+    }
 }
 
 
-@media (max-width: 768px) { /* Large phones and small tablets */
-  .admin-orders-container {
-    margin: 15px auto;
-    padding: 18px;
-    border-radius: 10px;
-  }
+/* Para Large phones and small tablets (hasta 768px) */
+@media (max-width: 768px) {
+    .admin-orders-container {
+        margin: 15px auto;
+        padding: 15px; /* Padding reducido */
+        border-radius: 12px; /* Bordes menos redondeados */
+        width: 98%; /* Ocupa casi todo el ancho */
+    }
 
-  .admin-orders-container h2 {
-    font-size: 1.8em;
-    margin-bottom: 20px;
-    padding-bottom: 8px;
-  }
+    .admin-orders-container h2 {
+        font-size: 1.7em; /* Título principal más pequeño */
+        margin-bottom: 18px;
+        padding-bottom: 7px;
+    }
 
-  .admin-orders-container h2::after {
-    width: 50px;
-    height: 2px;
-  }
+    .admin-orders-container h2::after {
+        width: 45px; /* Línea más corta */
+        height: 2px;
+    }
 
-  .pedidos-admin-list {
-    grid-template-columns: 1fr; /* Single column on small screens */
-    gap: 18px;
-  }
+    .pedidos-admin-list {
+        grid-template-columns: 1fr; /* Una sola columna en móviles */
+        gap: 15px; /* Menos espacio entre cards */
+    }
 
-  .pedido-admin-card {
-    padding: 15px;
-    border-radius: 8px;
-    min-height: 360px; /* Adjusted height for mobile */
-    /* max-height: 480px; */
-  }
+    .pedido-admin-card {
+        padding: 18px; /* Padding de la tarjeta reducido */
+        border-radius: 10px;
+        min-height: 320px; /* Altura mínima ajustada para móviles */
+    }
 
-  .pedido-admin-card h3 {
-    font-size: 1.3em;
-  }
+    .pedido-admin-card h3 {
+        font-size: 1.2em; /* Título de tarjeta más pequeño */
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+    }
+    .pedido-admin-card p {
+        font-size: 0.9em; /* Texto de párrafo más pequeño */
+        margin-bottom: 6px;
+    }
+    .pedido-admin-card h4 {
+        font-size: 1em; /* Título de subsección más pequeño */
+        margin-top: 15px;
+        margin-bottom: 10px;
+        padding-top: 10px;
+    }
 
-  .producto-admin-imagen {
-    width: 45px;
-    height: 45px;
-    margin-right: 8px;
-  }
+    .productos-admin-detalle-list {
+        max-height: 120px; /* Altura de scroll ajustada */
+        margin-bottom: 10px;
+    }
 
-  .productos-admin-detalle-list {
-    max-height: 130px; /* Adjusted scroll height for mobile */
-  }
+    .producto-admin-imagen {
+        width: 45px; /* Imagen más pequeña */
+        height: 45px;
+        margin-right: 8px;
+    }
+    .producto-admin-item {
+        font-size: 0.8em; /* Texto de item de producto más pequeño */
+        margin-bottom: 6px;
+    }
 
-  .admin-actions {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    padding-top: 8px;
-  }
+    .admin-actions {
+        flex-direction: column; /* Apila label y select */
+        align-items: flex-start; /* Alinea a la izquierda */
+        gap: 6px;
+        padding-top: 10px;
+    }
 
-  .admin-actions select {
-    width: 100%;
-    font-size: 0.8em;
-    padding: 6px 10px;
-  }
+    .admin-actions label {
+        font-size: 0.85em; /* Etiqueta más pequeña */
+    }
 
-  .admin-actions label {
-    font-size: 0.8em;
-  }
+    .admin-actions select {
+        width: 100%; /* El selector ocupa todo el ancho */
+        font-size: 0.8em; /* Selector más pequeño */
+        padding: 6px 10px;
+        background-position: right 8px center;
+        background-size: 8px auto;
+        max-width: none; /* Eliminar max-width para que ocupe todo el 100% */
+    }
+    .error-message,
+    .admin-orders-container > p:not(.error-message) {
+        font-size: 1em;
+        padding: 12px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        width: 95%; /* Ocupa más ancho en móvil */
+    }
 }
 
-@media (max-width: 480px) { /* Very small phones */
-  .admin-orders-container {
-    padding: 12px;
-    margin: 10px auto;
-  }
-  .admin-orders-container h2 {
-    font-size: 1.5em;
-    margin-bottom: 15px;
-  }
-  .admin-orders-container h2::after {
-    width: 30px;
-    height: 2px;
-  }
-  .pedido-admin-card {
-    padding: 12px;
-    min-height: 320px; /* Adjusted height for very small mobile screens */
-    /* max-height: 420px; */
-  }
-  .pedido-admin-card h3 {
-    font-size: 1.1em;
-  }
-  .pedido-admin-card p, .producto-admin-item span {
-    font-size: 0.75em;
-  }
-  .producto-admin-imagen {
-    width: 40px;
-    height: 40px;
-  }
-  .productos-admin-detalle-list {
-    max-height: 110px; /* Adjusted scroll height for very small mobile screens */
-  }
-  .admin-actions label {
-    font-size: 0.75em;
-  }
-  .admin-actions select {
-    font-size: 0.7em;
-    padding: 5px 8px;
-  }
+/* Para Very small phones (hasta 480px) */
+@media (max-width: 480px) {
+    .admin-orders-container {
+        padding: 10px; /* Padding mínimo */
+        margin: 8px auto;
+        border-radius: 8px;
+    }
+    .admin-orders-container h2 {
+        font-size: 1.4em; /* Título principal muy pequeño */
+        margin-bottom: 12px;
+        padding-bottom: 5px;
+    }
+    .admin-orders-container h2::after {
+        width: 30px;
+        height: 2px;
+    }
+    .pedido-admin-card {
+        padding: 12px; /* Padding de la tarjeta mínimo */
+        min-height: 280px; /* Altura mínima ajustada */
+    }
+    .pedido-admin-card h3 {
+        font-size: 1em; /* Título de tarjeta muy pequeño */
+        margin-bottom: 8px;
+        padding-bottom: 6px;
+    }
+    .pedido-admin-card p {
+        font-size: 0.8em; /* Texto de párrafo muy pequeño */
+        margin-bottom: 5px;
+    }
+    .pedido-admin-card h4 {
+        font-size: 0.9em; /* Título de subsección muy pequeño */
+        margin-top: 12px;
+        margin-bottom: 8px;
+        padding-top: 8px;
+    }
+    .productos-admin-detalle-list {
+        max-height: 100px; /* Altura de scroll muy ajustada */
+        margin-bottom: 8px;
+    }
+    .producto-admin-imagen {
+        width: 35px; /* Imagen muy pequeña */
+        height: 35px;
+        margin-right: 6px;
+    }
+    .producto-admin-item {
+        font-size: 0.75em; /* Texto de item de producto muy pequeño */
+        margin-bottom: 5px;
+    }
+    .admin-actions {
+        gap: 5px;
+        padding-top: 8px;
+    }
+    .admin-actions label {
+        font-size: 0.8em; /* Etiqueta muy pequeña */
+    }
+    .admin-actions select {
+        font-size: 0.7em; /* Selector muy pequeño */
+        padding: 5px 8px;
+        background-position: right 6px center;
+        background-size: 7px auto;
+    }
+    .error-message,
+    .admin-orders-container > p:not(.error-message) {
+        font-size: 0.9em;
+        padding: 10px;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        width: 98%;
+    }
 }

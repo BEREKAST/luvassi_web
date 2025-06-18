@@ -1,82 +1,258 @@
-    /* frontend/src/pages/OrdersPage.css */
-    .orders-container {
-      padding: 20px;
-      max-width: 900px;
-      margin: 20px auto;
-      background-color: #f9f9f9;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+/* frontend/src/pages/OrdersPage.css */
 
-    .orders-container h2 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 20px;
-    }
+.orders-container {
+  padding: 20px;
+  /* ORIGINAL: max-width: 900px; */
+  /* --- AJUSTES PARA LA RESPONSIVIDAD --- */
+  max-width: 900px; /* Mantiene el ancho máximo para pantallas grandes */
+  width: 95%; /* La página ocupará el 95% del ancho de la ventana, ajustándose */
+  margin: 20px auto; /* Centrado y margen vertical */
+  box-sizing: border-box; /* Incluye padding y border en el ancho/alto total */
+  /* ------------------------------------- */
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-    .error-message {
-      color: #d9534f;
-      text-align: center;
-      font-weight: bold;
-    }
+.orders-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
 
-    .pedidos-list {
-      display: grid;
-      gap: 20px;
-    }
+.error-message {
+  color: #d9534f;
+  text-align: center;
+  font-weight: bold;
+  /* --- AJUSTES PARA LA RESPONSIVIDAD --- */
+  padding: 10px; /* Asegura un buen padding para el mensaje de error */
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%; /* Hace que el mensaje de error sea responsivo */
+  box-sizing: border-box;
+  /* ------------------------------------- */
+}
 
-    .pedido-card {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
+.pedidos-list {
+  display: grid;
+  /* --- AJUSTES PARA LA RESPONSIVIDAD --- */
+  /* Por defecto, permite que se ajusten al ancho de su contenedor.
+     En móviles, se establecerá a 1 columna. */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Permitir múltiples columnas, mínimo 280px */
+  /* ------------------------------------- */
+  gap: 20px;
+}
 
-    .pedido-card h3 {
-      color: #007bff;
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
+.pedido-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  /* --- AJUSTES PARA LA RESPONSIVIDAD --- */
+  box-sizing: border-box; /* Crucial para que el padding no desborde el ancho */
+  /* ------------------------------------- */
+}
 
-    .pedido-card p {
-      margin-bottom: 5px;
-      color: #555;
-    }
+.pedido-card h3 {
+  color: #007bff;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
 
-    .pedido-card h4 {
-      margin-top: 15px;
-      margin-bottom: 8px;
-      color: #444;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 5px;
-    }
+.pedido-card p {
+  margin-bottom: 5px;
+  color: #555;
+}
 
-    .productos-detalle-list {
-      list-style: none;
-      padding: 0;
-    }
+.pedido-card h4 {
+  margin-top: 15px;
+  margin-bottom: 8px;
+  color: #444;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
 
-    .producto-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-      background-color: #f0f8ff;
-      padding: 8px;
-      border-radius: 5px;
-    }
+.productos-detalle-list {
+  list-style: none;
+  padding: 0;
+  /* --- AJUSTES PARA LA RESPONSIVIDAD --- */
+  max-height: 150px; /* Añade un máximo de altura para evitar tarjetas muy largas */
+  overflow-y: auto; /* Permite scroll vertical si hay muchos productos */
+  padding-right: 5px; /* Pequeño padding para que el scrollbar no pegue al texto */
+  /* ------------------------------------- */
+}
 
-    .producto-imagen {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 4px;
-      margin-right: 10px;
-      border: 1px solid #ccc;
-    }
+/* Estilos para el scrollbar de la lista de productos (solo para Webkit) */
+.productos-detalle-list::-webkit-scrollbar {
+    width: 6px; /* Ancho del scrollbar */
+}
 
-    .producto-item span {
-      font-size: 0.95em;
-      color: #333;
-    }
-    
+.productos-detalle-list::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Fondo de la pista del scrollbar */
+    border-radius: 10px;
+}
+
+.productos-detalle-list::-webkit-scrollbar-thumb {
+    background: #bbb; /* Color del "pulgar" del scrollbar */
+    border-radius: 10px;
+}
+
+.productos-detalle-list::-webkit-scrollbar-thumb:hover {
+    background: #999; /* Color al pasar el ratón */
+}
+
+
+.producto-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  background-color: #f0f8ff;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.producto-imagen {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  /* --- AJUSTES PARA LA RESPONSIVIDAD --- */
+  flex-shrink: 0; /* Evita que la imagen se encoja más allá de su tamaño definido */
+  /* ------------------------------------- */
+}
+
+.producto-item span {
+  font-size: 0.95em;
+  color: #333;
+}
+
+/* --- MEDIA QUERIES PARA AJUSTAR TAMAÑO EN DIFERENTES PANTALLAS --- */
+
+/* Para pantallas de tabletas y medianas (hasta 768px de ancho) */
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 15px; /* Reduce el padding del contenedor principal */
+    margin: 15px auto; /* Reduce el margen */
+    width: 98%; /* Ocupa más espacio en el ancho */
+  }
+
+  .orders-container h2 {
+    font-size: 1.8em; /* Título principal más pequeño */
+    margin-bottom: 15px;
+  }
+
+  .pedidos-list {
+    grid-template-columns: 1fr; /* Una sola columna en móviles para una mejor lectura */
+    gap: 15px; /* Reduce el espacio entre tarjetas */
+  }
+
+  .pedido-card {
+    padding: 12px; /* Reduce el padding de la tarjeta */
+  }
+
+  .pedido-card h3 {
+    font-size: 1.2em; /* Título de tarjeta más pequeño */
+    margin-bottom: 8px;
+  }
+
+  .pedido-card p {
+    font-size: 0.9em; /* Párrafo más pequeño */
+    margin-bottom: 4px;
+  }
+
+  .pedido-card h4 {
+    font-size: 1em; /* Título de subsección más pequeño */
+    margin-top: 12px;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+  }
+
+  .productos-detalle-list {
+    max-height: 120px; /* Reduce la altura de scroll para móviles */
+  }
+
+  .producto-item {
+    padding: 6px; /* Reduce el padding del item de producto */
+    margin-bottom: 6px;
+  }
+
+  .producto-imagen {
+    width: 40px; /* Imágenes más pequeñas */
+    height: 40px;
+    margin-right: 8px;
+  }
+
+  .producto-item span {
+    font-size: 0.85em; /* Texto de item de producto más pequeño */
+  }
+
+  .error-message {
+    font-size: 0.9em;
+    padding: 8px;
+  }
+}
+
+/* Para pantallas de móviles muy pequeñas (hasta 480px de ancho) */
+@media (max-width: 480px) {
+  .orders-container {
+    padding: 10px; /* Padding mínimo para el contenedor principal */
+    margin: 10px auto;
+  }
+
+  .orders-container h2 {
+    font-size: 1.5em; /* Título aún más pequeño */
+    margin-bottom: 10px;
+  }
+
+  .pedidos-list {
+    gap: 10px; /* Espacio mínimo entre tarjetas */
+  }
+
+  .pedido-card {
+    padding: 10px; /* Padding mínimo de la tarjeta */
+  }
+
+  .pedido-card h3 {
+    font-size: 1.1em; /* Título de tarjeta aún más pequeño */
+    margin-bottom: 6px;
+  }
+
+  .pedido-card p {
+    font-size: 0.8em; /* Párrafo aún más pequeño */
+    margin-bottom: 3px;
+  }
+
+  .pedido-card h4 {
+    font-size: 0.9em; /* Título de subsección aún más pequeño */
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+  }
+
+  .productos-detalle-list {
+    max-height: 100px; /* Altura de scroll muy reducida */
+  }
+
+  .producto-item {
+    padding: 5px; /* Padding mínimo del item de producto */
+    margin-bottom: 5px;
+  }
+
+  .producto-imagen {
+    width: 35px; /* Imágenes muy pequeñas */
+    height: 35px;
+    margin-right: 6px;
+  }
+
+  .producto-item span {
+    font-size: 0.75em; /* Texto de item de producto muy pequeño */
+  }
+
+  .error-message {
+    font-size: 0.8em;
+    padding: 6px;
+  }
+}

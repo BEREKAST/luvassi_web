@@ -1,4 +1,9 @@
+// frontend/src/components/AddProductForm.jsx
 import React, { useState } from 'react';
+
+// Define la URL base de tu API usando la variable de entorno
+// El fallback 'http://localhost:5000' es para que funcione en desarrollo local
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const AddProductForm = ({ onProductAdded }) => {
   const [form, setForm] = useState({
@@ -16,7 +21,8 @@ const AddProductForm = ({ onProductAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/productos', {
+      // MODIFICACIÓN: Usar API_BASE_URL para agregar producto
+      const res = await fetch(`${API_BASE_URL}/api/productos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)

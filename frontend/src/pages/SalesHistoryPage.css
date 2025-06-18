@@ -1,51 +1,52 @@
 /* frontend/src/pages/SalesHistoryPage.css */
 
 .sales-history-container {
-  padding: 30px; /* Aumentado padding para más espacio */
-  max-width: 1280px; /* Ajustado para un diseño más amplio en pantallas grandes */
-  margin: 30px auto; /* Margen superior e inferior para centrar mejor */
-  background-color: #f8f9fa; /* Fondo más claro y moderno */
-  border-radius: 16px; /* Bordes más redondeados */
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Sombra más profunda y elegante */
-  font-family: 'Inter', sans-serif; /* Usar Inter como fuente */
-  color: #343a40; /* Color de texto oscuro para buen contraste */
-  position: relative; /* Para el pseudo-elemento de h2 */
+  padding: 2.8rem; /* Ligeramente reducido para empezar más compacto */
+  max-width: 1280px;
+  margin: 2.5rem auto; /* Ligeramente reducido */
+  background-color: #f8f9fa;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+  color: #343a40;
+  position: relative;
+  /* Responsividad base */
+  width: 95%; /* Asegura que el contenedor principal sea responsivo */
+  box-sizing: border-box; /* Incluye padding y border en el ancho/alto */
 }
 
 h2 {
   text-align: center;
-  color: #212529; /* Color de título más oscuro */
-  margin-bottom: 40px; /* Más espacio debajo del título */
-  font-size: 3em; /* Tamaño de fuente más grande para el título principal */
-  font-weight: 800; /* Extra bold */
-  letter-spacing: -0.8px; /* Ajuste para un título más compacto */
+  color: #212529;
+  margin-bottom: 35px; /* Ligeramente reducido */
+  font-size: 2.8em; /* Ligeramente reducido */
+  font-weight: 800;
+  letter-spacing: -0.8px;
   position: relative;
-  padding-bottom: 15px; /* Espacio para la línea decorativa */
+  padding-bottom: 12px; /* Ligeramente reducido */
 }
 
-/* Estilo para el pseudo-elemento after de h2, para la línea decorativa */
 .sales-history-container h2::after {
   content: '';
   position: absolute;
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  width: 150px; /* Ancho de la línea aumentado */
-  height: 7px; /* Grosor de la línea aumentado */
-  background-color: #007bff; /* Azul primario */
+  width: 140px; /* Ligeramente reducido */
+  height: 6px; /* Ligeramente reducido */
+  background-color: #007bff;
   border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3); /* Sombra para la línea */
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
 }
 
-/* Loading Spinner Basic Styles */
 .loading-spinner {
-  border: 5px solid rgba(0, 0, 0, 0.1);
-  border-top: 5px solid #007bff; /* Color primario azul */
+  border: 4px solid rgba(0, 0, 0, 0.1); /* Ligeramente más delgado */
+  border-top: 4px solid #007bff;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 45px; /* Ligeramente más pequeño */
+  height: 45px;
   animation: spin 1s linear infinite;
-  margin: 40px auto; /* Centrado y con margen */
+  margin: 35px auto; /* Ligeramente reducido */
 }
 
 @keyframes spin {
@@ -54,103 +55,111 @@ h2 {
 }
 
 .error-message {
-  color: #dc3545; /* Rojo de error */
+  color: #dc3545;
   text-align: center;
   font-weight: bold;
-  padding: 25px;
+  padding: 20px; /* Ligeramente reducido */
   border: 1px solid #dc3545;
-  background-color: #ffebe6; /* Fondo rojo claro */
+  background-color: #ffebe6;
   border-radius: 10px;
-  margin: 30px auto;
-  max-width: 600px;
-  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2); /* Sombra para mensajes de error */
+  margin: 25px auto; /* Ligeramente reducido */
+  max-width: 550px; /* Ligeramente reducido */
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+  /* Responsividad base */
+  width: 90%;
+  box-sizing: border-box;
 }
 
 /* Summary Cards Section */
 .summary-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px; /* Más espacio entre tarjetas */
-  margin-bottom: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Min-width ligeramente reducido */
+  gap: 25px; /* Ligeramente reducido */
+  margin-bottom: 40px; /* Ligeramente reducido */
 }
 
 .summary-cards .card {
   background-color: #ffffff;
-  padding: 30px; /* Más padding */
-  border-radius: 18px; /* Bordes más redondeados */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09); /* Sombra suave */
+  padding: 25px; /* Ligeramente reducido */
+  border-radius: 16px; /* Ligeramente reducido */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
   text-align: center;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición más sofisticada */
-  border: 1px solid #e9ecef; /* Borde sutil */
-  display: flex; /* Para centrar contenido verticalmente */
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid #e9ecef;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* Responsividad base */
+  box-sizing: border-box;
 }
 
 .summary-cards .card:hover {
-  transform: translateY(-10px) scale(1.02); /* Efecto de levantamiento y ligero aumento */
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada al pasar el ratón */
+  transform: translateY(-8px) scale(1.01); /* Efecto ligeramente más sutil */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.13); /* Sombra ligeramente más sutil */
 }
 
 .summary-cards .card h3 {
-  font-size: 1.6em;
+  font-size: 1.5em; /* Ligeramente reducido */
   color: #495057;
-  margin-bottom: 12px;
+  margin-bottom: 10px; /* Ligeramente reducido */
   font-weight: 600;
 }
 
 .summary-cards .card .big-number {
-  font-size: 4.5em; /* Número más grande */
-  font-weight: 900; /* Ultra bold */
-  margin-bottom: 8px;
-  /* Colores específicos en línea para mantener flexibilidad */
+  font-size: 4em; /* Ligeramente reducido */
+  font-weight: 900;
+  margin-bottom: 6px; /* Ligeramente reducido */
 }
 
 .summary-cards .card p {
   color: #6c757d;
-  font-size: 1em;
+  font-size: 0.95em; /* Ligeramente reducido */
 }
 
 /* Chart Section */
 .chart-section {
   background-color: #ffffff;
-  padding: 40px; /* Más padding */
-  border-radius: 18px;
+  padding: 35px; /* Ligeramente reducido */
+  border-radius: 16px; /* Ligeramente reducido */
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
-  margin-bottom: 50px;
+  margin-bottom: 40px; /* Ligeramente reducido */
   border: 1px solid #e9ecef;
+  /* Responsividad base */
+  box-sizing: border-box;
 }
 
 .chart-section h3 {
-  font-size: 2.2em; /* Título más grande */
+  font-size: 2em; /* Ligeramente reducido */
   color: #212529;
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 30px; /* Ligeramente reducido */
   font-weight: 700;
 }
 
 /* Details Section (Sales Lists) */
 .details-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); /* Columnas un poco más anchas */
-  gap: 30px;
-  margin-bottom: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Min-width ligeramente reducido */
+  gap: 25px; /* Ligeramente reducido */
+  margin-bottom: 40px; /* Ligeramente reducido */
 }
 
 .sales-list-section {
   background-color: #ffffff;
-  padding: 30px;
-  border-radius: 18px;
+  padding: 25px; /* Ligeramente reducido */
+  border-radius: 16px; /* Ligeramente reducido */
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
   border: 1px solid #e9ecef;
+  /* Responsividad base */
+  box-sizing: border-box;
 }
 
 .sales-list-section h3 {
-  font-size: 2.2em;
+  font-size: 2em; /* Ligeramente reducido */
   color: #212529;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px; /* Ligeramente reducido */
   font-weight: 700;
 }
 
@@ -159,76 +168,78 @@ h2 {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Más espacio entre ítems */
+  gap: 12px; /* Ligeramente reducido */
 }
 
 .sales-list .sale-item {
-  background-color: #f0f8ff; /* Azul muy claro para base */
-  padding: 20px; /* Más padding */
-  border-radius: 14px;
+  background-color: #f0f8ff;
+  padding: 18px; /* Ligeramente reducido */
+  border-radius: 12px; /* Ligeramente reducido */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  border-left: 6px solid; /* Usará el color específico después */
+  border-left: 5px solid; /* Ligeramente más delgado */
   transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
   position: relative;
 }
 
 .sales-list .sale-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px); /* Efecto ligeramente más sutil */
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.09); /* Sombra ligeramente más sutil */
 }
 
 .sales-list .sale-item .font-bold {
   font-weight: 700;
-  font-size: 1.25em; /* Tamaño de fuente ligeramente más grande */
+  font-size: 1.15em; /* Ligeramente reducido */
   color: #333;
 }
-.sales-list .sale-item .text-green-700 { color: #28a745; } /* Color de éxito */
-.sales-list .sale-item .text-red-700 { color: #dc3545; } /* Color de error/cancelado */
+.sales-list .sale-item .text-green-700 { color: #28a745; }
+.sales-list .sale-item .text-red-700 { color: #dc3545; }
 
 
 .sales-list .sale-item div {
-  margin-bottom: 6px; /* Ajuste el espacio */
+  margin-bottom: 5px; /* Ligeramente reducido */
 }
 
 .sales-list .sale-item .text-lg {
-  font-size: 1.35em;
+  font-size: 1.25em; /* Ligeramente reducido */
   font-weight: bold;
 }
 
 .sales-list .sale-item .text-gray-600 {
   color: #6c757d;
-  font-size: 0.95em;
+  font-size: 0.9em; /* Ligeramente reducido */
 }
 
 .sales-list .sale-item .text-sm {
-  font-size: 0.85em;
+  font-size: 0.8em; /* Ligeramente reducido */
 }
 
 
 /* Specific colors for sale items */
 .sales-list .sale-item {
-  border-left-color: #28a745; /* Verde para completadas */
+  border-left-color: #28a745;
 }
 
 .sales-list.cancelled .sale-item {
-  border-left-color: #dc3545; /* Rojo para canceladas */
+  border-left-color: #dc3545;
 }
 
 /* Stock Section */
 .stock-section {
   background-color: #ffffff;
-  padding: 40px;
-  border-radius: 18px;
+  padding: 35px; /* Ligeramente reducido */
+  border-radius: 16px; /* Ligeramente reducido */
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
   border: 1px solid #e9ecef;
-  margin-bottom: 50px;
+  margin-bottom: 40px; /* Ligeramente reducido */
+  /* Responsividad base */
+  box-sizing: border-box;
 }
 
 .stock-section h3 {
-  font-size: 2.2em;
+  font-size: 2em; /* Ligeramente reducido */
   color: #212529;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px; /* Ligeramente reducido */
   font-weight: 700;
 }
 
@@ -236,14 +247,14 @@ h2 {
   list-style: none;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ajustado para más columnas */
-  gap: 25px; /* Más espacio */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Min-width ligeramente reducido */
+  gap: 20px; /* Ligeramente reducido */
 }
 
 .stock-item {
-  background-color: #e9f5ff; /* Azul claro para stock items */
-  padding: 20px;
-  border-radius: 14px;
+  background-color: #e9f5ff;
+  padding: 18px; /* Ligeramente reducido */
+  border-radius: 12px; /* Ligeramente reducido */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
@@ -252,18 +263,18 @@ h2 {
 }
 
 .stock-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px); /* Efecto ligeramente más sutil */
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.09); /* Sombra ligeramente más sutil */
 }
 
 .stock-item img {
-  width: 90px;  /* Tamaño un poco más grande */
-  height: 90px;
+  width: 80px; /* Ligeramente más pequeño */
+  height: 80px;
   object-fit: cover;
-  border-radius: 10px; /* Bordes más redondeados */
-  margin-right: 20px; /* Más espacio */
-  border: 3px solid #007bff; /* Borde azul primario */
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2); /* Sombra para la imagen */
+  border-radius: 8px; /* Ligeramente más pequeño */
+  margin-right: 15px; /* Ligeramente reducido */
+  border: 2px solid #007bff; /* Borde más delgado */
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
 }
 
 .stock-item .flex-1 {
@@ -273,50 +284,52 @@ h2 {
 
 .stock-item .font-semibold {
   font-weight: 600;
-  color: #0056b3; /* Azul más oscuro */
-  font-size: 1.15em;
-  margin-bottom: 4px;
+  color: #0056b3;
+  font-size: 1.05em; /* Ligeramente reducido */
+  margin-bottom: 3px; /* Ligeramente reducido */
 }
 
 .stock-item .stock-quantity {
   font-weight: 500;
-  font-size: 1.05em;
+  font-size: 0.95em; /* Ligeramente reducido */
 }
 
 .stock-item .text-blue-600 { color: #007bff; }
-.stock-item .text-orange-500 { color: #fd7e14; font-weight: 700; } /* Naranja más vibrante para stock bajo */
+.stock-item .text-orange-500 { color: #fd7e14; font-weight: 700; }
 
 /* NUEVO: Estilos para la sección de usuarios registrados */
 .users-section {
   background-color: #ffffff;
-  padding: 40px;
-  border-radius: 18px;
+  padding: 35px; /* Ligeramente reducido */
+  border-radius: 16px; /* Ligeramente reducido */
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
   border: 1px solid #e9ecef;
-  margin-top: 50px;
+  margin-top: 40px; /* Ligeramente reducido */
+  /* Responsividad base */
+  box-sizing: border-box;
 }
 
 .users-section h3 {
-  font-size: 2.2em;
+  font-size: 2em; /* Ligeramente reducido */
   font-weight: 700;
   color: #212529;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px; /* Ligeramente reducido */
 }
 
 .users-list {
   list-style: none;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Min-width ligeramente reducido */
+  gap: 20px; /* Ligeramente reducido */
 }
 
 .user-item {
-  background-color: #f0f0f0; /* Fondo gris claro suave */
+  background-color: #f0f0f0;
   border: 1px solid #e0e0e0;
-  border-radius: 14px;
-  padding: 20px;
+  border-radius: 12px; /* Ligeramente reducido */
+  padding: 18px; /* Ligeramente reducido */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
   display: flex;
@@ -325,68 +338,68 @@ h2 {
 }
 
 .user-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px); /* Efecto ligeramente más sutil */
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.09); /* Sombra ligeramente más sutil */
 }
 
 .user-item div {
-  margin-bottom: 6px;
+  margin-bottom: 5px; /* Ligeramente reducido */
 }
 
 .user-item .font-semibold {
   font-weight: 600;
   color: #343a40;
-  font-size: 1.15em;
+  font-size: 1.05em; /* Ligeramente reducido */
 }
 
 .user-item .text-lg {
-  font-size: 1.25em;
+  font-size: 1.15em; /* Ligeramente reducido */
 }
 
 .user-item .text-sm {
-  font-size: 0.95em;
+  font-size: 0.9em; /* Ligeramente reducido */
   color: #555;
 }
 
 .user-item .text-xs {
-  font-size: 0.85em;
+  font-size: 0.8em; /* Ligeramente reducido */
   color: #777;
 }
 
 /* Estilos para los botones de acción (Add Stock, Eliminar Usuario) */
 .add-stock-btn,
 .delete-user-btn {
-  padding: 10px 20px; /* Más padding */
+  padding: 9px 18px; /* Ligeramente reducido */
   border: none;
-  border-radius: 8px; /* Bordes más redondeados */
+  border-radius: 7px; /* Ligeramente reducido */
   cursor: pointer;
-  font-size: 0.95em;
+  font-size: 0.9em; /* Ligeramente reducido */
   font-weight: bold;
-  transition: all 0.3s ease-in-out; /* Transición para todo */
-  margin-top: 15px; /* Más espacio superior */
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Sombra para botones */
-  width: fit-content; /* Ajusta el ancho al contenido */
-  align-self: flex-start; /* Alinea a la izquierda en flex-column */
+  transition: all 0.3s ease-in-out;
+  margin-top: 12px; /* Ligeramente reducido */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  align-self: flex-start;
 }
 
 .add-stock-btn {
-  background-color: #007bff; /* Azul primario */
+  background-color: #007bff;
   color: white;
 }
 
 .add-stock-btn:hover {
-  background-color: #0056b3; /* Azul más oscuro */
+  background-color: #0056b3;
   transform: translateY(-2px);
   box-shadow: 0 5px 12px rgba(0, 123, 255, 0.3);
 }
 
 .delete-user-btn {
-  background-color: #dc3545; /* Rojo de error */
+  background-color: #dc3545;
   color: white;
 }
 
 .delete-user-btn:hover {
-  background-color: #c82333; /* Rojo más oscuro */
+  background-color: #c82333;
   transform: translateY(-2px);
   box-shadow: 0 5px 12px rgba(220, 53, 69, 0.3);
 }
@@ -399,62 +412,64 @@ h2 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente más oscuro */
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeInOverlay 0.3s ease-out; /* Animación para el overlay */
+  animation: fadeInOverlay 0.3s ease-out;
 }
 
 .custom-modal-content {
   background-color: #ffffff;
-  padding: 35px; /* Más padding */
-  border-radius: 16px; /* Bordes más redondeados */
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35); /* Sombra más pronunciada */
+  padding: 30px; /* Ligeramente reducido */
+  border-radius: 14px; /* Ligeramente reducido */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
   text-align: center;
-  max-width: 450px; /* Ancho máximo un poco más grande */
+  max-width: 400px; /* Ligeramente reducido */
   width: 90%;
-  animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animación de zoom */
+  animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border: 1px solid #e0e0e0;
   font-family: 'Inter', sans-serif;
+  /* Responsividad base */
+  box-sizing: border-box;
 }
 
 .custom-modal-content p {
-  margin-bottom: 30px; /* Más espacio debajo del texto */
-  font-size: 1.2em; /* Tamaño de fuente ligeramente más grande */
+  margin-bottom: 25px; /* Ligeramente reducido */
+  font-size: 1.1em; /* Ligeramente reducido */
   color: #495057;
-  line-height: 1.6;
+  line-height: 1.5; /* Ligeramente reducido */
 }
 
 .custom-modal-content.success {
-  border-color: #28a745; /* Verde de éxito */
+  border-color: #28a745;
   background-color: #e6ffee;
 }
 
 .custom-modal-content.error {
-  border-color: #dc3545; /* Rojo de error */
+  border-color: #dc3545;
   background-color: #ffeeeb;
 }
 
 .custom-modal-content.confirm {
-  border-color: #ffc107; /* Amarillo de advertencia */
+  border-color: #ffc107;
   background-color: #fffde6;
 }
 
 .custom-modal-content.input {
-  border-color: #007bff; /* Azul primario */
+  border-color: #007bff;
   background-color: #e6f7ff;
 }
 
 .modal-input {
-  width: calc(100% - 30px); /* Ajuste para padding */
-  padding: 12px 15px;
-  margin-top: 20px;
-  margin-bottom: 25px;
+  width: calc(100% - 24px); /* Ajuste para padding */
+  padding: 10px 12px; /* Ligeramente reducido */
+  margin-top: 18px; /* Ligeramente reducido */
+  margin-bottom: 20px; /* Ligeramente reducido */
   border: 1px solid #ced4da;
-  border-radius: 8px;
-  font-size: 1.05em;
+  border-radius: 7px; /* Ligeramente reducido */
+  font-size: 0.95em; /* Ligeramente reducido */
   box-sizing: border-box;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -469,24 +484,24 @@ h2 {
 .modal-buttons {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Más espacio entre botones */
-  margin-top: 25px;
+  gap: 15px; /* Ligeramente reducido */
+  margin-top: 20px; /* Ligeramente reducido */
 }
 
 .modal-confirm-btn,
 .modal-close-btn {
   border: none;
-  padding: 14px 30px; /* Más padding para botones */
-  border-radius: 10px; /* Bordes más redondeados */
+  padding: 12px 25px; /* Ligeramente reducido */
+  border-radius: 8px; /* Ligeramente reducido */
   cursor: pointer;
-  font-size: 1.05em;
+  font-size: 1em; /* Ligeramente reducido */
   font-weight: bold;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .modal-confirm-btn {
-  background-color: #28a745; /* Verde de éxito */
+  background-color: #28a745;
   color: white;
 }
 
@@ -497,7 +512,7 @@ h2 {
 }
 
 .modal-close-btn {
-  background-color: #6c757d; /* Gris para cerrar */
+  background-color: #6c757d;
   color: white;
 }
 
@@ -520,147 +535,82 @@ h2 {
 
 
 /* Responsive adjustments */
+
+/* Para tabletas y pantallas grandes de móviles (hasta 1024px) */
 @media (max-width: 1024px) {
   .sales-history-container {
-    padding: 25px;
-    margin: 25px auto;
+    padding: 20px; /* Reducido */
+    margin: 20px auto;
   }
   h2 {
-    font-size: 2.5em;
-    margin-bottom: 30px;
-  }
-  .summary-cards {
-    gap: 20px;
-  }
-  .chart-section, .details-section, .stock-section, .users-section {
-    padding: 25px;
-    margin-bottom: 30px;
-  }
-  .sales-list-section h3, .stock-section h3, .users-section h3 {
-    font-size: 2em;
-    margin-bottom: 25px;
-  }
-  .sales-list .sale-item, .stock-item, .user-item {
-    padding: 18px;
-    border-radius: 12px;
-  }
-  .add-stock-btn, .delete-user-btn {
-    padding: 9px 18px;
-    font-size: 0.9em;
-  }
-}
-
-@media (max-width: 768px) {
-  .sales-history-container {
-    padding: 15px;
-    margin: 15px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  }
-  h2 {
-    font-size: 2.2em;
-    margin-bottom: 25px;
+    font-size: 2.2em; /* Reducido */
+    margin-bottom: 28px;
   }
   .sales-history-container h2::after {
-    width: 100px;
+    width: 120px;
     height: 5px;
   }
   .summary-cards {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 18px; /* Reducido */
   }
   .summary-cards .card {
-    padding: 25px;
+    padding: 22px; /* Reducido */
     border-radius: 14px;
   }
+  .summary-cards .card h3 {
+    font-size: 1.4em;
+  }
   .summary-cards .card .big-number {
-    font-size: 3.8em;
+    font-size: 3.5em; /* Reducido */
   }
   .chart-section, .details-section, .stock-section, .users-section {
-    padding: 20px;
-    margin-bottom: 25px;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 22px; /* Reducido */
+    margin-bottom: 28px;
   }
-  .sales-list-section h3, .stock-section h3, .users-section h3 {
-    font-size: 1.8em;
-    margin-bottom: 20px;
+  .chart-section h3, .sales-list-section h3, .stock-section h3, .users-section h3 {
+    font-size: 1.8em; /* Reducido */
+    margin-bottom: 22px;
   }
-  .details-section, .stock-list, .users-list {
-    grid-template-columns: 1fr;
-    gap: 15px;
+  .details-section {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Min-width reducido */
+    gap: 20px;
   }
-  .stock-item img {
-    width: 70px;
-    height: 70px;
-    margin-right: 15px;
-  }
-  .user-item .text-sm {
-    font-size: 0.9em;
-  }
-  .user-item .text-xs {
-    font-size: 0.8em;
-  }
-  .custom-modal-content {
-    padding: 25px;
-    border-radius: 14px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-  }
-  .custom-modal-content p {
-    font-size: 1.1em;
-    margin-bottom: 20px;
-  }
-  .modal-input {
-    padding: 10px 12px;
-    font-size: 1em;
-  }
-  .modal-buttons {
-    flex-direction: column;
-    gap: 12px;
-  }
-  .modal-confirm-btn, .modal-close-btn {
-    padding: 12px 25px;
-    font-size: 1em;
-  }
-}
-
-@media (max-width: 480px) {
-  .sales-history-container {
-    padding: 10px;
-    margin: 10px auto;
-  }
-  h2 {
-    font-size: 1.6em;
-    margin-bottom: 20px;
-  }
-  .sales-history-container h2::after {
-    width: 80px;
-    height: 4px;
-  }
-  .summary-cards .card,
-  .chart-section,
-  .sales-list-section,
-  .stock-section,
-  .users-section {
-    padding: 15px;
+  .sales-list .sale-item, .stock-item, .user-item {
+    padding: 16px; /* Reducido */
     border-radius: 10px;
   }
-  .summary-cards .card .big-number {
-    font-size: 3em;
+  .sales-list .sale-item .font-bold {
+    font-size: 1.1em;
   }
-  .chart-section h3,
-  .sales-list-section h3,
-  .stock-section h3,
-  .users-section h3 {
-    font-size: 1.5em;
+  .sales-list .sale-item .text-lg {
+    font-size: 1.2em;
   }
-  .sale-item, .stock-item, .user-item {
-    padding: 12px;
-    font-size: 0.9em;
+  .sales-list .sale-item .text-gray-600 {
+    font-size: 0.88em;
+  }
+  .sales-list .sale-item .text-sm {
+    font-size: 0.78em;
+  }
+  .stock-list, .users-list {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Min-width reducido */
+    gap: 18px;
   }
   .stock-item img {
-    width: 60px;
-    height: 60px;
+    width: 70px; /* Reducido */
+    height: 70px;
+    margin-right: 12px;
+  }
+  .stock-item .font-semibold {
+    font-size: 1em;
+  }
+  .stock-item .stock-quantity {
+    font-size: 0.9em;
+  }
+  .user-item .font-semibold {
+    font-size: 1em;
+  }
+  .user-item .text-lg {
+    font-size: 1.1em;
   }
   .user-item .text-sm {
     font-size: 0.85em;
@@ -669,17 +619,388 @@ h2 {
     font-size: 0.75em;
   }
   .add-stock-btn, .delete-user-btn {
-    padding: 8px 15px;
+    padding: 8px 16px; /* Reducido */
     font-size: 0.85em;
+    margin-top: 10px;
   }
   .custom-modal-content {
-    padding: 20px;
+    padding: 25px; /* Reducido */
+    border-radius: 12px;
+    max-width: 380px;
   }
   .custom-modal-content p {
     font-size: 1em;
+    margin-bottom: 20px;
+  }
+  .modal-input {
+    padding: 9px 10px;
+    font-size: 0.9em;
+    margin-top: 15px;
+    margin-bottom: 18px;
+  }
+  .modal-buttons {
+    gap: 12px;
+    margin-top: 18px;
   }
   .modal-confirm-btn, .modal-close-btn {
     padding: 10px 20px;
     font-size: 0.95em;
+  }
+}
+
+/* Para móviles y tabletas pequeñas (hasta 768px) */
+@media (max-width: 768px) {
+  .sales-history-container {
+    padding: 15px; /* Más reducido */
+    margin: 15px auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  h2 {
+    font-size: 1.8em; /* Más reducido */
+    margin-bottom: 20px;
+  }
+  .sales-history-container h2::after {
+    width: 90px; /* Más reducido */
+    height: 4px; /* Más reducido */
+  }
+  .loading-spinner {
+    width: 35px; /* Más pequeño */
+    height: 35px;
+    margin: 25px auto;
+  }
+  .error-message {
+    padding: 15px;
+    font-size: 0.95em;
+    margin: 20px auto;
+  }
+  .summary-cards {
+    grid-template-columns: 1fr; /* Una columna para asegurar el ajuste */
+    gap: 15px; /* Más reducido */
+    margin-bottom: 25px;
+  }
+  .summary-cards .card {
+    padding: 18px; /* Más reducido */
+    border-radius: 12px;
+  }
+  .summary-cards .card h3 {
+    font-size: 1.2em; /* Más reducido */
+  }
+  .summary-cards .card .big-number {
+    font-size: 3em; /* Más reducido */
+  }
+  .chart-section, .details-section, .stock-section, .users-section {
+    padding: 18px; /* Más reducido */
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+  .chart-section h3, .sales-list-section h3, .stock-section h3, .users-section h3 {
+    font-size: 1.6em; /* Más reducido */
+    margin-bottom: 18px;
+  }
+  .details-section, .stock-list, .users-list {
+    grid-template-columns: 1fr; /* Una columna */
+    gap: 12px; /* Más reducido */
+  }
+  .sales-list .sale-item, .stock-item, .user-item {
+    padding: 14px; /* Más reducido */
+    border-radius: 8px;
+    border-left-width: 4px; /* Borde más delgado */
+  }
+  .sales-list .sale-item .font-bold {
+    font-size: 1.05em;
+  }
+  .sales-list .sale-item .text-lg {
+    font-size: 1.1em;
+  }
+  .sales-list .sale-item .text-gray-600 {
+    font-size: 0.85em;
+  }
+  .sales-list .sale-item .text-sm {
+    font-size: 0.75em;
+  }
+  .stock-item img {
+    width: 60px; /* Más reducido */
+    height: 60px;
+    margin-right: 10px;
+  }
+  .stock-item .font-semibold {
+    font-size: 0.95em;
+  }
+  .stock-item .stock-quantity {
+    font-size: 0.85em;
+  }
+  .user-item .font-semibold {
+    font-size: 0.95em;
+  }
+  .user-item .text-lg {
+    font-size: 1em;
+  }
+  .user-item .text-sm {
+    font-size: 0.8em;
+  }
+  .user-item .text-xs {
+    font-size: 0.7em;
+  }
+  .add-stock-btn, .delete-user-btn {
+    padding: 7px 14px; /* Más reducido */
+    font-size: 0.8em;
+    margin-top: 8px;
+  }
+  .custom-modal-content {
+    padding: 20px; /* Más reducido */
+    border-radius: 10px;
+    max-width: 320px;
+  }
+  .custom-modal-content p {
+    font-size: 0.95em;
+    margin-bottom: 18px;
+  }
+  .modal-input {
+    padding: 8px 10px;
+    font-size: 0.85em;
+    margin-top: 12px;
+    margin-bottom: 15px;
+  }
+  .modal-buttons {
+    flex-direction: column; /* Botones apilados */
+    gap: 10px;
+    margin-top: 15px;
+  }
+  .modal-confirm-btn, .modal-close-btn {
+    padding: 10px 20px;
+    font-size: 0.9em;
+    width: 90%; /* Ajuste para el ancho de los botones apilados */
+    box-sizing: border-box; /* Asegura que el padding se incluya en el ancho del 90% */
+  }
+}
+
+/* Para móviles muy pequeños (hasta 480px) */
+@media (max-width: 480px) {
+  .sales-history-container {
+    padding: 10px; /* Mínimo padding */
+    margin: 10px auto;
+    border-radius: 10px;
+  }
+  h2 {
+    font-size: 1.4em; /* Mínimo tamaño de título */
+    margin-bottom: 15px;
+  }
+  .sales-history-container h2::after {
+    width: 60px; /* Mínimo ancho de línea */
+    height: 3px; /* Mínimo grosor de línea */
+  }
+  .loading-spinner {
+    width: 30px;
+    height: 30px;
+    margin: 20px auto;
+  }
+  .error-message {
+    padding: 12px;
+    font-size: 0.85em;
+    margin: 15px auto;
+  }
+  .summary-cards {
+    gap: 12px; /* Mínimo espacio */
+    margin-bottom: 20px;
+  }
+  .summary-cards .card {
+    padding: 15px; /* Mínimo padding */
+    border-radius: 10px;
+  }
+  .summary-cards .card h3 {
+    font-size: 1em; /* Mínimo tamaño */
+  }
+  .summary-cards .card .big-number {
+    font-size: 2.5em; /* Mínimo tamaño */
+  }
+  .chart-section, .details-section, .sales-list-section, .stock-section, .users-section {
+    padding: 15px; /* Mínimo padding */
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+  .chart-section h3, .sales-list-section h3, .stock-section h3, .users-section h3 {
+    font-size: 1.3em; /* Mínimo tamaño de subtítulos */
+    margin-bottom: 15px;
+  }
+  .sales-list .sale-item, .stock-item, .user-item {
+    padding: 10px; /* Mínimo padding */
+    font-size: 0.8em; /* Reducción general de fuente */
+  }
+  .sales-list .sale-item .font-bold {
+    font-size: 0.95em;
+  }
+  .sales-list .sale-item .text-lg {
+    font-size: 1em;
+  }
+  .sales-list .sale-item .text-gray-600 {
+    font-size: 0.8em;
+  }
+  .sales-list .sale-item .text-sm {
+    font-size: 0.7em;
+  }
+  .stock-item img {
+    width: 50px; /* Más pequeño */
+    height: 50px;
+    margin-right: 8px;
+  }
+  .stock-item .font-semibold {
+    font-size: 0.85em;
+  }
+  .stock-item .stock-quantity {
+    font-size: 0.75em;
+  }
+  .user-item .font-semibold {
+    font-size: 0.85em;
+  }
+  .user-item .text-lg {
+    font-size: 0.9em;
+  }
+  .user-item .text-sm {
+    font-size: 0.75em;
+  }
+  .user-item .text-xs {
+    font-size: 0.65em;
+  }
+  .add-stock-btn, .delete-user-btn {
+    padding: 6px 12px; /* Mínimo padding */
+    font-size: 0.75em;
+    margin-top: 6px;
+  }
+  .custom-modal-content {
+    padding: 15px; /* Mínimo padding */
+    border-radius: 8px;
+    max-width: 280px;
+  }
+  .custom-modal-content p {
+    font-size: 0.85em;
+    margin-bottom: 15px;
+  }
+  .modal-input {
+    padding: 7px 8px;
+    font-size: 0.75em;
+    margin-top: 10px;
+    margin-bottom: 12px;
+  }
+  .modal-buttons {
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .modal-confirm-btn, .modal-close-btn {
+    padding: 8px 15px;
+    font-size: 0.8em;
+    width: 95%; /* Ajuste final de ancho */
+  }
+}
+
+/* Para móviles ultra-pequeños (hasta 360px - ej. algunos dispositivos Android muy compactos) */
+@media (max-width: 360px) {
+  .sales-history-container {
+    padding: 8px;
+    margin: 8px auto;
+  }
+  h2 {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+  }
+  .sales-history-container h2::after {
+    width: 50px;
+    height: 2px;
+  }
+  .loading-spinner {
+    width: 25px;
+    height: 25px;
+    border-width: 3px;
+  }
+  .error-message {
+    padding: 10px;
+    font-size: 0.8em;
+  }
+  .summary-cards {
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  .summary-cards .card {
+    padding: 12px;
+  }
+  .summary-cards .card h3 {
+    font-size: 0.9em;
+  }
+  .summary-cards .card .big-number {
+    font-size: 2em;
+  }
+  .chart-section, .details-section, .sales-list-section, .stock-section, .users-section {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+  .chart-section h3, .sales-list-section h3, .stock-section h3, .users-section h3 {
+    font-size: 1.1em;
+    margin-bottom: 12px;
+  }
+  .sales-list .sale-item, .stock-item, .user-item {
+    padding: 8px;
+    font-size: 0.75em;
+  }
+  .sales-list .sale-item .font-bold {
+    font-size: 0.9em;
+  }
+  .sales-list .sale-item .text-lg {
+    font-size: 0.95em;
+  }
+  .sales-list .sale-item .text-gray-600 {
+    font-size: 0.75em;
+  }
+  .sales-list .sale-item .text-sm {
+    font-size: 0.65em;
+  }
+  .stock-item img {
+    width: 40px;
+    height: 40px;
+    margin-right: 6px;
+  }
+  .stock-item .font-semibold {
+    font-size: 0.75em;
+  }
+  .stock-item .stock-quantity {
+    font-size: 0.65em;
+  }
+  .user-item .font-semibold {
+    font-size: 0.75em;
+  }
+  .user-item .text-lg {
+    font-size: 0.8em;
+  }
+  .user-item .text-sm {
+    font-size: 0.7em;
+  }
+  .user-item .text-xs {
+    font-size: 0.6em;
+  }
+  .add-stock-btn, .delete-user-btn {
+    padding: 5px 10px;
+    font-size: 0.7em;
+  }
+  .custom-modal-content {
+    padding: 12px;
+    max-width: 250px;
+  }
+  .custom-modal-content p {
+    font-size: 0.8em;
+    margin-bottom: 12px;
+  }
+  .modal-input {
+    padding: 6px 7px;
+    font-size: 0.7em;
+    margin-top: 8px;
+    margin-bottom: 10px;
+  }
+  .modal-buttons {
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .modal-confirm-btn, .modal-close-btn {
+    padding: 7px 12px;
+    font-size: 0.75em;
   }
 }

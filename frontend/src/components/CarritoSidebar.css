@@ -4,7 +4,7 @@
   position: fixed;
   right: 0;
   top: 0;
-  width: 350px;
+  width: 350px; /* Ancho base para escritorio */
   height: 100%;
   background: linear-gradient(to bottom right, #d1f2eb, #d6eaf8);
   box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
@@ -12,7 +12,7 @@
   z-index: 999;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  overflow-y: auto;
+  overflow-y: auto; /* Mantenemos el scroll vertical */
   transition: transform 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,9 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1;
+  flex-grow: 1; /* Permite que el UL ocupe el espacio disponible */
+  overflow-y: auto; /* ¡Añadido! Scroll para la lista de productos si es necesario */
+  /* min-height: 0; */ /* Esto es importante para que flex-grow funcione correctamente en algunos navegadores */
 }
 
 li {
@@ -50,6 +52,8 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap; /* Permite que los elementos dentro del LI se envuelvan */
+  gap: 5px; /* Pequeño espacio entre elementos cuando se envuelven */
 }
 
 .btn-eliminar {
@@ -61,6 +65,7 @@ li {
   cursor: pointer;
   font-size: 12px;
   transition: background-color 0.3s ease;
+  flex-shrink: 0; /* Evita que el botón se encoja */
 }
 
 .btn-eliminar:hover {
@@ -75,6 +80,7 @@ li {
   text-align: center;
   font-weight: bold;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0; /* Evita que este elemento se encoja */
 }
 
 .btn-comprar {
@@ -88,6 +94,7 @@ li {
   font-size: 16px;
   width: 100%;
   transition: background-color 0.3s ease;
+  flex-shrink: 0; /* Evita que este elemento se encoja */
 }
 
 .btn-comprar:hover {
@@ -121,7 +128,7 @@ p {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
   text-align: center;
   max-width: 400px;
-  width: 90%;
+  width: 90%; /* Hace que el modal ocupe el 90% del ancho de la pantalla */
   animation: fadeIn 0.3s ease-out; /* Animación de aparición */
   border: 1px solid #e0e0e0;
 }
@@ -162,6 +169,7 @@ p {
   margin-bottom: 20px;
   text-align: left; /* Alinea el texto y select a la izquierda */
   padding: 0 10px; /* Un poco de padding horizontal */
+  flex-shrink: 0; /* Evita que este elemento se encoja */
 }
 
 .payment-method-selection label {
@@ -206,6 +214,7 @@ p {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0; /* Evita que este elemento se encoja */
 }
 
 .qr-code-image {
@@ -219,4 +228,135 @@ p {
 /* Ajustes para el botón del modal si hay dos botones */
 .custom-modal-content button:not(:last-child) {
     margin-right: 10px; /* Espacio entre botones si hay más de uno */
+}
+
+/* --- Media Queries para hacer el carrito responsive --- */
+
+/* Para pantallas más pequeñas (móviles, hasta 768px) */
+@media (max-width: 768px) {
+  .carrito-sidebar {
+    width: 90%; /* Ocupa casi todo el ancho de la pantalla */
+    max-width: 350px; /* Pero no excede el ancho original para pantallas más grandes */
+    left: 50%; /* Centra el sidebar horizontalmente */
+    transform: translateX(50%); /* Ajuste para centrarlo si está "fuera" de pantalla */
+    right: auto; /* Desactivar 'right' para usar 'left' y 'transform' */
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-radius: 10px; /* Un radio más uniforme para móviles */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada al estar centrado */
+  }
+
+  .carrito-sidebar.open { /* Asumo que tienes una clase 'open' para mostrar/ocultar */
+    transform: translateX(-50%); /* Vuelve a centrarlo cuando está abierto */
+  }
+
+  .close-btn {
+    font-size: 24px; /* Un poco más pequeño en móviles */
+    margin-bottom: 5px;
+  }
+
+  h3 {
+    font-size: 1.3em; /* Ajusta el tamaño del título */
+    margin-bottom: 15px;
+  }
+
+  li {
+    flex-direction: column; /* Apila los elementos del carrito en pantallas pequeñas */
+    align-items: flex-start; /* Alinea los elementos a la izquierda */
+    padding: 8px;
+  }
+
+  .btn-eliminar {
+    font-size: 11px;
+    padding: 4px 8px;
+    margin-top: 5px; /* Espacio superior cuando se apilan */
+    align-self: flex-end; /* Alinea el botón a la derecha dentro del LI */
+  }
+
+  p {
+    font-size: 13px; /* Tamaño de fuente ligeramente más pequeño para el texto */
+  }
+
+  .total-carrito {
+    padding: 12px;
+    font-size: 0.95em;
+  }
+
+  .btn-comprar {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
+/* Para tabletas (desde 769px hasta 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .carrito-sidebar {
+    width: 300px; /* Un ancho ligeramente menor que en escritorio, pero mayor que en móvil */
+    padding: 15px;
+  }
+
+  h3 {
+    font-size: 1.4em;
+  }
+
+  li {
+    padding: 8px;
+    font-size: 0.95em;
+  }
+
+  .btn-eliminar {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .total-carrito {
+    padding: 15px;
+    font-size: 1em;
+  }
+
+  .btn-comprar {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+}
+
+/* Ajustes para pantallas muy pequeñas (ej. iPhone SE) */
+@media (max-width: 375px) {
+  .carrito-sidebar {
+    width: 95%; /* Ocupa casi todo el ancho */
+    padding: 10px;
+  }
+
+  .close-btn {
+    font-size: 22px;
+  }
+
+  h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  li {
+    padding: 6px;
+    font-size: 0.85em;
+  }
+
+  .btn-eliminar {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+
+  .total-carrito {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+
+  .btn-comprar {
+    padding: 10px;
+    font-size: 14px;
+  }
 }

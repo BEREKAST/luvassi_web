@@ -1,200 +1,322 @@
 /* frontend/src/components/InputForm.css */
 
 .input-form-container {
-    max-width: 550px; /* Un poco más de ancho para formularios complejos */
-    margin: 40px auto; /* Margen superior/inferior aumentado */
-    padding: 35px; /* Más padding interno */
-    background-color: #ffffff; /* Fondo blanco inmaculado */
-    border-radius: 16px; /* Bordes más redondeados */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12); /* Sombra más profunda y elegante */
-    font-family: 'Inter', sans-serif; /* Usar Inter como fuente principal */
-    color: #333333; /* Color de texto general */
+  max-width: 550px; /* Un poco más de ancho para formularios complejos */
+  margin: 40px auto; /* Margen superior/inferior aumentado */
+  padding: 35px; /* Más padding interno */
+  background-color: #ffffff; /* Fondo blanco inmaculado */
+  border-radius: 16px; /* Bordes más redondeados */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12); /* Sombra más profunda y elegante */
+  font-family: 'Inter', sans-serif; /* Usar Inter como fuente principal */
+  color: #333333; /* Color de texto general */
 }
 
 .input-form-title {
-    font-size: 2.2em; /* Título más grande */
-    font-weight: 700; /* Negrita pronunciada */
-    color: #2c3e50; /* Azul grisáceo oscuro para un toque profesional */
-    text-align: center;
-    margin-bottom: 35px; /* Más espacio debajo del título */
-    border-bottom: 2px solid #eef1f4; /* Borde inferior más suave */
-    padding-bottom: 18px; /* Más padding debajo del borde */
-    position: relative;
+  font-size: 2.2em; /* Título más grande */
+  font-weight: 700; /* Negrita pronunciada */
+  color: #2c3e50; /* Azul grisáceo oscuro para un toque profesional */
+  text-align: center;
+  margin-bottom: 35px; /* Más espacio debajo del título */
+  border-bottom: 2px solid #eef1f4; /* Borde inferior más suave */
+  padding-bottom: 18px; /* Más padding debajo del borde */
+  position: relative;
 }
 
 .input-form-title::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0px; /* Posicionado sobre el borde para un efecto elegante */
-    transform: translateX(-50%);
-    width: 70px; /* Ancho de la línea decorativa */
-    height: 4px; /* Grosor de la línea decorativa */
-    background-color: #3498db; /* Azul primario para la línea */
-    border-radius: 2px;
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0px; /* Posicionado sobre el borde para un efecto elegante */
+  transform: translateX(-50%);
+  width: 70px; /* Ancho de la línea decorativa */
+  height: 4px; /* Grosor de la línea decorativa */
+  background-color: #3498db; /* Azul primario para la línea */
+  border-radius: 2px;
 }
 
 .input-form {
-    display: flex;
-    flex-direction: column;
-    gap: 25px; /* Más espacio entre grupos de formulario */
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Más espacio entre grupos de formulario */
 }
 
 .form-group {
-    margin-bottom: 0; /* Ya manejado por el 'gap' del flexbox */
+  margin-bottom: 0; /* Ya manejado por el 'gap' del flexbox */
 }
 
 .form-label {
-    display: block;
-    font-size: 1em; /* Tamaño de fuente ligeramente más grande */
-    font-weight: 600;
-    color: #4a5568; /* Un gris más oscuro y cálido */
-    margin-bottom: 10px; /* Más espacio entre label e input */
+  display: block;
+  font-size: 1em; /* Tamaño de fuente ligeramente más grande */
+  font-weight: 600;
+  color: #4a5568; /* Un gris más oscuro y cálido */
+  margin-bottom: 10px; /* Más espacio entre label e input */
 }
 
 .form-input,
 .form-textarea,
 .form-select {
-    width: 100%;
-    padding: 14px 18px; /* Más padding para una sensación más espaciosa */
-    border: 1px solid #d0dbe6; /* Borde más suave y sutil */
-    border-radius: 10px; /* Bordes más redondeados */
-    font-size: 1.05em; /* Fuente ligeramente más grande */
-    color: #333333;
-    background-color: #fcfcfc; /* Fondo casi blanco */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Transiciones más completas */
-    box-sizing: border-box;
+  width: 100%;
+  padding: 14px 18px; /* Más padding para una sensación más espaciosa */
+  border: 1px solid #d0dbe6; /* Borde más suave y sutil */
+  border-radius: 10px; /* Bordes más redondeados */
+  font-size: 1.05em; /* Fuente ligeramente más grande */
+  color: #333333;
+  background-color: #fcfcfc; /* Fondo casi blanco */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Transiciones más completas */
+  box-sizing: border-box;
 }
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-    color: #a0a0a0; /* Placeholder más discreto */
-    font-weight: 300; /* Fuente más ligera para placeholder */
+  color: #a0a0a0; /* Placeholder más discreto */
+  font-weight: 300; /* Fuente más ligera para placeholder */
 }
 
 .form-input:focus,
 .form-textarea:focus,
 .form-select:focus {
-    outline: none;
-    border-color: #3498db; /* Azul primario de enfoque */
-    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2); /* Resplandor de enfoque más suave */
-    background-color: #ffffff; /* Fondo blanco puro al enfocar */
+  outline: none;
+  border-color: #3498db; /* Azul primario de enfoque */
+  box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2); /* Resplandor de enfoque más suave */
+  background-color: #ffffff; /* Fondo blanco puro al enfocar */
 }
 
 .form-textarea {
-    resize: vertical;
-    min-height: 100px; /* Altura mínima ligeramente mayor */
+  resize: vertical;
+  min-height: 100px; /* Altura mínima ligeramente mayor */
 }
 
 .form-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2C114.7L146.2%2C255.5c-4.4%2C4.4-10.7%2C6.9-17.3%2C6.9s-12.9-2.5-17.3-6.9L5.4%2C114.7c-4.4-4.4-6.9-10.7-6.9-17.3s2.5-12.9%2C6.9-17.3l23-23c4.4-4.4%2C10.7-6.9%2C17.3-6.9s12.9%2C2.5%2C17.3%2C6.9l94.8%2C94.8L229%2C74.3c4.4-4.4%2C10.7-6.9%2C17.3-6.9s12.9%2C2.5%2C17.3%2C6.9l23%2C23c4.4-4.4%2C6.9%2C10.7%2C6.9%2C17.3S291.4%2C110.3%2C287%2C114.7z%22%2F%3E%3C%2Fsvg%3E');
-    background-repeat: no-repeat;
-    background-position: right 18px center; /* Más espacio para la flecha */
-    background-size: 14px; /* Flecha ligeramente más grande */
-    padding-right: 45px; /* Espacio para la flecha */
-    cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2C114.7L146.2%2C255.5c-4.4%2C4.4-10.7%2C6.9-17.3%2C6.9s-12.9-2.5-17.3-6.9L5.4%2C114.7c-4.4-4.4-6.9-10.7-6.9-17.3s2.5-12.9%2C6.9-17.3l23-23c4.4-4.4%2C10.7-6.9%2C17.3-6.9s12.9%2C2.5%2C17.3%2C6.9l94.8%2C94.8L229%2C74.3c4.4-4.4%2C10.7-6.9%2C17.3-6.9s12.9%2C2.5%2C17.3%2C6.9l23%2C23c4.4-4.4%2C6.9%2C10.7%2C6.9%2C17.3S291.4%2C110.3%2C287%2C114.7z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 18px center; /* Más espacio para la flecha */
+  background-size: 14px; /* Flecha ligeramente más grande */
+  padding-right: 45px; /* Espacio para la flecha */
+  cursor: pointer;
 }
 
 /* Radio Buttons y Checkboxes */
 .form-radio-group,
 .form-checkbox-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px; /* Más espacio entre opciones */
-    margin-top: 10px; /* Margen superior para separarlo del grupo anterior */
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Más espacio entre opciones */
+  margin-top: 10px; /* Margen superior para separarlo del grupo anterior */
 }
 
 .form-radio-label,
 .form-checkbox-label {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 1.05em; /* Tamaño de fuente ligeramente más grande */
-    color: #4a5568;
-    transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.05em; /* Tamaño de fuente ligeramente más grande */
+  color: #4a5568;
+  transition: color 0.2s ease;
 }
 
 .form-radio-label:hover,
 .form-checkbox-label:hover {
-    color: #3498db; /* Azul al pasar el ratón */
+  color: #3498db; /* Azul al pasar el ratón */
 }
 
 .form-radio-input,
 .form-checkbox-input {
-    margin-right: 10px; /* Más espacio entre input y texto */
-    transform: scale(1.2); /* Más grandes */
-    accent-color: #3498db; /* Color primario para el marcado */
-    cursor: pointer;
+  margin-right: 10px; /* Más espacio entre input y texto */
+  transform: scale(1.2); /* Más grandes */
+  accent-color: #3498db; /* Color primario para el marcado */
+  cursor: pointer;
 }
 
 .form-radio-text,
 .form-checkbox-text {
-    user-select: none;
-    font-weight: 400; /* Texto normal, no negrita */
+  user-select: none;
+  font-weight: 400; /* Texto normal, no negrita */
 }
 
 /* Botón de Envío */
 .form-submit-button {
-    background-color: #3498db; /* Azul primario vibrante */
-    color: white;
-    padding: 15px 25px; /* Más padding para un botón más robusto */
-    border: none;
-    border-radius: 10px; /* Bordes más redondeados */
-    font-size: 1.15em; /* Botón más grande */
-    font-weight: 700; /* Negrita pronunciada */
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); /* Sombra más fuerte y con color */
-    letter-spacing: 0.5px; /* Espaciado entre letras para un look más "premium" */
+  background-color: #3498db; /* Azul primario vibrante */
+  color: white;
+  padding: 15px 25px; /* Más padding para un botón más robusto */
+  border: none;
+  border-radius: 10px; /* Bordes más redondeados */
+  font-size: 1.15em; /* Botón más grande */
+  font-weight: 700; /* Negrita pronunciada */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3); /* Sombra más fuerte y con color */
+  letter-spacing: 0.5px; /* Espaciado entre letras para un look más "premium" */
 }
 
 .form-submit-button:hover {
-    background-color: #2980b9; /* Azul más oscuro al pasar el ratón */
-    transform: translateY(-3px); /* Efecto de levantamiento más pronunciado */
-    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+  background-color: #2980b9; /* Azul más oscuro al pasar el ratón */
+  transform: translateY(-3px); /* Efecto de levantamiento más pronunciado */
+  box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
 }
 
 .form-submit-button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 5px rgba(52, 152, 219, 0.2);
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(52, 152, 219, 0.2);
 }
 
-/* Ajustes responsivos */
-@media (max-width: 600px) {
+/* --- AJUSTES RESPONSIVOS --- */
+
+/* Para pantallas de tabletas y móviles en horizontal (hasta 1024px) */
+@media (max-width: 1024px) {
+  .input-form-container {
+    max-width: 450px; /* Se ajusta el ancho máximo */
+    margin: 30px auto; /* Margen superior/inferior, centrado */
+    padding: 30px; /* Reduce un poco el padding */
+    border-radius: 14px; /* Ligeramente menos redondeado */
+  }
+
+  .input-form-title {
+    font-size: 2em; /* Título un poco más pequeño */
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+  }
+
+  .input-form-title::after {
+    width: 60px; /* Línea decorativa más corta */
+  }
+
+  .input-form {
+    gap: 20px; /* Reduce un poco el espacio entre grupos */
+  }
+
+  .form-label {
+    font-size: 0.95em; /* Reduce tamaño de fuente de etiquetas */
+    margin-bottom: 8px;
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 12px 16px; /* Reduce padding de inputs */
+    font-size: 1em; /* Reduce tamaño de fuente de inputs */
+    border-radius: 9px;
+  }
+
+  .form-select {
+    background-position: right 15px center; /* Ajusta posición de flecha */
+    background-size: 13px; /* Ajusta tamaño de flecha */
+    padding-right: 40px; /* Ajusta padding para flecha */
+  }
+
+  .form-radio-label,
+  .form-checkbox-label {
+    font-size: 1em; /* Reduce tamaño de fuente de radio/checkbox */
+  }
+
+  .form-submit-button {
+    padding: 14px 22px; /* Reduce padding de botón */
+    font-size: 1.1em; /* Reduce tamaño de fuente de botón */
+  }
+}
+
+/* Para pantallas de móviles (hasta 768px) */
+@media (max-width: 768px) {
+  .input-form-container {
+    width: 90%; /* Ocupa el 90% del ancho de la pantalla */
+    max-width: 400px; /* Pero no más de 400px */
+    margin: 20px auto; /* Centrado y menos margen vertical */
+    padding: 20px; /* Menos padding */
+    border-radius: 10px; /* Bordes más pequeños */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+  }
+
+  .input-form-title {
+    font-size: 1.6em; /* Título aún más pequeño */
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
+
+  .input-form-title::after {
+    width: 40px; /* Línea decorativa más corta */
+    height: 3px;
+  }
+
+  .input-form {
+    gap: 15px; /* Menos espacio entre grupos */
+  }
+
+  .form-label {
+    font-size: 0.85em; /* Etiquetas más pequeñas */
+    margin-bottom: 6px;
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 10px 12px; /* Menos padding */
+    font-size: 0.9em; /* Inputs más pequeños */
+    border-radius: 8px;
+  }
+
+  .form-textarea {
+    min-height: 80px; /* Altura mínima de textarea */
+  }
+
+  .form-select {
+    background-position: right 10px center; /* Ajusta posición de flecha */
+    background-size: 11px; /* Ajusta tamaño de flecha */
+    padding-right: 30px; /* Ajusta padding para flecha */
+  }
+
+  .form-radio-group,
+  .form-checkbox-group {
+    gap: 8px; /* Menos espacio entre radios/checkboxes */
+  }
+
+  .form-radio-label,
+  .form-checkbox-label {
+    font-size: 0.9em; /* Radio/checkbox labels más pequeños */
+  }
+
+  .form-radio-input,
+  .form-checkbox-input {
+    margin-right: 8px; /* Menos margen */
+    transform: scale(1.05); /* Ligeramente más pequeños */
+  }
+
+  .form-submit-button {
+    padding: 12px 18px; /* Menos padding de botón */
+    font-size: 0.95em; /* Botón más pequeño */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2); /* Sombra más suave */
+  }
+}
+
+/* Para pantallas muy pequeñas (ej. iPhone SE, hasta 375px) */
+@media (max-width: 480px) { /* Usamos 480px para cubrir la mayoría de los móviles pequeños */
     .input-form-container {
-        margin: 25px 15px; /* Margen en los lados para móvil */
-        padding: 25px;
+        width: 95%; /* Ocupa casi todo el ancho */
+        padding: 15px; /* Aún menos padding */
+        margin: 15px auto;
     }
+
     .input-form-title {
-        font-size: 1.8em;
-        margin-bottom: 25px;
-        padding-bottom: 12px;
-    }
-    .input-form-title::after {
-        width: 50px;
-        height: 3px;
-    }
-    .form-group {
+        font-size: 1.4em; /* Título muy pequeño */
         margin-bottom: 15px;
+        padding-bottom: 8px;
     }
+
+    .input-form-title::after {
+        width: 30px; /* Línea decorativa mínima */
+    }
+
     .form-input,
     .form-textarea,
     .form-select {
-        padding: 12px 15px;
-        font-size: 1em;
+        padding: 8px 10px; /* Padding mínimo para inputs */
+        font-size: 0.85em; /* Fuentes muy pequeñas */
     }
-    .form-label {
-        font-size: 0.9em;
-    }
+
     .form-submit-button {
-        padding: 14px 20px;
-        font-size: 1em;
-    }
-    .form-select {
-        background-position: right 12px center;
-        padding-right: 40px;
+        padding: 10px 15px; /* Botón con padding mínimo */
+        font-size: 0.9em; /* Fuente de botón más pequeña */
     }
 }

@@ -21,7 +21,7 @@
     background: #ffffff;
     padding: 1.5rem 1.8rem; /* Reducido el padding vertical para encajar más */
     border-radius: 2rem; /* Bordes redondeados */
-    width: 90%;
+    width: 90%; /* Ancho flexible para pantallas más pequeñas */
     max-width: 420px; /* Ancho máximo consistente */
     text-align: center;
     position: relative;
@@ -164,49 +164,167 @@
     }
 }
 
-/* Ajustes responsivos */
-@media (max-width: 600px) {
+/* --- AJUSTES RESPONSIVOS --- */
+
+/* Para pantallas de tabletas (hasta 1024px) */
+@media (max-width: 1024px) {
     .modal-content {
-        padding: 1.2rem 0.8rem; /* Reducido para móvil */
-        border-radius: 0.8rem;
-        gap: 0.4rem; /* Espacio reducido para móvil */
-        max-width: 300px; /* Ancho máximo para móvil */
+        max-width: 380px; /* Un poco más pequeño para tabletas */
+        padding: 1.2rem 1.5rem; /* Reduce padding */
+        border-radius: 1.5rem; /* Bordes ligeramente menos redondeados */
+        gap: 0.7rem; /* Espacio entre elementos */
     }
 
     .modal-logo {
-        width: 50px;
-        height: 50px;
-        border-width: 2px;
-        margin-top: 0.1rem; /* Ajuste para móvil */
+        width: 70px; /* Logo ligeramente más pequeño */
+        height: 70px;
+        border-width: 3px;
+        margin-bottom: 0.4rem;
     }
 
     .close-btn {
-        font-size: 1.2rem;
-        top: 8px;
-        right: 10px;
-        padding: 4px;
+        font-size: 1.6rem; /* Botón de cerrar un poco más pequeño */
+        top: 10px;
+        right: 12px;
     }
 
     .modal-content h2 {
-        font-size: 1.4em;
-        margin-bottom: 0.3rem;
+        font-size: 1.5em; /* Título ligeramente más pequeño */
+        margin-bottom: 0.4rem;
+        padding-bottom: 0.4rem;
     }
 
     .modal-content h2::after {
-        width: 30px;
+        width: 45px; /* Línea decorativa más corta */
+    }
+
+    .continue-text {
+        margin: 0.6rem 0;
+        font-size: 0.85rem; /* Texto intermedio más pequeño */
+    }
+
+    .modal-content hr {
+        margin: 0.9rem 0;
+    }
+
+    .social-buttons {
+        gap: 0.6rem; /* Espacio entre botones sociales */
+    }
+
+    .google-btn, .facebook-btn {
+        font-size: 0.9rem; /* Fuente de botones más pequeña */
+        padding: 0.6rem 1rem; /* Padding de botones reducido */
+        max-width: 220px; /* Ancho máximo de botones */
+    }
+}
+
+/* Para pantallas de móviles (hasta 768px) */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 1rem 1.2rem; /* Reduce padding para móviles */
+        border-radius: 1rem; /* Bordes más pequeños */
+        gap: 0.6rem; /* Espacio entre elementos más reducido */
+        max-width: 340px; /* Ancho máximo para móviles */
+    }
+
+    .modal-logo {
+        width: 60px; /* Logo más pequeño para móviles */
+        height: 60px;
+        border-width: 2px;
+        margin-bottom: 0.3rem;
+    }
+
+    .close-btn {
+        font-size: 1.4rem; /* Botón de cerrar más pequeño */
+        top: 8px;
+        right: 10px;
+        padding: 5px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.3em; /* Título más pequeño para móviles */
+        margin-bottom: 0.3rem;
+        padding-bottom: 0.3rem;
+    }
+
+    .modal-content h2::after {
+        width: 35px; /* Línea decorativa más corta */
         height: 1.5px;
     }
 
     .continue-text {
-        font-size: 0.8rem;
-    }
-
-    .google-btn, .facebook-btn {
-        padding: 0.5rem 0.6rem;
-        font-size: 0.8rem;
+        margin: 0.5rem 0;
+        font-size: 0.8rem; /* Texto intermedio aún más pequeño */
     }
 
     .modal-content hr {
         margin: 0.8rem 0;
+        width: 80%; /* Línea separadora un poco más ancha en móviles */
+    }
+
+    .social-buttons {
+        gap: 0.5rem; /* Espacio entre botones sociales más reducido */
+    }
+
+    .google-btn, .facebook-btn {
+        font-size: 0.85rem; /* Fuente de botones más pequeña */
+        padding: 0.5rem 0.8rem; /* Padding de botones más reducido */
+        max-width: 200px; /* Ancho máximo de botones */
+        gap: 0.4rem;
+    }
+}
+
+/* Para pantallas muy pequeñas (ej. iPhone SE, hasta 480px) */
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 0.8rem 1rem; /* Mínimo padding para pantallas muy pequeñas */
+        border-radius: 0.8rem;
+        gap: 0.5rem;
+        max-width: 280px; /* Ancho máximo para pantallas muy pequeñas */
+    }
+
+    .modal-logo {
+        width: 50px; /* Logo más pequeño */
+        height: 50px;
+        border-width: 2px;
+        margin-bottom: 0.2rem;
+    }
+
+    .close-btn {
+        font-size: 1.2rem; /* Botón de cerrar muy pequeño */
+        top: 6px;
+        right: 8px;
+        padding: 3px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.1em; /* Título muy pequeño */
+        margin-bottom: 0.2rem;
+        padding-bottom: 0.2rem;
+    }
+
+    .modal-content h2::after {
+        width: 25px; /* Línea decorativa mínima */
+        height: 1px;
+    }
+
+    .continue-text {
+        margin: 0.4rem 0;
+        font-size: 0.75rem; /* Texto intermedio mínimo */
+    }
+
+    .modal-content hr {
+        margin: 0.6rem 0;
+        width: 90%; /* Línea separadora casi al 100% */
+    }
+
+    .social-buttons {
+        gap: 0.4rem;
+    }
+
+    .google-btn, .facebook-btn {
+        font-size: 0.75rem; /* Fuente de botones mínima */
+        padding: 0.4rem 0.6rem; /* Padding de botones mínimo */
+        max-width: 180px; /* Ancho máximo de botones */
     }
 }

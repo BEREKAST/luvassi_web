@@ -1,7 +1,7 @@
 /* frontend/src/pages/LoginPage.css */
 
 /* Estilos para el contenedor principal de la página de login/registro */
-.login-page-wrapper { /* Nombre de clase que ya usas */
+.login-page-wrapper {
     display: flex;
     justify-content: center; /* Centra el contenido horizontalmente */
     align-items: center; /* Centra el contenido verticalmente */
@@ -11,20 +11,22 @@
     position: relative; /* Necesario para que z-index funcione en elementos hijos posicionados */
     font-family: 'Inter', sans-serif; /* Consistencia de fuente */
     z-index: 1; /* Asegura que no cubra el navbar, pero permite otros elementos encima */
+    overflow-x: hidden; /* Evita el scroll horizontal en caso de desbordamiento accidental */
 }
 
 /* Contenedor de la tarjeta de login/registro */
-.login-card { /* Nombre de clase que ya usas */
+.login-card {
     background-color: #ffffff; /* Cambiado a blanco puro para un contraste limpio */
     padding: 2.5rem 2rem; /* Relleno ajustado */
     border-radius: 1.5rem; /* Bordes más redondeados */
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Sombra más profunda y elegante */
-    width: 100%;
-    max-width: 450px; /* Ancho máximo para la tarjeta */
+    width: 100%; /* Permite que la tarjeta ocupe todo el ancho disponible del contenedor padre */
+    max-width: 450px; /* Ancho máximo para la tarjeta en pantallas grandes */
     text-align: center;
     position: relative; /* Asegura un contexto de apilamiento para sus hijos */
     z-index: 10; /* Aumenta el z-index para que la tarjeta de login/registro esté definitivamente encima */
     overflow: hidden; /* Oculta cualquier contenido que se desborde, útil para esquinas redondeadas */
+    box-sizing: border-box; /* Incluye padding y border en el ancho/alto */
 }
 
 /* Título dentro de la tarjeta de login */
@@ -36,7 +38,6 @@
 }
 
 /* La imagen del logo dentro de la tarjeta */
-/* Si este es el logo que se superpone, ajustaremos su tamaño y propiedades */
 .login-card img {
     width: 100px; /* Ancho reducido drásticamente */
     height: 100px; /* Alto reducido drásticamente */
@@ -48,7 +49,6 @@
     display: block; /* Asegura que ocupe su propia línea */
     margin-left: auto; /* Centra la imagen */
     margin-right: auto; /* Centra la imagen */
-    /*z-index: 1;*/ /* Asegura que este dentro de la tarjeta, pero no sobre el formulario*/
 }
 
 /* Párrafos dentro de la tarjeta */
@@ -71,6 +71,8 @@
     font-size: 1.05rem; /* Tamaño de fuente ligeramente más grande */
     font-weight: 600; /* Más negrita */
     box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+    width: auto; /* Permite que el botón se ajuste al contenido por defecto */
+    max-width: 100%; /* Asegura que el botón no se desborde en pantallas muy pequeñas */
 }
 
 .login-card button:hover {
@@ -85,41 +87,105 @@
 }
 
 /* Estilos para el contenedor del formulario de registro, si está anidado (RegisterForm.jsx) */
-/* Este es el que debe tener el z-index más alto si hay una superposición persistente */
-/* Normalmente, este iría en RegisterForm.css, pero si se está superponiendo globalmente,
-   se podría necesitar un z-index aún más alto aquí. */
 .register-form-container {
     z-index: 100; /* ¡MUY ALTO! Asegura que esté por encima de casi todo */
     position: relative; /* Asegura que el z-index sea efectivo */
     background-color: #ffffff; /* Fondo blanco para asegurar visibilidad */
-    /* Asegúrate de que los otros estilos de RegisterForm.css sigan aplicándose */
-    /* max-width: 480px;  Mantener ancho consistente con la card de login si se usa dentro */
-    /* margin: 0 auto;    Centrado si se usa de forma independiente */
+    /* Otros estilos de RegisterForm.css o inline pueden complementar esto */
 }
 
 
 /* MEDIA QUERIES para responsividad */
-@media (max-width: 600px) {
+
+/* Para pantallas de tamaño mediano (ej. tabletas en vertical, hasta 768px) */
+@media (max-width: 768px) {
     .login-page-wrapper {
-        padding: 1rem;
+        padding: 1.5rem; /* Reduce el padding del wrapper */
+        min-height: calc(100vh - 60px); /* Ajusta si el navbar es más pequeño en móvil */
     }
     .login-card {
-        padding: 2rem 1.5rem;
-        border-radius: 1rem;
+        padding: 2.2rem 1.8rem; /* Reduce el padding de la tarjeta */
+        border-radius: 1.2rem; /* Ligeramente menos redondeado */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); /* Sombra ligeramente más suave */
+        max-width: 400px; /* Reduce ligeramente el ancho máximo */
     }
     .login-card h1 {
-        font-size: 1.8rem;
+        font-size: 2rem; /* Título un poco más pequeño */
+        margin-bottom: 1.2rem;
     }
     .login-card img {
-        width: 80px;
-        height: 80px;
+        width: 90px; /* Logo más pequeño */
+        height: 90px;
+        margin-bottom: 0.8rem;
+    }
+    .login-card p {
+        font-size: 0.9em; /* Párrafo más pequeño */
     }
     .login-card button {
-        padding: 0.7rem 1.5rem;
-        font-size: 1rem;
+        padding: 0.75rem 1.6rem; /* Botón más compacto */
+        font-size: 1em;
+        margin-top: 1.2rem;
     }
-    .register-form-container {
-        /* Ajustes específicos para móvil si el formulario se comporta diferente */
-        margin: 0; /* Eliminar márgenes para ocupar más espacio */
+}
+
+
+/* Para pantallas de móviles pequeñas (hasta 500px) */
+@media (max-width: 500px) {
+    .login-page-wrapper {
+        padding: 1rem; /* Padding aún más reducido */
+        min-height: calc(100vh - 50px); /* Ajusta si el navbar es aún más pequeño */
+    }
+    .login-card {
+        padding: 1.8rem 1.2rem; /* Padding más compacto para la tarjeta */
+        border-radius: 1rem; /* Bordes más rectos */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra aún más suave */
+        max-width: 95%; /* La tarjeta ocupa casi todo el ancho disponible */
+    }
+    .login-card h1 {
+        font-size: 1.6rem; /* Título pequeño pero legible */
+        margin-bottom: 1rem;
+    }
+    .login-card img {
+        width: 70px; /* Logo aún más pequeño */
+        height: 70px;
+        border: 2px solid #3498db; /* Borde más delgado */
+        margin-bottom: 0.6rem;
+    }
+    .login-card p {
+        font-size: 0.85em; /* Párrafo más pequeño */
+    }
+    .login-card button {
+        padding: 0.6rem 1.2rem; /* Botón más pequeño */
+        font-size: 0.9em;
+        margin-top: 1rem;
+        border-radius: 1.5rem; /* Sigue siendo redondeado */
+    }
+}
+
+/* Para pantallas de móviles muy, muy pequeñas (hasta 360px, por ejemplo iPhone SE) */
+@media (max-width: 360px) {
+    .login-page-wrapper {
+        padding: 0.8rem;
+    }
+    .login-card {
+        padding: 1.5rem 0.8rem; /* Padding mínimo */
+        border-radius: 0.8rem;
+    }
+    .login-card h1 {
+        font-size: 1.4rem;
+        margin-bottom: 0.8rem;
+    }
+    .login-card img {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 0.5rem;
+    }
+    .login-card p {
+        font-size: 0.8em;
+    }
+    .login-card button {
+        padding: 0.5rem 1rem;
+        font-size: 0.8em;
+        margin-top: 0.8rem;
     }
 }

@@ -2,7 +2,9 @@
 
 /* Contenedor principal del formulario */
 .register-form-container {
-  max-width: 300px; /* Ancho máximo muy reducido para máxima compacidad */
+  /* ORIGINAL: max-width: 300px; */
+  /* CAMBIO CLAVE: Hacemos el ancho máximo inicial un poco más generoso */
+  max-width: 350px; /* Un ancho más razonable para pantallas de escritorio pequeñas/medianas */
   margin: 20px auto; /* Centrado con margen superior/inferior más reducido */
   padding: 15px; /* Relleno mínimo para hacer la caja muy pequeña */
   background-color: #ffffff; /* Fondo blanco inmaculado */
@@ -11,6 +13,9 @@
   font-family: 'Inter', sans-serif; /* Consistencia de fuente */
   color: #333333; /* Color de texto general */
   animation: fadeIn 0.5s ease-out; /* Add a fade-in animation */
+  /* Asegura que el formulario ocupe el 95% del ancho de la pantalla por defecto, pero no más del max-width */
+  width: 95%; /* Añadido: muy importante para que el formulario se adapte desde el inicio */
+  box-sizing: border-box; /* Asegura que padding y border se incluyan en el ancho/alto */
 }
 
 @keyframes fadeIn {
@@ -56,7 +61,7 @@
   color: #333333;
   background-color: #fcfcfc;
   transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Asegura que padding y border se incluyan en el ancho/alto */
 }
 
 .register-form-container input::placeholder {
@@ -121,6 +126,7 @@
   box-shadow: 0 1px 4px rgba(52, 152, 219, 0.08); /* Sombra muy sutil */
   letter-spacing: 0; /* Sin espaciado entre letras */
   margin-top: 10px; /* Margen superior reducido */
+  width: 100%; /* Añadido: asegura que el botón ocupe todo el ancho */
 }
 
 .register-form-container button[type="submit"]:hover {
@@ -135,6 +141,7 @@
 }
 
 /* --- Custom Modal Styles (for Notifications) --- */
+/* NOTA: Estos estilos se mantienen intactos, solo se añadirán ajustes responsivos si es necesario */
 .custom-modal-overlay {
   position: fixed;
   top: 0;
@@ -155,7 +162,7 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Ajustado */
   text-align: center;
   max-width: 350px; /* Ajustado para ser más pequeño */
-  width: 90%;
+  width: 90%; /* Esto es clave para la responsividad inicial del modal */
   animation: fadeInScale 0.3s ease-out;
   border: 1px solid #e0e0e0;
 }
@@ -200,43 +207,127 @@
 }
 
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
+/* --- AJUSTES RESPONSIVOS PARA EL FORMULARIO DE REGISTRO --- */
+
+/* Para pantallas de tabletas y móviles en horizontal (hasta 768px) */
+@media (max-width: 768px) {
   .register-form-container {
-    margin: 15px 10px; /* Ajustado */
-    padding: 15px;
+    width: 90%; /* Muy importante: Ocupa el 90% del ancho disponible */
+    max-width: 320px; /* Asegura que no se estire demasiado en tabletas */
+    margin: 15px auto; /* Menos margen vertical en móviles */
+    padding: 15px; /* Un poco menos padding */
   }
+
   .register-form-container h2 {
-    font-size: 1.2em; /* Ajustado */
+    font-size: 1.2em; /* Título ligeramente más pequeño */
     margin-bottom: 12px;
     padding-bottom: 5px;
   }
+
   .register-form-container h2::after {
-    width: 25px;
+    width: 25px; /* Línea decorativa más corta */
     height: 1px;
   }
-  .register-form-container input,
+
+  .register-form-container input[type="text"],
+  .register-form-container input[type="email"],
+  .register-form-container input[type="password"],
   .register-form-container select {
-    padding: 6px 8px;
-    font-size: 0.75em;
+    padding: 7px 8px; /* Reduce padding de inputs */
+    font-size: 0.8em; /* Reduce tamaño de fuente de inputs */
+    margin-bottom: 8px;
+  }
+
+  .register-form-container select {
+    background-position: right 5px center; /* Ajusta posición de flecha */
+    background-size: 6px; /* Ajusta tamaño de flecha */
+    padding-right: 20px; /* Ajusta padding para flecha */
+  }
+
+  .password-error-message {
+    font-size: 0.75em; /* Ajuste para que el mensaje de error no ocupe mucho */
+    margin-top: -6px;
     margin-bottom: 6px;
   }
+
   .register-form-container button[type="submit"] {
-    padding: 7px 10px;
-    font-size: 0.8em;
+    padding: 8px 12px; /* Reduce padding de botón */
+    font-size: 0.85em; /* Reduce tamaño de fuente de botón */
+    margin-top: 10px;
   }
-  .register-form-container select {
-    background-position: right 5px center;
-    padding-right: 18px;
-  }
+
+  /* Ajustes para el modal de notificación */
   .custom-modal-content {
-    padding: 18px; /* Ajustado */
+    max-width: 300px; /* Ajuste para que el modal no sea demasiado grande en móviles */
+    padding: 18px;
   }
   .custom-modal-content p {
-    font-size: 0.9em; /* Ajustado */
+    font-size: 0.9em;
   }
   .custom-modal-content button {
-    padding: 8px 15px; /* Ajustado */
-    font-size: 0.85em; /* Ajustado */
+    padding: 8px 15px;
+    font-size: 0.85em;
+  }
+}
+
+/* Para pantallas de móviles muy pequeñas (hasta 480px, ej. iPhone SE, etc.) */
+@media (max-width: 480px) {
+  .register-form-container {
+    width: 98%; /* Ocupa casi todo el ancho disponible para móviles muy pequeños */
+    max-width: 280px; /* Un máximo aún más ajustado */
+    margin: 10px auto; /* Menos margen vertical para maximizar espacio */
+    padding: 12px; /* Mínimo padding para formulario */
+    border-radius: 6px;
+  }
+
+  .register-form-container h2 {
+    font-size: 1.1em; /* Título aún más pequeño */
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+  }
+
+  .register-form-container h2::after {
+    width: 20px; /* Línea decorativa mínima */
+    height: 1px;
+  }
+
+  .register-form-container input[type="text"],
+  .register-form-container input[type="email"],
+  .register-form-container input[type="password"],
+  .register-form-container select {
+    padding: 6px 7px; /* Padding mínimo para inputs */
+    font-size: 0.75em; /* Fuentes muy pequeñas para inputs */
+    margin-bottom: 7px;
+  }
+
+  .register-form-container select {
+    background-position: right 4px center;
+    background-size: 5px;
+    padding-right: 18px;
+  }
+
+  .password-error-message {
+    font-size: 0.7em; /* Mensaje de error muy pequeño */
+    margin-top: -5px;
+    margin-bottom: 5px;
+  }
+
+  .register-form-container button[type="submit"] {
+    padding: 7px 10px; /* Mínimo padding para el botón */
+    font-size: 0.8em; /* Fuente de botón más pequeña */
+    margin-top: 8px;
+  }
+
+  /* Ajustes para el modal de notificación */
+  .custom-modal-content {
+    max-width: 250px; /* Modal muy compacto para móviles pequeños */
+    padding: 15px;
+  }
+  .custom-modal-content p {
+    font-size: 0.8em;
+  }
+  .custom-modal-content button {
+    padding: 6px 10px;
+    font-size: 0.75em;
   }
 }

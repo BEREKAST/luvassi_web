@@ -23,6 +23,10 @@ const ProductsPage = () => {
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
 
+  // Nuevos estados para la notificación de producto en ProductsPage
+  const [productNotificationMessage, setProductNotificationMessage] = useState('');
+  const [showProductNotificationModal, setShowProductNotificationModal] = useState(false);
+
   const usuario = JSON.parse(localStorage.getItem('usuario'));
   const esAdmin = usuario && (usuario.rol === 'admin' || usuario.rol === 'empleado');
 
@@ -36,7 +40,7 @@ const ProductsPage = () => {
         // Construir la URL con el parámetro de búsqueda si existe
         const url = `${API_BASE_URL}/api/productos${searchTerm ? `?search=${encodeURIComponent(searchTerm)}` : ''}`;
         
-        console.log(`Fetching products from: ${url}`);
+        // console.log(`Fetching products from: ${url}`); // Eliminado console.log
         const res = await fetch(url);
 
         if (!res.ok) {
@@ -46,7 +50,7 @@ const ProductsPage = () => {
         const data = await res.json();
         setProductos(data);
       } catch (err) {
-        console.error('Error al obtener productos:', err);
+        console.error('Error al obtener productos:', err); // Mantenido console.error
         setError(err.message || 'No se pudieron cargar los productos.'); // Establecer el mensaje de error
       } finally {
         setLoading(false);
@@ -62,6 +66,18 @@ const ProductsPage = () => {
 
   const handleFileChange = (e) => {
     setImagenFile(e.target.files[0]);
+  };
+
+  // Función para mostrar mensajes de notificación localmente
+  const showLocalNotification = (message) => {
+    setProductNotificationMessage(message);
+    setShowProductNotificationModal(true);
+  };
+
+  // Función para cerrar el modal de notificación local
+  const closeLocalNotification = () => {
+    setShowProductNotificationModal(false);
+    setProductNotificationMessage('');
   };
 
   const agregarProducto = async (e) => {
@@ -87,23 +103,22 @@ const ProductsPage = () => {
           cantidad_en_inventario: ''
         });
         setImagenFile(null);
-        // Volver a cargar los productos (refresca la lista, incluyendo el nuevo y el filtrado)
         setSearchTerm(''); // Opcional: Limpiar el término de búsqueda después de agregar
-        // No llamamos a obtenerProductos directamente, el useEffect se encargará.
+        showLocalNotification('✅ Producto agregado exitosamente.'); // Notificación de éxito
       } else {
         const errorData = await res.json();
-        alert(`❌ Error al agregar producto: ${errorData.message || res.statusText}`);
-        console.error('Error response from server:', errorData);
+        showLocalNotification(`❌ Error al agregar producto: ${errorData.message || res.statusText}`); // Usa el modal
+        console.error('Error response from server:', errorData); // Mantenido console.error
       }
     } catch (err) {
-      console.error('Error al agregar producto:', err);
-      alert('❌ Error de conexión al agregar producto.');
+      console.error('Error al agregar producto:', err); // Mantenido console.error
+      showLocalNotification('❌ Error de conexión al agregar producto.'); // Usa el modal
     }
   };
 
   const eliminarProducto = async (id) => {
-    const confirmar = window.confirm('¿Estás seguro de que deseas eliminar este producto?');
-    if (!confirmar) return;
+    // Reemplazado window.confirm con un modal más elegante para futuras implementaciones si se desea
+    if (!window.confirm('¿Estás seguro de que deseas eliminar este producto?')) return; // Mantenido por simplicidad
 
     try {
       const res = await fetch(`${API_BASE_URL}/api/productos/${id}`, {
@@ -112,21 +127,28 @@ const ProductsPage = () => {
       if (res.ok) {
         // Volver a cargar los productos (refresca la lista)
         setSearchTerm(searchTerm); // Forzar que el useEffect se dispare con el término actual
-        alert('🗑️ Producto eliminado');
+        showLocalNotification('🗑️ Producto eliminado.'); // Notificación de éxito
       } else {
         const errorData = await res.json();
-        alert(`❌ Error al eliminar producto: ${errorData.message || res.statusText}`);
-        console.error('Error response from server:', errorData);
+        showLocalNotification(`❌ Error al eliminar producto: ${errorData.message || res.statusText}`); // Usa el modal
+        console.error('Error response from server:', errorData); // Mantenido console.error
       }
     } catch (err) {
-      console.error('Error al eliminar producto:', err);
-      alert('❌ Error de conexión al eliminar producto.');
+      console.error('Error al eliminar producto:', err); // Mantenido console.error
+      showLocalNotification('❌ Error de conexión al eliminar producto.'); // Usa el modal
     }
   };
 
   const agregarAlCarrito = (producto) => {
+    if (producto.cantidad_en_inventario <= 0) {
+      showLocalNotification(`⛔ El producto "${producto.nombre_producto}" está agotado.`);
+      return;
+    }
+    // Opcional: Si manejas cantidades en el carrito, aquí podrías verificar
+    // si el producto ya está en el carrito y si agregar uno más excedería el stock.
     setCarrito([...carrito, producto]);
     setMostrarCarrito(true);
+    // showLocalNotification(`"${producto.nombre_producto}" agregado al carrito.`); // Opcional: notificar al agregar
   };
 
   return (
@@ -144,7 +166,7 @@ const ProductsPage = () => {
       <div className="productos-container">
         <h2 className="productos-title">Productos Disponibles</h2>
 
-        {/* BARRA DE BÚSQUEDA - NUEVO */}
+        {/* BARRA DE BÚSQUEDA */}
         <div className="search-bar">
           <input
             type="text"
@@ -187,10 +209,18 @@ const ProductsPage = () => {
                 />
                 <h4 className="producto-nombre">{prod.nombre_producto}</h4>
                 <p className="producto-desc">{prod.descripcion}</p>
-                <p className="producto-precio">Bs {Number(prod.precio).toFixed(2)}</p> {/* Formato a 2 decimales */}
-                <p className="producto-stock">Stock: {prod.cantidad_en_inventario}</p>
-                <button className="btn-add" onClick={() => agregarAlCarrito(prod)}>
-                  Agregar al carrito
+                <p className="producto-precio">Bs {Number(prod.precio).toFixed(2)}</p>
+                {/* Estilo condicional para el stock */}
+                <p className={`producto-stock ${prod.cantidad_en_inventario <= 0 ? 'out-of-stock' : (prod.cantidad_en_inventario < 6 ? 'low-stock' : '')}`}>
+                  Stock: {prod.cantidad_en_inventario}
+                </p>
+                {/* Botón de agregar al carrito condicional */}
+                <button
+                  className="btn-add"
+                  onClick={() => agregarAlCarrito(prod)}
+                  disabled={prod.cantidad_en_inventario <= 0} // Deshabilitar si el stock es 0 o menos
+                >
+                  {prod.cantidad_en_inventario <= 0 ? 'Agotado' : 'Agregar al carrito'}
                 </button>
                 {esAdmin && (
                   <button className="btn-delete" onClick={() => eliminarProducto(prod.id_producto)}>
@@ -202,6 +232,16 @@ const ProductsPage = () => {
           </div>
         )}
       </div>
+
+      {/* Modal de notificación para ProductsPage */}
+      {showProductNotificationModal && (
+        <div className="custom-modal-overlay">
+          <div className="custom-modal-content">
+            <p>{productNotificationMessage}</p>
+            <button onClick={closeLocalNotification}>Aceptar</button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

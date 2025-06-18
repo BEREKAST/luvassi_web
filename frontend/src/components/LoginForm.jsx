@@ -1,4 +1,9 @@
+// frontend/src/components/LoginForm.jsx
 import React, { useState } from 'react';
+
+// Define la URL base de tu API usando la variable de entorno
+// El fallback 'http://localhost:5000' es para que funcione en desarrollo local
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 function LoginForm({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -13,7 +18,8 @@ function LoginForm({ onLogin }) {
     };
 
     try {
-      const res = await fetch('http://localhost:5000/api/login', {
+      // MODIFICACIÓN: Usar API_BASE_URL para la llamada fetch de login
+      const res = await fetch(`${API_BASE_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
@@ -27,7 +33,8 @@ function LoginForm({ onLogin }) {
         alert(data.message || 'Error al iniciar sesión');
       }
     } catch (err) {
-      alert('Error en la conexión');
+      console.error('Error de conexión al iniciar sesión:', err);
+      alert('Error de conexión con el backend. Inténtalo de nuevo más tarde.');
     }
   };
 

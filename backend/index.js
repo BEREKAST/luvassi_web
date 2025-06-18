@@ -5,7 +5,7 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs'); // Corregido: antes era 'require = ('fs');'
+const fs = require('fs');
 const pool = require('./db'); // Conexión a PostgreSQL
 
 const app = express();
@@ -13,7 +13,9 @@ const PORT = process.env.PORT || 5000;
 
 // === MODIFICACIÓN CLAVE AQUÍ PARA CORS DINÁMICO ===
 const allowedOrigins = [
-  'https://luvassi-web.vercel.app',, // Frontend desplegado en vercel
+  'https://luvassi-web.vercel.app', // Frontend desplegado en Vercel
+  // Agrega aquí cualquier otro dominio donde tu frontend pueda estar desplegado, por ejemplo:
+  // 'https://tu-otra-app.render.com', // Si despliegas el frontend en Render
   'http://localhost:3000' // Frontend en desarrollo local
 ];
 
@@ -23,11 +25,12 @@ const corsOptions = {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.warn('CORS Blocked: Not allowed by CORS policy for origin: ' + origin); // Log de advertencia
       callback(new Error('Not allowed by CORS policy: ' + origin), false);
     }
   },
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  credentials: true, // Importante si usas cookies/sesiones (aunque no veo uso aquí, es buena práctica)
+  credentials: true,
   optionsSuccessStatus: 204 // Código de estado para las solicitudes OPTIONS (preflight)
 };
 
@@ -235,31 +238,31 @@ app.get('/api/pedidos/cliente/:id_cliente', async (req, res) => {
     // Consulta para obtener pedidos con sus detalles y la información de la factura
     const pedidosResult = await pool.query(
       `SELECT
-           p.id_pedido,
-           p.estado_pedido,
-           p.total,
-           p.fecha_pedido,
-           json_agg(
-             json_build_object(
-               'id_producto', dp.id_producto,
-               'nombre_producto', prod.nombre_producto,
-               'cantidad', dp.cantidad,
-               'precio_unitario', dp.precio,
-               'imagen', prod.imagen
-             )
-           ) AS productos,
-           f.metodo_pago,
-           f.estado_pago,
-           f.fecha_emision AS fecha_factura
-         FROM pedido p
-         JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
-         JOIN producto prod ON dp.id_producto = prod.id_producto
-         JOIN factura f ON p.id_pedido = f.id_pedido
-         JOIN cliente c ON p.id_cliente = c.id_cliente
-         JOIN usuario u ON c.id_usuario = u.id_usuario
-         WHERE p.id_cliente = $1
-         GROUP BY p.id_pedido, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago, f.estado_pago, f.fecha_emision, f.id_factura
-         ORDER BY p.fecha_pedido DESC`,
+            p.id_pedido,
+            p.estado_pedido,
+            p.total,
+            p.fecha_pedido,
+            json_agg(
+              json_build_object(
+                'id_producto', dp.id_producto,
+                'nombre_producto', prod.nombre_producto,
+                'cantidad', dp.cantidad,
+                'precio_unitario', dp.precio,
+                'imagen', prod.imagen
+              )
+            ) AS productos,
+            f.metodo_pago,
+            f.estado_pago,
+            f.fecha_emision AS fecha_factura
+          FROM pedido p
+          JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+          JOIN producto prod ON dp.id_producto = prod.id_producto
+          JOIN factura f ON p.id_pedido = f.id_pedido
+          JOIN cliente c ON p.id_cliente = c.id_cliente
+          JOIN usuario u ON c.id_usuario = u.id_usuario
+          WHERE p.id_cliente = $1
+          GROUP BY p.id_pedido, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago, f.estado_pago, f.fecha_emision, f.id_factura
+          ORDER BY p.fecha_pedido DESC`,
       [id_cliente]
     );
 
@@ -364,7 +367,9 @@ app.post('/api/pedidos', async (req, res) => {
     let qr_code_url = null;
     // Generar URL de QR si el método de pago es 'Pago QR'
     if (metodo_pago === 'Pago QR') {
-      const qr_data = `http://localhost:3000/confirmar-pago?pedido=${id_pedido}&total=${total}&factura=${id_factura}`;
+      // === CORRECCIÓN AQUÍ: Usar la URL de Vercel/Render para el frontend ===
+      const frontendBaseUrl = process.env.FRONTEND_BASE_URL || 'http://localhost:3000'; // Define una variable de entorno para esto
+      const qr_data = `${frontendBaseUrl}/confirmar-pago?pedido=${id_pedido}&total=${total}&factura=${id_factura}`;
       qr_code_url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(qr_data)}`;
     }
 
@@ -397,34 +402,34 @@ app.get('/api/admin/pedidos', async (req, res) => {
   try {
     const allPedidos = await pool.query(
       `SELECT
-           p.id_pedido,
-           p.id_cliente,
-           u.nombre AS nombre_cliente,
-           u.correo_electronico AS correo_cliente,
-           p.estado_pedido,
-           p.total,
-           p.fecha_pedido,
-           json_agg(
-             json_build_object(
-               'id_producto', dp.id_producto,
-               'nombre_producto', prod.nombre_producto,
-               'cantidad', dp.cantidad,
-               'precio_unitario', dp.precio,
-               'imagen', prod.imagen
-             )
-           ) AS productos,
-           f.metodo_pago,
-           f.estado_pago,
-           f.fecha_emision AS fecha_factura,
-           f.id_factura
-         FROM pedido p
-         JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
-         JOIN producto prod ON dp.id_producto = prod.id_producto
-         JOIN factura f ON p.id_pedido = f.id_pedido
-         JOIN cliente c ON p.id_cliente = c.id_cliente
-         JOIN usuario u ON c.id_usuario = u.id_usuario
-         GROUP BY p.id_pedido, p.id_cliente, u.nombre, u.correo_electronico, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago, f.estado_pago, f.fecha_emision, f.id_factura
-         ORDER BY p.fecha_pedido DESC`
+            p.id_pedido,
+            p.id_cliente,
+            u.nombre AS nombre_cliente,
+            u.correo_electronico AS correo_cliente,
+            p.estado_pedido,
+            p.total,
+            p.fecha_pedido,
+            json_agg(
+              json_build_object(
+                'id_producto', dp.id_producto,
+                'nombre_producto', prod.nombre_producto,
+                'cantidad', dp.cantidad,
+                'precio_unitario', dp.precio,
+                'imagen', prod.imagen
+              )
+            ) AS productos,
+            f.metodo_pago,
+            f.estado_pago,
+            f.fecha_emision AS fecha_factura,
+            f.id_factura
+          FROM pedido p
+          JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+          JOIN producto prod ON dp.id_producto = prod.id_producto
+          JOIN factura f ON p.id_pedido = f.id_pedido
+          JOIN cliente c ON p.id_cliente = c.id_cliente
+          JOIN usuario u ON c.id_usuario = u.id_usuario
+          GROUP BY p.id_pedido, p.id_cliente, u.nombre, u.correo_electronico, p.estado_pedido, p.total, p.fecha_pedido, f.metodo_pago, f.estado_pago, f.fecha_emision, f.id_factura
+          ORDER BY p.fecha_pedido DESC`
     );
 
     res.status(200).json(allPedidos.rows);
@@ -500,13 +505,13 @@ app.get('/api/admin/users', async (req, res) => {
     // para asegurar que solo los administradores puedan acceder a esta ruta.
     const users = await pool.query(
       `SELECT
-         id_usuario,
-         nombre,
-         correo_electronico,
-         direccion,
-         rol
-       FROM usuario
-       ORDER BY nombre ASC`
+          id_usuario,
+          nombre,
+          correo_electronico,
+          direccion,
+          rol
+        FROM usuario
+        ORDER BY nombre ASC`
     );
     res.status(200).json(users.rows);
   } catch (error) {
@@ -615,7 +620,7 @@ app.delete('/api/admin/users/:id_usuario', async (req, res) => {
 
 
 // ==============================================================
-//           NUEVAS RUTAS PARA EL HISTORIAL DE VENTAS Y ESTADÍSTICAS
+//           NUEVAS RUTAS PARA EL HISTORIAL DE VENTAS Y ESTADÍSTICAS
 // ==============================================================
 
 // Ruta: Obtener todas las ventas completadas
@@ -623,18 +628,18 @@ app.get('/api/sales/completed', async (req, res) => {
   try {
     const sales = await pool.query(
       `SELECT
-         p.id_pedido,
-         p.fecha_pedido,
-         p.total,
-         f.metodo_pago,
-         u.nombre AS nombre_cliente,
-         u.correo_electronico AS correo_cliente
-       FROM pedido p
-       JOIN cliente c ON p.id_cliente = c.id_cliente
-       JOIN usuario u ON c.id_usuario = u.id_usuario
-       LEFT JOIN factura f ON p.id_pedido = f.id_pedido
-       WHERE p.estado_pedido = 'completado'
-       ORDER BY p.fecha_pedido DESC`
+          p.id_pedido,
+          p.fecha_pedido,
+          p.total,
+          f.metodo_pago,
+          u.nombre AS nombre_cliente,
+          u.correo_electronico AS correo_cliente
+        FROM pedido p
+        JOIN cliente c ON p.id_cliente = c.id_cliente
+        JOIN usuario u ON c.id_usuario = u.id_usuario
+        LEFT JOIN factura f ON p.id_pedido = f.id_pedido
+        WHERE p.estado_pedido = 'completado'
+        ORDER BY p.fecha_pedido DESC`
     );
     res.status(200).json(sales.rows);
   } catch (error) {
@@ -648,18 +653,18 @@ app.get('/api/sales/cancelled', async (req, res) => {
   try {
     const sales = await pool.query(
       `SELECT
-         p.id_pedido,
-         p.fecha_pedido,
-         p.total,
-         f.metodo_pago,
-         u.nombre AS nombre_cliente,
-         u.correo_electronico AS correo_cliente
-       FROM pedido p
-       JOIN cliente c ON p.id_cliente = c.id_cliente
-       JOIN usuario u ON c.id_usuario = u.id_usuario
-       LEFT JOIN factura f ON p.id_pedido = f.id_pedido
-       WHERE p.estado_pedido = 'cancelado'
-       ORDER BY p.fecha_pedido DESC`
+          p.id_pedido,
+          p.fecha_pedido,
+          p.total,
+          f.metodo_pago,
+          u.nombre AS nombre_cliente,
+          u.correo_electronico AS correo_cliente
+        FROM pedido p
+        JOIN cliente c ON p.id_cliente = c.id_cliente
+        JOIN usuario u ON c.id_usuario = u.id_usuario
+        LEFT JOIN factura f ON p.id_pedido = f.id_pedido
+        WHERE p.estado_pedido = 'cancelado'
+        ORDER BY p.fecha_pedido DESC`
     );
     res.status(200).json(sales.rows);
   } catch (error) {
@@ -673,8 +678,8 @@ app.get('/api/products/stock', async (req, res) => {
   try {
     const products = await pool.query(
       `SELECT id_producto, nombre_producto, cantidad_en_inventario, imagen
-       FROM producto
-       ORDER BY nombre_producto ASC`
+        FROM producto
+        ORDER BY nombre_producto ASC`
     );
     res.status(200).json(products.rows);
   } catch (error) {
@@ -688,13 +693,13 @@ app.get('/api/sales/summary-by-date', async (req, res) => {
   try {
     const salesSummary = await pool.query(
       `SELECT
-         TO_CHAR(fecha_pedido, 'YYYY-MM-DD') AS sale_date,
-         COUNT(id_pedido) AS total_orders,
-         SUM(total) AS total_revenue
-       FROM pedido
-       WHERE estado_pedido = 'completado'
-       GROUP BY TO_CHAR(fecha_pedido, 'YYYY-MM-DD')
-       ORDER BY sale_date ASC`
+          TO_CHAR(fecha_pedido, 'YYYY-MM-DD') AS sale_date,
+          COUNT(id_pedido) AS total_orders,
+          SUM(total) AS total_revenue
+        FROM pedido
+        WHERE estado_pedido = 'completado'
+        GROUP BY TO_CHAR(fecha_pedido, 'YYYY-MM-DD')
+        ORDER BY sale_date ASC`
     );
     res.status(200).json(salesSummary.rows);
   } catch (error) {
@@ -704,7 +709,7 @@ app.get('/api/sales/summary-by-date', async (req, res) => {
 });
 
 // ==============================================================
-//           FIN DE RUTAS PARA EL HISTORIAL DE VENTAS Y ESTADÍSTICAS
+//           FIN DE RUTAS PARA EL HISTORIAL DE VENTAS Y ESTADÍSTICAS
 // ==============================================================
 
 
